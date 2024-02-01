@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RangePartOne/RangePartOne.iml" filepath="$PROJECT_DIR$/RangePartOne/RangePartOne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" filepath="$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaOOP.iml" filepath="$PROJECT_DIR$/javaOOP.iml" />
     </modules>
   </component>
