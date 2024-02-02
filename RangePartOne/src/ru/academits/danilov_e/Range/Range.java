@@ -1,4 +1,4 @@
-package Range;
+package ru.academits.danilov_e.Range;
 public class Range {
     private double from;
     private double to;

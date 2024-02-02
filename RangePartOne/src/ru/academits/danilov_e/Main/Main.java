@@ -1,6 +1,6 @@
-package Main;
+package ru.academits.danilov_e.Main;
 import java.util.Scanner;
-import Range.Range;
+import ru.academits.danilov_e.Range.Range;
 
 public class Main {
     public static void main(String[] args) {
