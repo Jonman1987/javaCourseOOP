@@ -1,9 +1,10 @@
 package ru.academits.danilov_e.Range;
+
 public class Range {
     private double from;
     private double to;
 
-    public Range(double from, double to){
+    public Range(double from, double to) {
         this.from = from;
         this.to = to;
     }
@@ -29,6 +30,6 @@ public class Range {
     }
 
     public boolean isInside(double number) {
-        return number >= from  && number <= to;
+        return number >= from && number <= to;
     }
 }

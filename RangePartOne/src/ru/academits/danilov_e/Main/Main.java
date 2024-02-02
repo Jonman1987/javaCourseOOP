@@ -1,5 +1,7 @@
 package ru.academits.danilov_e.Main;
+
 import java.util.Scanner;
+
 import ru.academits.danilov_e.Range.Range;
 
 public class Main {
