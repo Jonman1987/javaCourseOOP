@@ -36,11 +36,17 @@ public class Range {
     public Range getIntersectionInterval(double from, double to) {
         if (from >= this.from && to <= this.to) {
             return new Range(from, to);
-        } else if (from < this.from && to > this.to) {
+        }
+
+        if (from < this.from && to > this.to) {
             return new Range(this.from, this.to);
-        } else if (from >= this.from && from < this.to) {
+        }
+
+        if (from >= this.from && from < this.to) {
             return new Range(from, this.to);
-        } else if (to > this.from && to <= this.to) {
+        }
+
+        if (to > this.from && to <= this.to) {
             return new Range(this.from, to);
         }
 
@@ -84,21 +90,23 @@ public class Range {
 
         if ((from <= this.from && to >= this.to)) {
             return null;
-        } else if((from > this.from && to < this.to)){
+        }
+
+        if ((from > this.from && to < this.to)) {
             arrayLength = 2;
-        }else {
+        } else {
             arrayLength = 1;
         }
 
         Range[] array = new Range[arrayLength];
 
-        if((from > this.from && to < this.to)){
+        if ((from > this.from && to < this.to)) {
             array[0] = new Range(this.from, from);
             array[1] = new Range(to, this.to);
-        }else {
-            if(from > this.from && from <= this.to){
+        } else {
+            if (from > this.from && from <= this.to) {
                 array[0] = new Range(this.from, from);
-            }else{
+            } else {
                 array[0] = new Range(to, this.to);
             }
         }

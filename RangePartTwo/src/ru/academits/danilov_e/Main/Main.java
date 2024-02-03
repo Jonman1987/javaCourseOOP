@@ -22,30 +22,30 @@ public class Main {
         System.out.println("Введите конечное число второго диапазона:");
         double checkedIntervalTo = scanner.nextDouble();
 
-        /*if (range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo) != null) {
+        if (range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo) != null) {
             System.out.printf("Получили интервал пересечения:%n");
             System.out.printf("From: %.2f%n", range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo).getFrom());
             System.out.printf("To: %.2f%n", range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo).getTo());
         } else {
             System.out.printf("Интервалы не пересекаются%n");
-        }*/
+        }
 
-        /*System.out.printf("Получили объединенный интервал:%n");
+        System.out.printf("Получили объединенный интервал:%n");
 
-        for (int i = 0; i < range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo).length; i++){
+        for (int i = 0; i < range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo).length; i++) {
             System.out.printf("From: %.2f%n", range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo)[i].getFrom());
             System.out.printf("To: %.2f%n", range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo)[i].getTo());
-        }*/
+        }
 
         if (range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo) != null) {
-            System.out.printf("Получили разность интервалов:%n");
+            System.out.println("Получили разность интервалов:");
+
             for (int i = 0; i < range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo).length; i++) {
                 System.out.printf("From: %.2f%n", range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo)[i].getFrom());
                 System.out.printf("To: %.2f%n", range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo)[i].getTo());
             }
         } else {
-            System.out.printf("Интервалы вычитаются без остатка%n");
+            System.out.println("Интервалы вычитаются без остатка.");
         }
-
     }
 }
