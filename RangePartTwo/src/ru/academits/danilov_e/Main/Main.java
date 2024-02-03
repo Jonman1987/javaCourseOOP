@@ -23,14 +23,14 @@ public class Main {
         double checkedIntervalTo = scanner.nextDouble();
 
         if (range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo) != null) {
-            System.out.printf("Получили интервал пересечения:%n");
+            System.out.println("Получили интервал пересечения:");
             System.out.printf("From: %.2f%n", range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo).getFrom());
             System.out.printf("To: %.2f%n", range.getIntersectionInterval(checkedIntervalFrom, checkedIntervalTo).getTo());
         } else {
-            System.out.printf("Интервалы не пересекаются%n");
+            System.out.println("Интервалы не пересекаются");
         }
 
-        System.out.printf("Получили объединенный интервал:%n");
+        System.out.println("Получили объединенный интервал:");
 
         for (int i = 0; i < range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo).length; i++) {
             System.out.printf("From: %.2f%n", range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo)[i].getFrom());
