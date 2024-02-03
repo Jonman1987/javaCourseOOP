@@ -18,7 +18,8 @@ public class Main {
 
         Shape[] figuresArray = new Shape[]{new Square(2.4),
                 new Triangle(2, -3, 1, 1, -6, 5),
-                new Rectangle(5.6, 10.1), new Circle(4.4)};
+                new Rectangle(5.6, 10.1), new Circle(4.4),
+                new Circle(2.6), new Rectangle(7.7, 9.1), new Square(4.9)};
 
         System.out.println("Список площадей фигур: ");
 
@@ -39,6 +40,7 @@ public class Main {
         }
 
         Shape findedShape = getFigureFromRating(figuresArray, position);
+
         System.out.println("Информация о фигуре: ");
         System.out.println(findedShape.toString());
 
@@ -46,10 +48,18 @@ public class Main {
                 new Triangle(2, -3, 1, 1, -6, 5),
                 new Rectangle(5.6, 10.1), new Square(2.4)};
 
+        System.out.println();
         System.out.println("Проверка равенства:");
 
         System.out.println(simpleFiguresArray[0].equals(simpleFiguresArray[3]));
         System.out.println(simpleFiguresArray[0].equals(simpleFiguresArray[0]));
         System.out.println(simpleFiguresArray[0].equals(simpleFiguresArray[2]));
+
+        System.out.println();
+        System.out.println("Хэш код:");
+
+        System.out.println(simpleFiguresArray[0].hashCode());
+        System.out.println(simpleFiguresArray[1].hashCode());
+        System.out.println(simpleFiguresArray[2].hashCode());
     }
 }

@@ -23,7 +23,7 @@ public class Circle implements Shape, Comparable<Shape> {
         return 2 * Math.PI * radius;
     }
 
-    public String getName(){
+    public String getName() {
         return "Круг";
     }
 
@@ -38,23 +38,39 @@ public class Circle implements Shape, Comparable<Shape> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Фигура: " + this.getName() + "\nДлинна: " + this.getWidth() + "\nШирина: " + this.getHeight()
                 + "\nПлощадь: " + this.getArea() + "\nПериметр: " + this.getPerimeter();
     }
 
-    public boolean equals(Object figure){
-        if(figure == this){
+    public boolean equals(Object figure) {
+        if (figure == this) {
             return true;
         }
 
-        if(figure == null || figure.getClass() != getClass()){
+        if (figure == null || figure.getClass() != getClass()) {
             return false;
         }
 
         Shape temp = (Shape) figure;
-        return this.getWidth() == temp.getWidth() && this.getHeight()
-                == temp.getHeight() && this.getArea() == temp.getArea() && this.getPerimeter()
-                == temp.getPerimeter();
+
+        return this.getName().equalsIgnoreCase(getName()) && this.getWidth() == temp.getWidth() && this.getHeight()
+                == temp.getHeight() && this.getArea() == temp.getArea() && this.getPerimeter() == temp.getPerimeter();
+    }
+
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+
+        for (int i = 0; i < getName().length(); i++) {
+            hash += prime * hash + (int) getName().charAt(i);
+        }
+
+        hash = prime * hash + Double.hashCode(getWidth());
+        hash = prime * hash + Double.hashCode(getHeight());
+        hash = prime * hash + Double.hashCode(getArea());
+        hash = prime * hash + Double.hashCode(getPerimeter());
+
+        return hash;
     }
 }
