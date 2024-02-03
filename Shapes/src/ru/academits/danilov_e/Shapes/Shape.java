@@ -9,6 +9,4 @@ public interface Shape {
 
     public double getPerimeter();
     public String getName();
-
-    boolean equals(Shape figure);
 }

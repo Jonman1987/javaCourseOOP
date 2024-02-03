@@ -45,7 +45,7 @@ public class Rectangle implements Shape, Comparable<Shape> {
                 + "\nПлощадь: " + this.getArea() + "\nПериметр: " + this.getPerimeter();
     }
 
-    public boolean equals(Shape figure){
+    public boolean equals(Object figure){
         if(figure == this){
             return true;
         }
@@ -54,8 +54,9 @@ public class Rectangle implements Shape, Comparable<Shape> {
             return false;
         }
 
-        return this.getWidth() == figure.getWidth() && this.getHeight()
-                == figure.getHeight() && this.getArea() == figure.getArea() && this.getPerimeter()
-                == figure.getPerimeter();
+        Shape temp = (Shape) figure;
+        return this.getWidth() == temp.getWidth() && this.getHeight()
+                == temp.getHeight() && this.getArea() == temp.getArea() && this.getPerimeter()
+                == temp.getPerimeter();
     }
 }
