@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/RangePartOne/RangePartOne.iml" filepath="$PROJECT_DIR$/RangePartOne/RangePartOne.iml" />
       <module fileurl="file://$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" filepath="$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Vector/Vector.iml" filepath="$PROJECT_DIR$/Vector/Vector.iml" />
     </modules>
   </component>
 </project>
