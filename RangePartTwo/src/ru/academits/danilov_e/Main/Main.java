@@ -30,10 +30,22 @@ public class Main {
             System.out.printf("Интервалы не пересекаются%n");
         }*/
 
-        System.out.printf("Получили объединенный интервал:%n");
+        /*System.out.printf("Получили объединенный интервал:%n");
+
         for (int i = 0; i < range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo).length; i++){
             System.out.printf("From: %.2f%n", range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo)[i].getFrom());
             System.out.printf("To: %.2f%n", range.getCombinedIntervalArray(checkedIntervalFrom, checkedIntervalTo)[i].getTo());
+        }*/
+
+        if (range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo) != null) {
+            System.out.printf("Получили разность интервалов:%n");
+            for (int i = 0; i < range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo).length; i++) {
+                System.out.printf("From: %.2f%n", range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo)[i].getFrom());
+                System.out.printf("To: %.2f%n", range.getIntervalDifferenceArray(checkedIntervalFrom, checkedIntervalTo)[i].getTo());
+            }
+        } else {
+            System.out.printf("Интервалы вычитаются без остатка%n");
         }
+
     }
 }

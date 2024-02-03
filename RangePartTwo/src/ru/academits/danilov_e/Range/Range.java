@@ -82,18 +82,25 @@ public class Range {
     public Range[] getIntervalDifferenceArray(double from, double to) {
         int arrayLength;
 
-        if (from == this.from && to == this.to) {
+        if ((from <= this.from && to >= this.to)) {
             return null;
-        } else if(from == this.from || to == this.to){
-            arrayLength = 1;
-        }else {
+        } else if((from > this.from && to < this.to)){
             arrayLength = 2;
+        }else {
+            arrayLength = 1;
         }
 
         Range[] array = new Range[arrayLength];
 
-        if(from == this.from || to == this.to){
-
+        if((from > this.from && to < this.to)){
+            array[0] = new Range(this.from, from);
+            array[1] = new Range(to, this.to);
+        }else {
+            if(from > this.from && from <= this.to){
+                array[0] = new Range(this.from, from);
+            }else{
+                array[0] = new Range(to, this.to);
+            }
         }
 
         return array;
