@@ -1,6 +1,7 @@
 package ru.academits.Danilov_E.Vector;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class Vector {
     private double[] componentsValues;
@@ -95,5 +96,118 @@ public class Vector {
         }
     }
 
+    public int getVectorLength(){
+        int vectorLength = 0;
+        final double EPSILON = 1.0e-10;
 
+        for (int i = 0; i < componentsValues.length; i++){
+            if(componentsValues[i] > -EPSILON && componentsValues[i] < EPSILON){
+                continue;
+            }
+
+            vectorLength = i + 1;
+        }
+
+        return vectorLength;
+    }
+
+    public void editVectorComponent(int arrayIndex, double value){
+        if (arrayIndex < 0) {
+            throw new IllegalArgumentException("Array index cannot be less than 0");
+        }
+
+        componentsValues[arrayIndex] = value;
+    }
+
+    public boolean equals(Object vector) {
+        if (vector == this) {
+            return true;
+        }
+
+        if (vector == null || vector.getClass() != getClass()) {
+            return false;
+        }
+
+        Vector temp = (Vector) vector;
+        boolean isEquals;
+
+        if(this.n == temp.n){
+            for(int i = 0; i < this.n; i++){
+                if(this.componentsValues[i] != temp.componentsValues[i]){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+
+        for (double componentsValue : componentsValues) {
+            hash += prime * hash + Double.hashCode(componentsValue);
+        }
+
+        hash += prime * hash + n;
+
+        return hash;
+    }
+
+    public static Vector makeSubtraction(Vector subtractableVector, Vector subtractiveVector){
+        //Если принципиально могу везде поменять componentsValues.length на getSize()
+        Vector temp = new Vector(Math.max(subtractableVector.getSize(), subtractiveVector.getSize()));
+
+        for(int i = 0; i < temp.getSize(); i++){
+            if(i < Math.min(subtractableVector.getSize(), subtractiveVector.getSize())){
+                temp.componentsValues[i] = subtractableVector.componentsValues[i] - subtractiveVector.componentsValues[i];
+                continue;
+            }
+
+            if(subtractableVector.getSize() > subtractiveVector.getSize()){
+                temp.componentsValues[i] = subtractableVector.componentsValues[i];
+            }else{
+                temp.componentsValues[i] = 0 - subtractiveVector.componentsValues[i]; // Если убрать 0, то будет значение -0.0
+            }
+        }
+
+        return temp;
+    }
+
+    public static Vector makeAddition(Vector summand1, Vector summand2){
+        Vector temp = new Vector(Math.max(summand1.getSize(), summand2.getSize()));
+
+        for(int i = 0; i < temp.getSize(); i++){
+            if(i < Math.min(summand1.getSize(), summand2.getSize())){
+                temp.componentsValues[i] = summand1.componentsValues[i] + summand2.componentsValues[i];
+                continue;
+            }
+
+            if(summand1.getSize() > summand2.getSize()){
+                temp.componentsValues[i] = summand1.componentsValues[i];
+            }else{
+                temp.componentsValues[i] = summand2.componentsValues[i];
+            }
+        }
+
+        return temp;
+    }
+
+    public static Vector makeMultiplication(Vector multiplier1, Vector multiplier2){
+        Vector temp = new Vector(Math.max(multiplier1.getSize(), multiplier2.getSize()));
+
+        for(int i = 0; i < temp.getSize(); i++){
+            if(i < Math.min(multiplier1.getSize(), multiplier2.getSize())){
+                temp.componentsValues[i] = multiplier1.componentsValues[i] * multiplier2.componentsValues[i];
+                continue;
+            }
+
+            temp.componentsValues[i] = 0;
+        }
+
+        return temp;
+    }
 }
