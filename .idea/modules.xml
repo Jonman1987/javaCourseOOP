@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JavaOOP.iml" filepath="$PROJECT_DIR$/JavaOOP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Matrix/Matrix.iml" filepath="$PROJECT_DIR$/Matrix/Matrix.iml" />
       <module fileurl="file://$PROJECT_DIR$/RangePartOne/RangePartOne.iml" filepath="$PROJECT_DIR$/RangePartOne/RangePartOne.iml" />
       <module fileurl="file://$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" filepath="$PROJECT_DIR$/RangePartTwo/RangePartTwo.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
