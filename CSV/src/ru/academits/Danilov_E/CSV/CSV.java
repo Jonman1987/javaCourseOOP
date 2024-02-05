@@ -24,60 +24,78 @@ public class CSV {
         try {
             FileWriter fileWriter = new FileWriter(path, true);
 
-            for(int i = 0; i < string.length(); i++){
-                if(i != string.length() - 1){
-                    if(isRowEnd && isCellEnd && isStart){
+            for (int i = 0; i < string.length(); i++) {
+                if (i != string.length() - 1) {
+                    if (isRowEnd && isCellEnd && isStart) {
                         fileWriter.write("<tr>");
                         fileWriter.write("<td>");
                         isCellEnd = false;
                         isStart = false;
-                    }else if(isCellEnd){
+                    } else if (isCellEnd) {
                         fileWriter.write("<td>");
                         isCellEnd = false;
                     }
 
-                    if(string.charAt(i) == ',' && isRowEnd){
+                    if (string.charAt(i) == ',' && isRowEnd) {
                         fileWriter.write("</td>");
                         isCellEnd = true;
                         isStart = false;
                         continue;
                     }
 
-                    if(string.charAt(i) == '"' && isRowEnd){
+                    if (string.charAt(i) == '"' && isRowEnd) {
                         isRowEnd = false;
                         continue;
                     }
 
-                    if(string.charAt(i) == '"' && !isRowEnd){
+                    if (string.charAt(i) == '"' && !isRowEnd && string.charAt(i + 1) == '"') {
+                        i++;
+                        fileWriter.write(string.charAt(i));
+                        continue;
+                    }
+
+                    if (string.charAt(i) == '"' && !isRowEnd) {
                         isRowEnd = true;
                         continue;
                     }
 
-                    if(string.charAt(i) == '<'){
+                    if (string.charAt(i) == '<') {
                         fileWriter.write("&lt");
                         continue;
                     }
 
-                    if(string.charAt(i) == '>'){
+                    if (string.charAt(i) == '>') {
                         fileWriter.write("&gt");
                         continue;
                     }
 
-                    if(string.charAt(i) == '&'){
+                    if (string.charAt(i) == '&') {
                         fileWriter.write("&amp");
                         continue;
                     }
 
                     fileWriter.write(string.charAt(i));
-                }else{
-                    if(!isRowEnd){
-                        fileWriter.write(string.charAt(i));
-                        fileWriter.write("<br/>");
-                    }else{
+                } else {
+                    if (!isRowEnd) {
+                        if (string.charAt(i) == '"') {
+                            fileWriter.write("<br/>");
+                        } else {
+                            fileWriter.write(string.charAt(i));
+                            fileWriter.write("<br/>");
+                        }
+                    } else if (string.charAt(i) == ',') {
+                        fileWriter.write("</td>");
+                        isCellEnd = true;
+                        isStart = true;
+                        fileWriter.write("<td>");
+                        fileWriter.write("</td>");
+                        fileWriter.write("</tr>");
+                    } else {
                         fileWriter.write(string.charAt(i));
                         fileWriter.write("</td>");
                         fileWriter.write("</tr>");
                         isCellEnd = true;
+                        isStart = true;
                     }
                 }
             }
