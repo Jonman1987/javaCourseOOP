@@ -20,7 +20,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        CSV.createFile(path + outputFileName);
+        CSV.createFile(path + outputFileName); // Я решил сделать через статический метод для разнообразия, возможно так делать нельзя
         CSV.writeHeader(path + outputFileName);
         CSV csv = new CSV();
 

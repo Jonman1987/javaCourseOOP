@@ -48,10 +48,15 @@ public class CSV {
                         continue;
                     }
 
-                    if (string.charAt(i) == '"' && !isRowEnd && string.charAt(i + 1) == '"') {
-                        i++;
-                        fileWriter.write(string.charAt(i));
-                        continue;
+                    try {
+                        if (string.charAt(i) == '"' && !isRowEnd && string.charAt(i + 1) == '"') {
+                            i++;
+                            fileWriter.write(string.charAt(i));
+                            continue;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Ошибка: Выход за пределы длины строки.");
+                        // Я так понимаю, что в правильно составленном файле такая ошибка не возникнет, сделал на всякий случай.
                     }
 
                     if (string.charAt(i) == '"' && !isRowEnd) {
