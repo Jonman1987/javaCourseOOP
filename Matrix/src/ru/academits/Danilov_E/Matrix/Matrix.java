@@ -7,7 +7,7 @@ public class Matrix extends Vector{
     private int m;
     Vector[] vectors;
     public Matrix(int n, int m){
-        super(m); // Не совсем понимаю почему он требует задать родительский класс, ведь я внизу жестко указал конструктор для Vector
+        super(m);
         vectors = new Vector[n];
         this.n = n;
         this.m = m;
@@ -25,9 +25,7 @@ public class Matrix extends Vector{
     }
 
     public Matrix(double[][] doubleArray){
-        super(doubleArray[0].length, doubleArray[0]); // Пытался подобрать конструктор отличный от super(m),
-        // но смущает, что передается только 0-й элемент. Данный конструктор выбрал ввиду возможного
-        // разного количества элементов внутри объектов Vector
+        super(doubleArray[0].length, doubleArray[0]);
         int maxVectorSize = doubleArray[0].length;
 
         for(int i = 1; i < doubleArray.length; i++){
@@ -97,7 +95,7 @@ public class Matrix extends Vector{
         return new Vector(temp);
     }
 
-    public void transposition(){ // Ошибка в массиве, так как строки не равны
+    public void transposition(){
         int maxVectorSize = vectors[0].getSize();
 
         for(int i = 1; i < vectors.length; i++){
@@ -121,8 +119,31 @@ public class Matrix extends Vector{
         }
     }
 
-    public int matrixDeterminant(){
-        return 0;
+    public double matrixDeterminant(){
+        final double EPSILON = 1.0e-10;
+
+        if(n != m){
+            throw new IllegalArgumentException("n must be equal m");
+        }
+
+        if(n == 1){
+            return vectors[0].getComponentsArray()[0];
+        }
+
+        if(n == 2){
+            return vectors[0].getComponentsArray()[0] * vectors[1].getComponentsArray()[1]
+                    - vectors[0].getComponentsArray()[0] * vectors[0].getComponentsArray()[1];
+        }else{
+            double determinant;
+
+        Matrix temp = new Matrix(vectors);
+
+        while (temp.n > 2){
+
+        }
+
+        }
+        return 1;
     }
 
     public String toString(){
@@ -138,6 +159,10 @@ public class Matrix extends Vector{
 
         stringBuilder.append('}');
         return stringBuilder.toString();
+    }
+
+    public void makeMultiplication(Vector vector){
+
     }
 }
 
