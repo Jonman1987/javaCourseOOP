@@ -1,8 +1,8 @@
-package ru.academits.Danilov_E.Main;
+package ru.academits.danilov_e.vector_main;
 
-import ru.academits.Danilov_E.Vector.Vector;
+import ru.academits.danilov_e.vector.Vector;
 
-public class Main {
+public class VectorMain {
     public static void main(String[] args) {
 
         int n = 10;
@@ -56,14 +56,14 @@ public class Main {
         System.out.println("Вариант когда первый вектор меньше второго:");
         System.out.println("Вектор к которому прибавляем: " + vector2);
         System.out.println("Вектор который прибавляем: " + vector6);
-        vector2.makeAddition(vector6);
+        vector2.add(vector6);
         System.out.println("Результат: " + vector2);
         System.out.println();
 
         System.out.println("Вариант когда второй вектор меньше первого:");
         System.out.println("Вектор к которому прибавляем: " + vector2);
         System.out.println("Вектор который прибавляем: " + vector5);
-        vector2.makeAddition(vector5);
+        vector2.add(vector5);
         System.out.println("Результат: " + vector2);
         System.out.println();
 
@@ -73,27 +73,27 @@ public class Main {
         System.out.println("Вариант когда первый вектор меньше второго:");
         System.out.println("Вектор из которого вычитаем: " + vector8);
         System.out.println("Вектор который вычитаем: " + vector7);
-        vector8.makeSubtraction(vector7);
+        vector8.subtract(vector7);
         System.out.println("Результат: " + vector8);
         System.out.println();
 
         System.out.println("Вариант когда второй вектор меньше первого:");
         System.out.println("Вектор из которого вычитаем: " + vector7);
         System.out.println("Вектор который вычитаем: " + vector5);
-        vector7.makeSubtraction(vector5);
+        vector7.subtract(vector5);
         System.out.println("Результат: " + vector7);
         System.out.println();
 
         System.out.println("11. Умножение вектора на скаляр:");
         System.out.println("Вектор, который умножаем: " + vector3);
         System.out.println("Скаляр: " + number1);
-        vector3.makeMultiplication(number1);
+        vector3.multiply(number1);
         System.out.println("Результат: " + vector3);
         System.out.println();
 
         System.out.println("Вектор, который умножаем: " + vector3);
         System.out.println("Скаляр: " + number2);
-        vector3.makeMultiplication(number2);
+        vector3.multiply(number2);
         System.out.println("Результат: " + vector3);
         System.out.println();
 
@@ -110,19 +110,20 @@ public class Main {
         Vector vector12 = new Vector(10, array3);
 
         System.out.println("Обычный вектор: " + vector9);
-        System.out.println("Результат: " + vector9.getVectorLength());
+        System.out.println("Результат: " + vector9.getLength());
         System.out.println("Вектор дополненный нулями: " + vector10);
-        System.out.println("Результат: " + vector10.getVectorLength());
+        System.out.println("Результат: " + vector10.getLength());
         System.out.println("Вектор с нулем в середине компонент: " + vector11);
-        System.out.println("Результат: " + vector11.getVectorLength());
+        System.out.println("Результат: " + vector11.getLength());
         System.out.println("Вектор дополненный нулями с нулем в середине компонент: " + vector12);
-        System.out.println("Результат: " + vector12.getVectorLength());
+        System.out.println("Результат: " + vector12.getLength());
         System.out.println();
 
         System.out.println("13. Редактирование компоненты вектора по ее индексу (9, 4.1):");
         System.out.println("Вектор: " + vector10);
-        vector10.editVectorComponent(9, 4.1);
+        vector10.setComponent(9, 4.1);
         System.out.println("Результат: " + vector10);
+        System.out.println("Получение значения компоненты по индексу 2: " + vector10.getComponent(2));
         System.out.println();
 
         System.out.println("14. Метод Equals():");
@@ -162,12 +163,12 @@ public class Main {
         System.out.println("Первый вектор меньшей размерности, чем второй:");
         System.out.println("Вектор: " + vector17);
         System.out.println("Вектор: " + vector18);
-        Vector vector20 = Vector.makeAddition(vector17, vector18);
+        Vector vector20 = Vector.getSum(vector17, vector18);
         System.out.println("Результат: " + vector20);
         System.out.println("Второй вектор меньшей размерности, чем первый:");
         System.out.println("Вектор: " + vector19);
         System.out.println("Вектор: " + vector18);
-        Vector vector21 = Vector.makeAddition(vector19, vector18);
+        Vector vector21 = Vector.getSum(vector19, vector18);
         System.out.println("Результат: " + vector21);
         System.out.println();
 
@@ -178,12 +179,12 @@ public class Main {
         System.out.println("Первый вектор меньшей размерности, чем второй:");
         System.out.println("Вектор: " + vector22);
         System.out.println("Вектор: " + vector23);
-        Vector vector25 = Vector.makeSubtraction(vector22, vector23);
+        Vector vector25 = Vector.getDifference(vector22, vector23);
         System.out.println("Результат: " + vector25);
         System.out.println("Второй вектор меньшей размерности, чем первый:");
         System.out.println("Вектор: " + vector24);
         System.out.println("Вектор: " + vector23);
-        Vector vector26 = Vector.makeSubtraction(vector24, vector23);
+        Vector vector26 = Vector.getDifference(vector24, vector23);
         System.out.println("Результат: " + vector26);
         System.out.println();
 
@@ -194,13 +195,13 @@ public class Main {
         System.out.println("Первый вектор меньшей размерности, чем второй:");
         System.out.println("Вектор: " + vector27);
         System.out.println("Вектор: " + vector28);
-        Vector vector30 = Vector.makeMultiplication(vector27, vector28);
-        System.out.println("Результат: " + vector30);
+        double scalarProduct1 = Vector.scalarProduct(vector27, vector28);
+        System.out.println("Результат: " + scalarProduct1);
         System.out.println("Второй вектор меньшей размерности, чем первый:");
         System.out.println("Вектор: " + vector29);
         System.out.println("Вектор: " + vector28);
-        Vector vector31 = Vector.makeMultiplication(vector29, vector28);
-        System.out.println("Результат: " + vector31);
+        double scalarProduct2 = Vector.scalarProduct(vector29, vector28);
+        System.out.println("Результат: " + scalarProduct2);
         System.out.println();
     }
 }
