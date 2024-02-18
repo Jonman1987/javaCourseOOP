@@ -15,8 +15,7 @@ public class VectorMain {
 
         System.out.println("1. Конструктор Vector(n), n = 10:");
         Vector vector1 = new Vector(n);
-        System.out.println("Результат: " + vector1); // Не совсем понимаю почему мой вектор выводится даже без метода toString().
-        // Я так понимаю, что он используется по умолчанию?
+        System.out.println("Результат: " + vector1);
         System.out.println();
 
         System.out.println("2. Конструктор Vector(array), array = {-3.4, 3.3, 5.7, 6.7}:");
