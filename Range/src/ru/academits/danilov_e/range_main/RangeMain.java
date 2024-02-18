@@ -1,6 +1,6 @@
-package range_main;
+package ru.academits.danilov_e.range_main;
 
-import range_class.Range;
+import ru.academits.danilov_e.range.Range;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -39,11 +39,12 @@ public class RangeMain {
 
         System.out.println("Введите число для проверки его принадлежности диапазону:");
         double number = scanner.nextDouble();
+
         System.out.println();
 
         System.out.printf("Проверим входит ли число %.2f в диапазон:%n", number);
-        String isNumberInside = range.isInside(number) ? "принадлежит диапазону" : "не принадлежит диапазону";
-        System.out.printf("Число %.2f %s", number, isNumberInside);
+        String isNumberInsideMessage = range.isInside(number) ? "принадлежит диапазону" : "не принадлежит диапазону";
+        System.out.printf("Число %.2f %s", number, isNumberInsideMessage);
         System.out.println();
 
         System.out.println("Введите начальное число второго диапазона:");
@@ -54,23 +55,23 @@ public class RangeMain {
 
         Range checkedRange = new Range(checkedRangeFrom, checkedRangeTo);
 
-        if (range.getRangesIntersection(checkedRange) == null) {
-            System.out.println("Интервалы не пересекаются");
+        if (range.getIntersection(checkedRange) == null) {
+            System.out.println("Диапазоны не пересекаются");
         } else {
-            System.out.println("Получили интервал пересечения:");
-            System.out.println(range.getRangesIntersection(checkedRange));
+            System.out.println("Получили диапазон пересечения:");
+            System.out.println(range.getIntersection(checkedRange));
         }
 
         System.out.println();
-        System.out.println("Объединение интервалов:");
-        System.out.println(Arrays.toString(range.getRangesUnion(checkedRange)));
+        System.out.println("Объединение диапазонов:");
+        System.out.println(Arrays.toString(range.getUnion(checkedRange)));
         System.out.println();
 
-        if (range.getRangesDifference(checkedRange).length == 0) {
-            System.out.println("Интервалы вычитаются без остатка.");
+        if (range.getDifference(checkedRange).length == 0) {
+            System.out.println("Диапазоны вычитаются без остатка.");
         } else {
-            System.out.println("Получили разность интервалов:");
-            System.out.println(Arrays.toString(range.getRangesDifference(checkedRange)));
+            System.out.println("Получили разность диапазонов:");
+            System.out.println(Arrays.toString(range.getDifference(checkedRange)));
         }
     }
 }
