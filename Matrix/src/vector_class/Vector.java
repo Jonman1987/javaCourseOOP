@@ -1,4 +1,4 @@
-package ru.academits.Danilov_E.Vector;
+package vector_class;
 
 import java.util.Arrays;
 
@@ -55,7 +55,7 @@ public class Vector {
         return componentsValues;
     }
 
-    public String toString() { // Изначально делал без StringBuilder, но IDEA рекомендовала его использовать
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
 
         for (int i = 0; i < componentsValues.length; i++) {
@@ -196,7 +196,6 @@ public class Vector {
     }
 
     public static Vector makeSubtraction(Vector subtractableVector, Vector subtractiveVector) {
-        //Если принципиально могу везде поменять componentsValues.length на getSize()
         Vector temp = new Vector(Math.max(subtractableVector.getSize(), subtractiveVector.getSize()));
 
         for (int i = 0; i < temp.getSize(); i++) {

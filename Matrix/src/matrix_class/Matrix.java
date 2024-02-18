@@ -1,6 +1,6 @@
-package ru.academits.Danilov_E.Matrix;
+package matrix_class;
 
-import ru.academits.Danilov_E.Vector.Vector;
+import vector_class.Vector;
 
 public class Matrix extends Vector{
     private int n;
@@ -119,7 +119,7 @@ public class Matrix extends Vector{
         }
     }
 
-    public double matrixDeterminant(){
+    public double matrixDeterminant(){ // Не доделано
         final double EPSILON = 1.0e-10;
 
         if(n != m){

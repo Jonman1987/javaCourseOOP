@@ -1,9 +1,9 @@
-package ru.academits.Danilov_E.Main;
+package matrix_main;
 
-import ru.academits.Danilov_E.Matrix.Matrix;
-import ru.academits.Danilov_E.Vector.Vector;
+import matrix_class.Matrix;
+import vector_class.Vector;
 
-public class Main {
+public class MatrixMain {
     public static void main(String[] args) {
         double[] array1 = new double[]{-3.4, 3.3, 5.7, 6.7};
         double[] array2 = new double[]{2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
