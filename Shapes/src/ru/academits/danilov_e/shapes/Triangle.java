@@ -1,4 +1,4 @@
-package shapes_class;
+package ru.academits.danilov_e.shapes;
 
 public class Triangle implements Shape {
     private double x1;
@@ -19,16 +19,28 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    public void setX(double x1, double x2, double x3){
-        this.x1 = x1;
-        this.x2 = x2;
-        this.x3 = x3;
+    public void setX(int xCount, double value){
+        if(xCount == 1){
+            x1 = value;
+        }else if(xCount == 2){
+            x2 = value;
+        }else if(xCount == 3){
+            x3 = value;
+        }else {
+            System.out.println("Введен не правильный номер координаты Х.");
+        }
     }
 
-    public void setY(double y1, double y2, double y3){
-        this.y1 = y1;
-        this.y2 = y2;
-        this.y3 = y3;
+    public void setY(int yCount, double value){
+        if(yCount == 1){
+            y1 = value;
+        }else if(yCount == 2){
+            y2 = value;
+        }else if(yCount == 3){
+            y3 = value;
+        }else {
+            System.out.println("Введен не правильный номер координаты Y.");
+        }
     }
 
     public double getX(int xNumber){
@@ -75,12 +87,17 @@ public class Triangle implements Shape {
         return (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
     }
 
-    public double getPerimeter() {
-        double sideA = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)); // Я так понял, что замечание №15 этой части не касалось
-        double sideB = Math.sqrt(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
-        double sideC = Math.sqrt(Math.pow((x1 - x3), 2) + Math.pow((y1 - y3), 2));
+    private double getSideLength(double xFrom, double yFrom, double xTo, double yTo){
+        // Я так понял, что замечание №15 этой части не касалось
+        return Math.sqrt(Math.pow((xTo - xFrom), 2) + Math.pow((yTo - yFrom), 2));
+    }
 
-        return sideA + sideB + sideC;
+    public double getPerimeter() {
+        double sideALength = getSideLength(x1, y1, x2, y2);
+        double sideBLength = getSideLength(x2, y2, x3, y3);
+        double sideCLength = getSideLength(x3, y3, x1, y1);
+
+        return sideALength + sideBLength + sideCLength;
     }
 
     public String getName() {
@@ -104,8 +121,8 @@ public class Triangle implements Shape {
 
         Triangle temp = (Triangle) object;
 
-        return this.getWidth() == temp.getWidth() && this.getHeight() == temp.getHeight()
-                && this.getArea() == temp.getArea() && this.getPerimeter() == temp.getPerimeter();
+        return getWidth() == temp.getWidth() && getHeight() == temp.getHeight()
+                && getArea() == temp.getArea() && getPerimeter() == temp.getPerimeter();
     }
 
     @Override

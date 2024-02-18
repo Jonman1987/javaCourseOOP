@@ -1,4 +1,4 @@
-package shapes_class;
+package ru.academits.danilov_e.shapes;
 
 public class Square implements Shape {
     private double sideLength;
@@ -52,8 +52,8 @@ public class Square implements Shape {
 
         Square temp = (Square) object;
 
-        return this.getWidth() == temp.getWidth() && this.getHeight() == temp.getHeight()
-                && this.getArea() == temp.getArea() && this.getPerimeter() == temp.getPerimeter();
+        return getWidth() == temp.getWidth() && getHeight() == temp.getHeight()
+                && getArea() == temp.getArea() && getPerimeter() == temp.getPerimeter();
     }
 
     @Override

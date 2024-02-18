@@ -1,4 +1,4 @@
-package shapes_class;
+package ru.academits.danilov_e.shapes;
 
 public class Rectangle implements Shape {
     private double width;
@@ -54,8 +54,8 @@ public class Rectangle implements Shape {
 
         Rectangle shape = (Rectangle) object;
 
-        return this.getWidth() == shape.getWidth() && this.getHeight() == shape.getHeight()
-                && this.getArea() == shape.getArea() && this.getPerimeter() == shape.getPerimeter();
+        return getWidth() == shape.getWidth() && getHeight() == shape.getHeight()
+                && getArea() == shape.getArea() && getPerimeter() == shape.getPerimeter();
     }
 
     @Override
