@@ -1,11 +1,13 @@
 package ru.academits.danilov_e.shapes_main;
+
 import ru.academits.danilov_e.shapes.*;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class ShapesMain {
     private static Shape getAreaSortedShapePosition(Shape[] shapesArray, int position) {
-        if(shapesArray.length == 0){
+        if (shapesArray.length == 0) {
             return null;
         }
 
@@ -15,7 +17,7 @@ public class ShapesMain {
     }
 
     private static Shape getPerimeterSortedShapePosition(Shape[] shapesArray, int position) {
-        if(shapesArray.length == 0){
+        if (shapesArray.length == 0) {
             return null;
         }
 

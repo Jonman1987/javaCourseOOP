@@ -19,56 +19,56 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    public void setX(int xCount, double value){
-        if(xCount == 1){
+    public void setX(int xCount, double value) {
+        if (xCount == 1) {
             x1 = value;
-        }else if(xCount == 2){
+        } else if (xCount == 2) {
             x2 = value;
-        }else if(xCount == 3){
+        } else if (xCount == 3) {
             x3 = value;
-        }else {
+        } else {
             System.out.println("Введен не правильный номер координаты Х.");
         }
     }
 
-    public void setY(int yCount, double value){
-        if(yCount == 1){
+    public void setY(int yCount, double value) {
+        if (yCount == 1) {
             y1 = value;
-        }else if(yCount == 2){
+        } else if (yCount == 2) {
             y2 = value;
-        }else if(yCount == 3){
+        } else if (yCount == 3) {
             y3 = value;
-        }else {
+        } else {
             System.out.println("Введен не правильный номер координаты Y.");
         }
     }
 
-    public double getX(int xNumber){
-        if(xNumber == 1){
+    public double getX(int xNumber) {
+        if (xNumber == 1) {
             return x1;
         }
 
-        if(xNumber == 2){
+        if (xNumber == 2) {
             return x2;
         }
 
-        if(xNumber == 3){
+        if (xNumber == 3) {
             return x3;
         }
 
         return 0;
     }
 
-    public double getY(int yNumber){
-        if(yNumber == 1){
+    public double getY(int yNumber) {
+        if (yNumber == 1) {
             return y1;
         }
 
-        if(yNumber == 2){
+        if (yNumber == 2) {
             return y2;
         }
 
-        if(yNumber == 3){
+        if (yNumber == 3) {
             return y3;
         }
 
@@ -87,7 +87,7 @@ public class Triangle implements Shape {
         return (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
     }
 
-    private double getSideLength(double xFrom, double yFrom, double xTo, double yTo){
+    private double getSideLength(double xFrom, double yFrom, double xTo, double yTo) {
         // Я так понял, что замечание №15 этой части не касалось
         return Math.sqrt(Math.pow((xTo - xFrom), 2) + Math.pow((yTo - yFrom), 2));
     }
