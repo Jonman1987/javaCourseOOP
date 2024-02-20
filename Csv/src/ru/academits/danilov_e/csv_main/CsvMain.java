@@ -1,16 +1,15 @@
-package ru.academits.Danilov_E.Main;
+package ru.academits.danilov_e.csv_main;
 
-import ru.academits.Danilov_E.CSV.CSV;
-
+import ru.academits.danilov_e.csv.Csv;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Main {
+public class CsvMain {
     public static void main(String[] args) {
         Scanner scanner;
 
-        String path = "CSV/src/ru/academits/Danilov_E/Main/";
+        String path = "Csv/src/ru/academits/danilov_E/csv_main/";
         String inputFileName = "input.txt";
         String outputFileName = "output.html";
 
@@ -20,9 +19,9 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        CSV.createFile(path + outputFileName); // Я решил сделать через статический метод для разнообразия, возможно так делать нельзя
-        CSV.writeHeader(path + outputFileName);
-        CSV csv = new CSV();
+        Csv.createFile(path + outputFileName); // Я решил сделать через статический метод для разнообразия, возможно так делать нельзя
+        Csv.writeHeader(path + outputFileName);
+        Csv csv = new Csv();
 
         while (scanner.hasNextLine()) {
             String currentLine = scanner.nextLine();
@@ -30,6 +29,6 @@ public class Main {
             csv.writeRow(path + outputFileName);
         }
 
-        CSV.writeFooter(path + outputFileName);
+        Csv.writeFooter(path + outputFileName);
     }
 }

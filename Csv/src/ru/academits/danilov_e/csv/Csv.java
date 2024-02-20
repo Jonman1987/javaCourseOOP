@@ -1,15 +1,15 @@
-package ru.academits.Danilov_E.CSV;
+package ru.academits.danilov_e.csv;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CSV {
+public class Csv {
     private String string;
     private boolean isRowEnd;
     private boolean isCellEnd;
     private boolean isStart;
 
-    public CSV() {
+    public Csv() {
         string = "";
         isRowEnd = true;
         isCellEnd = true;
