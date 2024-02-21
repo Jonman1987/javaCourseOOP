@@ -10,7 +10,7 @@ public class CsvMain {
         Scanner scanner;
 
         String path = "Csv/src/ru/academits/danilov_E/csv_main/";
-        String inputFileName = "input.txt";
+        String inputFileName = "input.csv";
         String outputFileName = "output.html";
 
         try {
