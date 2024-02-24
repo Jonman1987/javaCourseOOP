@@ -1,151 +1,150 @@
 package ru.academits.danilov_e.csv;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Csv {
-    private String string;
-    private boolean isRowEnd;
-    private boolean isCellEnd;
-    private boolean isStart;
+    public static void convert(String inputPath) {
+        String outputPath = "Csv/src/ru/academits/danilov_e/csv/output.html";
 
-    public Csv() {
-        string = "";
-        isRowEnd = true;
-        isCellEnd = true;
-        isStart = true;
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputPath))) {
+            try (FileWriter fileWriter = new FileWriter(outputPath, true)) {
+                createFile(fileWriter);
+                header(fileWriter);
+                write(fileWriter, reader);
+                footer(fileWriter);
+            }
+        } catch (IOException e) { // Как я понимаю, так как я перенес BufferedRider/FileWriter в методы класса,
+            // то теперь я могу ловить IOException в методах конвертера, а не в main (Пункт 9 замечаний). Иначе IDEA ругается
+            // на отсутствие IOException когда я пытаюсь поймать FileNotFound Exception
+            System.out.println("Ошибка открытия файла");
+        }
     }
 
-    public void setString(String string) {
-        this.string = string;
-    }
-
-    public void writeRow(String path) {
+    private static void createFile(FileWriter fileWriter) { // Указал static т.к. не придумал как по другому обратиться к методу не имея объекта класса
         try {
-            FileWriter fileWriter = new FileWriter(path, true);
+            fileWriter.write("");
+        } catch (IOException e) { // См. комментарий выше
+            System.out.println("Ошибка создания файла Csv");
+        }
+    }
 
-            for (int i = 0; i < string.length(); i++) {
-                if (i != string.length() - 1) {
-                    if (isRowEnd && isCellEnd && isStart) {
-                        fileWriter.write("<tr>");
-                        fileWriter.write("<td>");
-                        isCellEnd = false;
-                        isStart = false;
-                    } else if (isCellEnd) {
-                        fileWriter.write("<td>");
-                        isCellEnd = false;
+    private static void header(FileWriter fileWriter) {
+        try {
+            fileWriter.write("<!DOCTYPE html>\n");
+            fileWriter.write("<html lang=\"en\">\n");
+            fileWriter.write("\t<head>\n");
+            fileWriter.write("\t\t<meta charset=\"utf-8\">\n");
+            fileWriter.write("\t\t<title>Задача CSV</title>\n");
+            fileWriter.write("</head>\n");
+            fileWriter.write("\n");
+            fileWriter.write("<body>\n");
+            fileWriter.write("\t<table border = \"1\">\n");
+        } catch (IOException e) {
+            System.out.println("Ошибка записи header файла");
+        }
+    }
+
+    private static void write(FileWriter fileWriter, BufferedReader reader) {
+        try {
+            String line;
+            boolean isTableStringOpen = false;
+            boolean isTableCellOpen = false;
+            boolean isQuotesOpen = false;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+
+                if (!isTableStringOpen) {
+                    fileWriter.write("\t\t<tr>\n");
+                    isTableStringOpen = true;
+                }
+
+                for (int i = 0; i < line.length(); i++) {
+                    if (!isTableCellOpen) {
+                        fileWriter.write("\t\t\t<td>");
+                        isTableCellOpen = true;
                     }
 
-                    if (string.charAt(i) == ',' && isRowEnd) {
-                        fileWriter.write("</td>");
-                        isCellEnd = true;
-                        isStart = false;
-                        continue;
-                    }
-
-                    if (string.charAt(i) == '"' && isRowEnd) {
-                        isRowEnd = false;
-                        continue;
-                    }
-
-                    try {
-                        if (string.charAt(i) == '"' && !isRowEnd && string.charAt(i + 1) == '"') {
+                    if (i != line.length() - 1) {
+                        if (line.charAt(i) == '"' && isQuotesOpen && line.charAt(i + 1) == '"') {
+                            fileWriter.write('"');
                             i++;
-                            fileWriter.write(string.charAt(i));
+
+                            continue;
+                        } else if (line.charAt(i) == '"' && isQuotesOpen && line.charAt(i + 1) != '"') {
+                            isQuotesOpen = false;
+
+                            continue;
+                        } else if (line.charAt(i) == '"' && isQuotesOpen) {
+                            isQuotesOpen = false;
+
+                            continue;
+                        } else if (line.charAt(i) == '"') {
+                            isQuotesOpen = true;
+
                             continue;
                         }
-                    } catch (Exception e) {
-                        System.out.println("Ошибка: Выход за пределы длины строки.");
-                        // Я так понимаю, что в правильно составленном файле такая ошибка не возникнет, сделал на всякий случай.
-                    }
-
-                    if (string.charAt(i) == '"' && !isRowEnd) {
-                        isRowEnd = true;
-                        continue;
-                    }
-
-                    if (string.charAt(i) == '<') {
-                        fileWriter.write("&lt");
-                        continue;
-                    }
-
-                    if (string.charAt(i) == '>') {
-                        fileWriter.write("&gt");
-                        continue;
-                    }
-
-                    if (string.charAt(i) == '&') {
-                        fileWriter.write("&amp");
-                        continue;
-                    }
-
-                    fileWriter.write(string.charAt(i));
-                } else {
-                    if (!isRowEnd) {
-                        if (string.charAt(i) == '"') {
-                            fileWriter.write("<br/>");
-                        } else {
-                            fileWriter.write(string.charAt(i));
-                            fileWriter.write("<br/>");
-                        }
-                    } else if (string.charAt(i) == ',') {
-                        fileWriter.write("</td>");
-                        isCellEnd = true;
-                        isStart = true;
-                        fileWriter.write("<td>");
-                        fileWriter.write("</td>");
-                        fileWriter.write("</tr>");
                     } else {
-                        fileWriter.write(string.charAt(i));
-                        fileWriter.write("</td>");
-                        fileWriter.write("</tr>");
-                        isCellEnd = true;
-                        isStart = true;
+                        if (line.charAt(i) == '"') {
+                            isQuotesOpen = false;
+
+                            continue;
+                        }
                     }
+
+                    if (line.charAt(i) == ',' && !isQuotesOpen) {
+                        fileWriter.write("</td>\n");
+                        isTableCellOpen = false;
+
+                        if (i == line.length() - 1) {
+                            fileWriter.write("\t\t\t<td>");
+                        }
+
+                        continue;
+                    }
+
+                    if (line.charAt(i) == '<') {
+                        fileWriter.write("&lt;");
+
+                        continue;
+                    }
+
+                    if (line.charAt(i) == '>') {
+                        fileWriter.write("&gt;");
+
+                        continue;
+                    }
+
+                    if (line.charAt(i) == '&') {
+                        fileWriter.write("&amp;");
+
+                        continue;
+                    }
+
+                    fileWriter.write(line.charAt(i));
+                }
+
+                if (!isQuotesOpen) {
+                    fileWriter.write("</td>\n");
+                    isTableCellOpen = false;
+                    fileWriter.write("\t\t</tr>\n");
+                    isTableStringOpen = false;
+                } else {
+                    fileWriter.write("<br/>");
                 }
             }
-
-            fileWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка записи данный в файл");
         }
     }
 
-    public static void writeHeader(String path) {
+    private static void footer(FileWriter fileWriter) {
         try {
-            FileWriter fileWriter = new FileWriter(path, true);
-            fileWriter.write("<html>");
-            fileWriter.write("<head>");
-            fileWriter.write("<title>Задача CSV</title>");
-            fileWriter.write("<meta charset=\"utf-8\">");
-            fileWriter.write("</head>");
-            fileWriter.write("<body>");
-            fileWriter.write("<table border=\"1\">");
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void writeFooter(String path) {
-        try {
-            FileWriter fileWriter = new FileWriter(path, true);
-            fileWriter.write("</table>");
-            fileWriter.write("</body>");
+            fileWriter.write("\t</table>\n");
+            fileWriter.write("</body>\n");
             fileWriter.write("</html>");
-            fileWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void createFile(String path) {
-        try {
-            FileWriter fileWriter = new FileWriter(path, true);
-            fileWriter.write("");
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка записи footer файла");
         }
     }
 }
