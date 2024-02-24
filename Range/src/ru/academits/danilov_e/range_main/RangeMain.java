@@ -55,11 +55,13 @@ public class RangeMain {
 
         Range checkedRange = new Range(checkedRangeFrom, checkedRangeTo);
 
-        if (range.getIntersection(checkedRange) == null) {
+        Range intersectionRange = range.getIntersection(checkedRange);
+
+        if (intersectionRange == null) {
             System.out.println("Диапазоны не пересекаются");
         } else {
             System.out.println("Получили диапазон пересечения:");
-            System.out.println(range.getIntersection(checkedRange));
+            System.out.println(intersectionRange);
         }
 
         System.out.println();
@@ -67,11 +69,13 @@ public class RangeMain {
         System.out.println(Arrays.toString(range.getUnion(checkedRange)));
         System.out.println();
 
-        if (range.getDifference(checkedRange).length == 0) {
+        Range[] differenceRange = range.getDifference(checkedRange);
+
+        if (differenceRange.length == 0) {
             System.out.println("Диапазоны вычитаются без остатка.");
         } else {
             System.out.println("Получили разность диапазонов:");
-            System.out.println(Arrays.toString(range.getDifference(checkedRange)));
+            System.out.println(Arrays.toString(differenceRange));
         }
     }
 }
