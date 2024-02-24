@@ -3,8 +3,7 @@ package ru.academits.danilov_e.csv;
 import java.io.*;
 
 public class Csv {
-    public static void convert(String inputPath) {
-        String outputPath = "Csv/src/ru/academits/danilov_e/csv/output.html";
+    public static void convert(String inputPath, String outputPath) {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputPath))) {
             try (FileWriter fileWriter = new FileWriter(outputPath, true)) {
