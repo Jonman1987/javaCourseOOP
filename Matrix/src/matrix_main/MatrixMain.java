@@ -1,7 +1,7 @@
 package matrix_main;
 
 import matrix_class.Matrix;
-import vector_class.Vector;
+import ru.academits.danilov_e.vector.Vector;
 
 public class MatrixMain {
     public static void main(String[] args) {

@@ -1,6 +1,5 @@
 package matrix_class;
-
-import vector_class.Vector;
+import ru.academits.danilov_e.vector.Vector;
 
 public class Matrix extends Vector{
     private int n;
@@ -59,7 +58,13 @@ public class Matrix extends Vector{
         vectors = new Vector[n];
 
         for(int i = 0; i < vector.length; i++){
-            vectors[i] = new Vector(m, vector[i].getComponentsArray());
+            double[] array = new double[m];
+
+            for (int j = 0; j < vector.length; j++){
+                array[j] = vector[i].getComponent(j);
+            }
+
+            vectors[i] = new Vector(m, array);
         }
     }
 
@@ -89,7 +94,7 @@ public class Matrix extends Vector{
         double[] temp = new double[n];
 
         for(int i = 0; i < n; i++){
-            temp[i] = vectors[i].getComponentsArray()[index];
+            temp[i] = vectors[i].getComponent(index);
         }
 
         return new Vector(temp);
@@ -115,7 +120,7 @@ public class Matrix extends Vector{
 
     public void makeMultiplication(double number){
         for(int i = 0; i < n; i++){
-            vectors[i].makeMultiplication(number);
+            vectors[i].multiply(number);
         }
     }
 
@@ -127,12 +132,12 @@ public class Matrix extends Vector{
         }
 
         if(n == 1){
-            return vectors[0].getComponentsArray()[0];
+            return vectors[0].getComponent(0);
         }
 
         if(n == 2){
-            return vectors[0].getComponentsArray()[0] * vectors[1].getComponentsArray()[1]
-                    - vectors[0].getComponentsArray()[0] * vectors[0].getComponentsArray()[1];
+            return vectors[0].getComponent(0) * vectors[1].getComponent(1)
+                    - vectors[0].getComponent(0) * vectors[0].getComponent(1);
         }else{
             double determinant;
 
