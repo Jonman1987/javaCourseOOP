@@ -94,9 +94,10 @@ public class MatrixMain {
         System.out.println();
 
         System.out.println("13. Вычисление определителя матрицы:");
-
-        Matrix matrix4 = new Matrix(new double[][] {{3.4, 2.3}, {3.4, 2.3}});
-        //System.out.println("Определитель: " + matrix4.matrixDeterminant());
+        Matrix matrix4 = new Matrix(new double[][]{{1, -2, 3}, {0, 7, 4}, {5, 3, -3}});
+        System.out.println("Матрица:");
+        matrix4.print();
+        System.out.println("Определитель: " + matrix4.matrixDeterminant());
         System.out.println();
 
         System.out.println("14. Переопределение toString:");
@@ -168,9 +169,5 @@ public class MatrixMain {
         System.out.println("Результат:");
         Matrix.multiply(matrix15, matrix16).print();
         System.out.println();
-
-        double[][] array6 = {{1, -2, 3}, {0, 7, 4}, {5, 3, -3}};
-        Matrix matrix17 = new Matrix(array6);
-        System.out.println(matrix17.matrixDeterminant());
     }
 }
