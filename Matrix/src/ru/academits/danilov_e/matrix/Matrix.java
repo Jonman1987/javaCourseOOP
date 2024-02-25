@@ -1,4 +1,4 @@
-package matrix;
+package ru.academits.danilov_e.matrix;
 
 import ru.academits.danilov_e.vector.Vector;
 

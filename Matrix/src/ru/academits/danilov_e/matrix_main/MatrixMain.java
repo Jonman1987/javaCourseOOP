@@ -1,6 +1,6 @@
-package matrix_main;
+package ru.academits.danilov_e.matrix_main;
 
-import matrix.Matrix;
+import ru.academits.danilov_e.matrix.Matrix;
 import ru.academits.danilov_e.vector.Vector;
 
 public class MatrixMain {
