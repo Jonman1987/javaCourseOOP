@@ -1,5 +1,4 @@
 package ru.academits.danilov_e.vector;
-
 import java.util.Arrays;
 
 public class Vector {

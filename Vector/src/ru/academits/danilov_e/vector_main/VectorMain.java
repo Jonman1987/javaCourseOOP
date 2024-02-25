@@ -1,7 +1,5 @@
 package ru.academits.danilov_e.vector_main;
-
 import ru.academits.danilov_e.vector.Vector;
-
 import java.util.Arrays;
 
 public class VectorMain {
