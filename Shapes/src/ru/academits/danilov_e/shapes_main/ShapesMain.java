@@ -109,7 +109,7 @@ public class ShapesMain {
         System.out.println(simpleShapesArray[0].equals(simpleShapesArray[3]));
         System.out.println("Сравнение одной и той же фигуры:");
         System.out.println(simpleShapesArray[0].equals(simpleShapesArray[0]));
-        System.out.println("Сравнение " + simpleShapesArray[0].getName() + " и" + simpleShapesArray[2].getName());
+        System.out.println("Сравнение " + simpleShapesArray[0].getName() + " и " + simpleShapesArray[2].getName());
         System.out.println(simpleShapesArray[0].equals(simpleShapesArray[2]));
 
         System.out.println();
