@@ -1,9 +1,8 @@
-package matrix_main;
+package matrix_draft;
 
-import matrix_class.Matrix2;
 import ru.academits.danilov_e.vector.Vector;
 
-public class Matrix2Main {
+public class MatrixMainDraft {
     public static void main(String[] args) {
         double[] array1 = new double[]{-3.4, 3.3, 5.7, 6.7};
         double[] array2 = new double[]{2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
@@ -15,19 +14,19 @@ public class Matrix2Main {
         double[][] myArray = {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8}};
 
         System.out.println("1. Конструктор матрицы нулей размером n = " + n + ", m = " + m + ":");
-        Matrix2 matrix01 = new Matrix2(n, m);
+        MatrixDraft matrix01 = new MatrixDraft(n, m);
 
         matrix01.print();
         System.out.println();
 
         System.out.println("2. Конструктор матрицы из двумерного массива с добавлением нулей в меньшем векторе:");
-        Matrix2 matrix2 = new Matrix2(myArray);
+        MatrixDraft matrix2 = new MatrixDraft(myArray);
 
         matrix2.print();
         System.out.println();
 
         System.out.println("3. Конструктор копирования:");
-        Matrix2 matrix1 = new Matrix2(matrix2);
+        MatrixDraft matrix1 = new MatrixDraft(matrix2);
 
         matrix1.print();
         System.out.println();
@@ -39,7 +38,7 @@ public class Matrix2Main {
         Vector[] vectors = {vector1, vector2, vector3};
 
         System.out.println("4. Конструктор из массива векторов-строк разной длины с добавлением нулей:");
-        Matrix2 matrix3 = new Matrix2(vectors);
+        MatrixDraft matrix3 = new MatrixDraft(vectors);
 
         matrix3.print();
         System.out.println();
@@ -52,7 +51,7 @@ public class Matrix2Main {
         System.out.println("Ширина: " + matrix3.getWidth());
         System.out.println();
 
-        System.out.println("7. Получение вектора строки из пункта 4 по индексу 1:");
+        System.out.println("7. Получение ширины матрицы из пункта 4:");
         System.out.println(matrix3.getVector(1));
         System.out.println();
 
@@ -88,80 +87,21 @@ public class Matrix2Main {
         System.out.println("12. Умножение матрицы из примера 2 на скаляр 2:");
         System.out.println("Матрица:");
         matrix2.print();
-        matrix2.multiply(2);
+        matrix2.makeMultiplication(2);
         System.out.println("Результат:");
         matrix2.print();
         System.out.println();
 
         System.out.println("13. Вычисление определителя матрицы:");
 
-        Matrix2 matrix4 = new Matrix2(new double[][] {{3.4, 2.3}, {3.4, 2.3}});
-        //System.out.println("Определитель: " + matrix4.matrixDeterminant());
+        MatrixDraft matrix4 = new MatrixDraft(new double[][] {{3.4, 2.3}, {3.4, 2.3}});
+        System.out.println("Определитель: " + matrix4.matrixDeterminant());
         System.out.println();
 
         System.out.println("14. Переопределение toString:");
         System.out.println(matrix2);
         System.out.println();
 
-        System.out.println("15. Умножение матрицы из пункта 12 на вектор из пункта 10:");
-        Vector vector4 = matrix1.getColumnVector(1);
-        matrix2.multiply(vector4);
-        System.out.println(matrix2);
-        System.out.println();
 
-        System.out.println("16. Сложение матрицы из пункта 9 с самой собой:");
-        Matrix2 matrix5 = new Matrix2(myArray);
-        Matrix2 matrix6 = new Matrix2(myArray);
-        System.out.println("Исходная матрица:");
-        matrix5.print();
-        matrix5.add(matrix6);
-        System.out.println("Результат:");
-        matrix5.print();
-        System.out.println();
-
-        // Закомментировал, чтобы не вылетала ошибка.
-        System.out.println("17. Сложение матриц разной размерности:");
-        /*Matrix2 matrix7 = new Matrix2(2, 4);
-        matrix5.add(matrix7);*/
-        System.out.println();
-
-        System.out.println("18. Вычитание матрицы из пункта 9 с самой собой:");
-        Matrix2 matrix8 = new Matrix2(myArray);
-        Matrix2 matrix9 = new Matrix2(myArray);
-        System.out.println("Исходная матрица:");
-        matrix8.print();
-        matrix8.subtract(matrix9);
-        System.out.println("Результат:");
-        matrix8.print();
-        System.out.println();
-
-        // Закомментировал, чтобы не вылетала ошибка.
-        System.out.println("19. Вычитание матриц разной размерности:");
-        /*Matrix2 matrix10 = new Matrix2(2, 4);
-        matrix5.subtract(matrix10);*/
-        System.out.println();
-
-        System.out.println("20. Сложение матриц статическим методом:");
-        Matrix2 matrix11 = new Matrix2(myArray);
-        Matrix2 matrix12 = new Matrix2(myArray);
-        Matrix2.add(matrix11, matrix12).print();
-        System.out.println();
-
-        System.out.println("21. Вычитание матриц статическим методом:");
-        Matrix2 matrix13 = new Matrix2(myArray);
-        Matrix2 matrix14 = new Matrix2(myArray);
-        Matrix2.subtract(matrix13, matrix14).print();
-        System.out.println();
-
-        System.out.println("21. Умножение матриц статическим методом:");
-        double[][] array4 = {{1, 2, 3}, {1, 0, -1}};
-        double[][] array5 = {{3, 4, 5}, {6, 0, -2}, {7, 1, 8}};
-
-        Matrix2 matrix15 = new Matrix2(array4);
-        matrix15.print();
-        Matrix2 matrix16 = new Matrix2(array5);
-        matrix16.print();
-       // Matrix2.multiply(matrix15, matrix16).print();
-        System.out.println();
     }
 }

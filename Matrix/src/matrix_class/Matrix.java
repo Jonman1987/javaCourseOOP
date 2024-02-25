@@ -3,30 +3,27 @@ package matrix_class;
 import ru.academits.danilov_e.vector.Vector;
 
 public class Matrix extends Vector {
-    private int n;
-    private int m;
     Vector[] vectorsArray;
 
-    public Matrix(int n, int m) {
-        super(m);
-        vectorsArray = new Vector[n];
-        this.n = n;
-        this.m = m;
+    public Matrix(int matrixWidth, int matrixHeight) {
+        super(matrixHeight);
 
-        for (int i = 0; i < n; i++) {
-            vectorsArray[i] = new Vector(m);
+        vectorsArray = new Vector[matrixWidth];
+
+        for (int i = 0; i < matrixWidth; i++) {
+            vectorsArray[i] = new Vector(matrixHeight);
         }
     }
 
-    public Matrix(Matrix matrix) {
-        super(matrix.m);
-        n = matrix.n;
-        m = matrix.m;
+    public Matrix(Matrix matrix) { // Нужно ли проверять на not null?
+        super(matrix.vectorsArray.length);
+
         vectorsArray = matrix.vectorsArray;
     }
 
     public Matrix(double[][] doubleArray) {
         super(doubleArray[0].length, doubleArray[0]);
+
         int maxVectorSize = doubleArray[0].length;
 
         for (int i = 1; i < doubleArray.length; i++) {
@@ -35,19 +32,16 @@ public class Matrix extends Vector {
             }
         }
 
-        m = maxVectorSize;
-        n = doubleArray.length;
-
-        vectorsArray = new Vector[m];
+        vectorsArray = new Vector[doubleArray.length];
 
         for (int i = 0; i < doubleArray.length; i++) {
-            vectorsArray[i] = new Vector(m, doubleArray[i]);
+            vectorsArray[i] = new Vector(maxVectorSize, doubleArray[i]);
         }
     }
 
     public Matrix(Vector[] vector) {
         super(vector.length);
-        n = vector.length;
+
         int maxVectorSize = vector[0].getDimension();
 
         for (int i = 1; i < vector.length; i++) {
@@ -56,17 +50,16 @@ public class Matrix extends Vector {
             }
         }
 
-        m = maxVectorSize;
-        vectorsArray = new Vector[n];
+        vectorsArray = new Vector[vector.length];
 
         for (int i = 0; i < vector.length; i++) {
-            double[] array = new double[m];
+            double[] array = new double[maxVectorSize];
 
             for (int j = 0; j < vector.length; j++) {
                 array[j] = vector[i].getComponent(j);
             }
 
-            vectorsArray[i] = new Vector(m, array);
+            vectorsArray[i] = new Vector(maxVectorSize, array);
         }
     }
 
@@ -77,25 +70,40 @@ public class Matrix extends Vector {
     }
 
     public int getWidth() {
-        return m;
+        return vectorsArray[0].getDimension();
     }
 
     public int getHeight() {
-        return n;
+        return vectorsArray.length;
     }
 
     public Vector getVector(int index) {
+        if (index < 0 || index > vectorsArray.length - 1) {
+            throw new IllegalArgumentException("The index must belong to the range [0; " + (vectorsArray.length - 1)
+                    + "]. Index is " + index + ".");
+        }
+
         return vectorsArray[index];
     }
 
     public void setVector(int index, Vector vector) {
+        if (index < 0 || index > vectorsArray.length - 1) {
+            throw new IllegalArgumentException("The index must belong to the range [0; " + (vectorsArray.length - 1)
+                    + "]. Index is " + index + ".");
+        }
+
         vectorsArray[index] = vector;
     }
 
     public Vector getColumnVector(int index) {
-        double[] columnVector = new double[n];
+        if (index < 0 || index > vectorsArray[0].getDimension() - 1) {
+            throw new IllegalArgumentException("The index must belong to the range [0; "
+                    + (vectorsArray[0].getDimension() - 1) + "]. Index is " + index + ".");
+        }
 
-        for (int i = 0; i < n; i++) {
+        double[] columnVector = new double[vectorsArray.length];
+
+        for (int i = 0; i < vectorsArray.length; i++) {
             columnVector[i] = vectorsArray[i].getComponent(index);
         }
 
@@ -120,46 +128,54 @@ public class Matrix extends Vector {
         vectorsArray = vector;
     }
 
-    public void makeMultiplication(double number) {
-        for (int i = 0; i < n; i++) {
-            vectorsArray[i].multiply(number);
+    public void multiply(double number) {
+        for (Vector vector : vectorsArray) {
+            vector.multiply(number);
         }
     }
 
-    public double matrixDeterminant() { // Не доделано
-        final double EPSILON = 1.0e-10;
-
-        if (n != m) {
-            throw new IllegalArgumentException("n must be equal m");
-        }
-
-        if (n == 1) {
+    public double matrixDeterminant() {
+        if (vectorsArray.length == 1) {
             return vectorsArray[0].getComponent(0);
-        }
-
-        if (n == 2) {
+        } else if (vectorsArray.length == 2) {
             return vectorsArray[0].getComponent(0) * vectorsArray[1].getComponent(1)
-                    - vectorsArray[0].getComponent(0) * vectorsArray[0].getComponent(1);
+                    - vectorsArray[0].getComponent(1) * vectorsArray[1].getComponent(0);
         } else {
-            double determinant;
+            double determinant = 0;
+            int minusChanger = 1;
 
-            Matrix temp = new Matrix(vectorsArray);
+            for (int columnInDet = 0; columnInDet < vectorsArray[0].getDimension(); ++columnInDet) {
+                double[][] simplifiedMatrix = new double[vectorsArray.length - 1][vectorsArray.length - 1];
 
-            while (temp.n > 2) {
+                for (int row = 1, rowForSmallerMatrix = 0; row < vectorsArray.length; ++row) {
+                    int columnForSmallerMatrix = 0;
 
+                    for (int column = 0; column < vectorsArray[0].getDimension(); ++column) {
+                        if (column != columnInDet) {
+                            simplifiedMatrix[rowForSmallerMatrix][columnForSmallerMatrix] = vectorsArray[row].getComponent(column);
+                            ++columnForSmallerMatrix;
+                        }
+                    }
+
+                    ++rowForSmallerMatrix;
+                }
+
+                determinant += (minusChanger * vectorsArray[0].getComponent(columnInDet) * (new Matrix(simplifiedMatrix).matrixDeterminant()));
+                minusChanger *= -1;
             }
 
+            return determinant;
         }
-        return 1;
     }
 
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < vectorsArray.length; i++) {
             stringBuilder.append(vectorsArray[i].toString());
 
-            if (i != n - 1) {
+            if (i != vectorsArray.length - 1) {
                 stringBuilder.append(", ");
             }
         }
@@ -169,8 +185,113 @@ public class Matrix extends Vector {
         return stringBuilder.toString();
     }
 
-    public void makeMultiplication(Vector vector) {
+    public void multiply(Vector vector) {
+        double[] array = new double[vectorsArray.length];
 
+        for (int i = 0; i < vectorsArray.length; i++) {
+            for (int j = 0; j < vectorsArray[0].getDimension(); j++) {
+                array[i] += vectorsArray[i].getComponent(j) * vector.getComponent(j);
+            }
+
+            // Я пытался вызвать команду vectorsArray[i] = new Vector(1).setComponent(0, array[i]);
+            // но почему-то так сделать нельзя.
+            Vector unitVector = new Vector(1);
+            unitVector.setComponent(0, array[i]);
+            vectorsArray[i] = unitVector;
+        }
+    }
+
+    public void add(Matrix matrix) {
+        if (vectorsArray.length == matrix.vectorsArray.length
+                && vectorsArray[0].getDimension() == matrix.vectorsArray[0].getDimension()) {
+            for (int i = 0; i < vectorsArray.length; i++) {
+                for (int j = 0; j < vectorsArray[0].getDimension(); j++) {
+                    vectorsArray[i].setComponent(j,
+                            vectorsArray[i].getComponent(j) + matrix.vectorsArray[i].getComponent(j));
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is ("
+                    + vectorsArray.length + "; " + vectorsArray[0].getDimension() + "). Dimension of matrix2 is ("
+                    + matrix.vectorsArray.length + "; " + matrix.vectorsArray[0].getDimension() + ").");
+        }
+    }
+
+    public void subtract(Matrix matrix) {
+        if (vectorsArray.length == matrix.vectorsArray.length
+                && vectorsArray[0].getDimension() == matrix.vectorsArray[0].getDimension()) {
+            for (int i = 0; i < vectorsArray.length; i++) {
+                for (int j = 0; j < vectorsArray[0].getDimension(); j++) {
+                    vectorsArray[i].setComponent(j,
+                            vectorsArray[i].getComponent(j) - matrix.vectorsArray[i].getComponent(j));
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is ("
+                    + vectorsArray.length + "; " + vectorsArray[0].getDimension() + "). Dimension of matrix2 is ("
+                    + matrix.vectorsArray.length + "; " + matrix.vectorsArray[0].getDimension() + ").");
+        }
+    }
+
+    public static Matrix add(Matrix matrix1, Matrix matrix2) {
+        double[][] array = new double[matrix1.vectorsArray.length][matrix1.vectorsArray[0].getDimension()];
+
+        if (matrix1.vectorsArray.length == matrix2.vectorsArray.length
+                && matrix1.vectorsArray[0].getDimension() == matrix2.vectorsArray[0].getDimension()) {
+            for (int i = 0; i < matrix1.vectorsArray.length; i++) {
+                for (int j = 0; j < matrix1.vectorsArray[0].getDimension(); j++) {
+                    array[i][j] = matrix1.vectorsArray[i].getComponent(j) + matrix2.vectorsArray[i].getComponent(j);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is ("
+                    + matrix1.vectorsArray.length + "; " + matrix1.vectorsArray[0].getDimension()
+                    + "). Dimension of matrix2 is (" + matrix2.vectorsArray.length + "; "
+                    + matrix2.vectorsArray[0].getDimension() + ").");
+        }
+
+        return new Matrix(array);
+    }
+
+    public static Matrix subtract(Matrix matrix1, Matrix matrix2) {
+        double[][] array = new double[matrix1.vectorsArray.length][matrix1.vectorsArray[0].getDimension()];
+
+        if (matrix1.vectorsArray.length == matrix2.vectorsArray.length
+                && matrix1.vectorsArray[0].getDimension() == matrix2.vectorsArray[0].getDimension()) {
+            for (int i = 0; i < matrix1.vectorsArray.length; i++) {
+                for (int j = 0; j < matrix1.vectorsArray[0].getDimension(); j++) {
+                    array[i][j] = matrix1.vectorsArray[i].getComponent(j) - matrix2.vectorsArray[i].getComponent(j);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is ("
+                    + matrix1.vectorsArray.length + "; " + matrix1.vectorsArray[0].getDimension()
+                    + "). Dimension of matrix2 is (" + matrix2.vectorsArray.length + "; "
+                    + matrix2.vectorsArray[0].getDimension() + ").");
+        }
+
+        return new Matrix(array);
+    }
+
+    public static Matrix multiply(Matrix matrix1, Matrix matrix2) {
+        double[][] array = new double[matrix1.vectorsArray.length][matrix2.vectorsArray[0].getDimension()];
+
+        if (matrix1.vectorsArray[0].getDimension() == matrix2.vectorsArray.length) {
+            for (int i = 0; i < matrix1.vectorsArray.length; i++) {
+                for (int j = 0; j < matrix2.vectorsArray[0].getDimension(); j++) {
+                    for (int k = 0; k < matrix1.vectorsArray.length; k++) {
+                        array[i][j] += matrix1.getVector(i).getComponent(k) * matrix2.getColumnVector(j).getComponent(k);
+                    }
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Both matrix must be same dimension or transposition size. Dimension of matrix1 is ("
+                    + matrix1.vectorsArray.length + "; " + matrix1.vectorsArray[0].getDimension()
+                    + "). Dimension of matrix2 is (" + matrix2.vectorsArray.length + "; "
+                    + matrix2.vectorsArray[0].getDimension() + ").");
+        }
+
+        return new Matrix(array);
     }
 }
 
