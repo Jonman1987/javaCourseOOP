@@ -147,13 +147,13 @@ public class MatrixMain {
         System.out.println("20. Сложение матриц статическим методом:");
         Matrix matrix11 = new Matrix(myArray);
         Matrix matrix12 = new Matrix(myArray);
-        Matrix.add(matrix11, matrix12).print();
+        Matrix.getSum(matrix11, matrix12).print();
         System.out.println();
 
         System.out.println("21. Вычитание матриц статическим методом:");
         Matrix matrix13 = new Matrix(myArray);
         Matrix matrix14 = new Matrix(myArray);
-        Matrix.subtract(matrix13, matrix14).print();
+        Matrix.getDifference(matrix13, matrix14).print();
         System.out.println();
 
         System.out.println("21. Умножение матриц статическим методом:");
@@ -167,7 +167,7 @@ public class MatrixMain {
         System.out.println("Исходная матрица 2:");
         matrix16.print();
         System.out.println("Результат:");
-        Matrix.multiply(matrix15, matrix16).print();
+        Matrix.getProduct(matrix15, matrix16).print();
         System.out.println();
     }
 }

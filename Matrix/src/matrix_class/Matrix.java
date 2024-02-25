@@ -5,13 +5,13 @@ import ru.academits.danilov_e.vector.Vector;
 public class Matrix extends Vector {
     Vector[] vectorsArray;
 
-    public Matrix(int matrixWidth, int matrixHeight) {
-        super(matrixHeight);
+    public Matrix(int matrixHeight, int matrixWidth) {
+        super(matrixWidth);
 
-        vectorsArray = new Vector[matrixWidth];
+        vectorsArray = new Vector[matrixHeight];
 
-        for (int i = 0; i < matrixWidth; i++) {
-            vectorsArray[i] = new Vector(matrixHeight);
+        for (int i = 0; i < matrixHeight; i++) {
+            vectorsArray[i] = new Vector(matrixWidth);
         }
     }
 
@@ -122,7 +122,7 @@ public class Matrix extends Vector {
         Vector[] vector = new Vector[maxVectorSize];
 
         for (int i = 0; i < maxVectorSize; i++) {
-            vector[i] = this.getColumnVector(i);
+            vector[i] = getColumnVector(i);
         }
 
         vectorsArray = vector;
@@ -137,35 +137,41 @@ public class Matrix extends Vector {
     public double matrixDeterminant() {
         if (vectorsArray.length == 1) {
             return vectorsArray[0].getComponent(0);
-        } else if (vectorsArray.length == 2) {
+        }
+
+        if (vectorsArray.length == 2) {
             return vectorsArray[0].getComponent(0) * vectorsArray[1].getComponent(1)
                     - vectorsArray[0].getComponent(1) * vectorsArray[1].getComponent(0);
-        } else {
-            double determinant = 0;
-            int minusChanger = 1;
+        }
 
-            for (int columnInDet = 0; columnInDet < vectorsArray[0].getDimension(); ++columnInDet) {
-                double[][] simplifiedMatrix = new double[vectorsArray.length - 1][vectorsArray.length - 1];
+        double determinant = 0;
+        int minusChanger = 1;
 
-                for (int row = 1, rowForSmallerMatrix = 0; row < vectorsArray.length; ++row) {
-                    int columnForSmallerMatrix = 0;
+        for (int determinantColumn = 0; determinantColumn < vectorsArray[0].getDimension(); ++determinantColumn) {
+            double[][] simplifiedMatrix = new double[vectorsArray.length - 1][vectorsArray.length - 1];
+            int simplifiedMatrixRow = 0;
 
-                    for (int column = 0; column < vectorsArray[0].getDimension(); ++column) {
-                        if (column != columnInDet) {
-                            simplifiedMatrix[rowForSmallerMatrix][columnForSmallerMatrix] = vectorsArray[row].getComponent(column);
-                            ++columnForSmallerMatrix;
-                        }
+            for (int row = 1; row < vectorsArray.length; ++row) {
+                int simplifiedMatrixColunm = 0;
+
+                for (int column = 0; column < vectorsArray[0].getDimension(); ++column) {
+                    if (column != determinantColumn) {
+                        simplifiedMatrix[simplifiedMatrixRow][simplifiedMatrixColunm]
+                                = vectorsArray[row].getComponent(column);
+
+                        ++simplifiedMatrixColunm;
                     }
-
-                    ++rowForSmallerMatrix;
                 }
 
-                determinant += (minusChanger * vectorsArray[0].getComponent(columnInDet) * (new Matrix(simplifiedMatrix).matrixDeterminant()));
-                minusChanger *= -1;
+                ++simplifiedMatrixRow;
             }
 
-            return determinant;
+            determinant += (minusChanger * vectorsArray[0].getComponent(determinantColumn)
+                    * (new Matrix(simplifiedMatrix).matrixDeterminant()));
+            minusChanger *= -1;
         }
+
+        return determinant;
     }
 
     @Override
@@ -233,7 +239,7 @@ public class Matrix extends Vector {
         }
     }
 
-    public static Matrix add(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         double[][] array = new double[matrix1.vectorsArray.length][matrix1.vectorsArray[0].getDimension()];
 
         if (matrix1.vectorsArray.length == matrix2.vectorsArray.length
@@ -253,7 +259,7 @@ public class Matrix extends Vector {
         return new Matrix(array);
     }
 
-    public static Matrix subtract(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         double[][] array = new double[matrix1.vectorsArray.length][matrix1.vectorsArray[0].getDimension()];
 
         if (matrix1.vectorsArray.length == matrix2.vectorsArray.length
@@ -273,7 +279,7 @@ public class Matrix extends Vector {
         return new Matrix(array);
     }
 
-    public static Matrix multiply(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
         double[][] array = new double[matrix1.vectorsArray.length][matrix2.vectorsArray[0].getDimension()];
 
         if (matrix1.vectorsArray[0].getDimension() == matrix2.vectorsArray.length) {
