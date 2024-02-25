@@ -1,4 +1,5 @@
 package ru.academits.danilov_e.vector;
+
 import java.util.Arrays;
 
 public class Vector {
@@ -125,25 +126,12 @@ public class Vector {
             return false;
         }
 
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] != vector.components[i]) {
-                return false;
-            }
-        }
-
-        return true;
+        return Arrays.equals(components, vector.components);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 37;
-        int hash = 1;
-
-        for (double component : components) {
-            hash = prime * hash + Double.hashCode(component);
-        }
-
-        return hash;
+        return Arrays.hashCode(components);
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {

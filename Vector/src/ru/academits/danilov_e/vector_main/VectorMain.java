@@ -1,6 +1,6 @@
 package ru.academits.danilov_e.vector_main;
+
 import ru.academits.danilov_e.vector.Vector;
-import java.util.Arrays;
 
 public class VectorMain {
     public static void main(String[] args) {
@@ -132,15 +132,11 @@ public class VectorMain {
         System.out.println("Сравнение с нулевым вектором:");
         System.out.println("Вектор: " + vector13 + " и");
         System.out.println("Вектор: " + vector10);
-        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector13}, new Vector[]{vector10}));
-        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
-        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
+        System.out.println("Результат: " + vector13.equals(vector10));
         System.out.println("Сравнение одного и того же вектора:");
         System.out.println("Вектор: " + vector14 + " и");
         System.out.println("Вектор: " + vector14);
-        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector14}, new Vector[]{vector14}));
-        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
-        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
+        System.out.println("Результат: " + vector14.equals(vector14));
         System.out.println("Сравнение одинаковых векторов:");
         System.out.println("Вектор: " + vector14 + " и");
         System.out.println("Вектор: " + vector15);
@@ -148,24 +144,14 @@ public class VectorMain {
         System.out.println("Сравнение исходного вектора и созданного из того же массива, но дополненного нулями:");
         System.out.println("Вектор: " + vector15 + " и");
         System.out.println("Вектор: " + vector16);
-        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector15}, new Vector[]{vector16}));
-        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
-        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
+        System.out.println("Результат: " + vector15.equals(vector16));
         System.out.println();
 
         System.out.println("15. Метод hashCode():");
         System.out.println("Вектор: " + vector14);
-        System.out.println("Результат: " + Arrays.hashCode(new Vector[]{vector14}));
-        // Я так понимаю, что вызов Arrays должен работать по-другому и иметь доступ к массиву components.
-        // И сравнивать метод должен массив components. Без образования массива векторов.
-        // Но я не понимаю - или я не верное выполнил метод equals или не верно вызываю Arrays.
-        // Не совсем понял этот пункт замечаний про вызов Arrays.
+        System.out.println("Результат: " + vector14.hashCode());
         System.out.println("Вектор: " + vector2);
-        System.out.println("Результат: " + Arrays.hashCode(new Vector[]{vector2}));
-        // Я так понимаю, что вызов Arrays должен работать по-другому и иметь доступ к массиву components.
-        // И сравнивать метод должен массив components. Без образования массива векторов.
-        // Но я не понимаю - или я не верное выполнил метод equals или не верно вызываю Arrays.
-        // Не совсем понял этот пункт замечаний про вызов Arrays.
+        System.out.println("Результат: " + vector2.hashCode());
         System.out.println();
 
         System.out.println("16. Статический метод сложения векторов с получением нового вектора:");
