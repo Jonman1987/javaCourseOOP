@@ -48,11 +48,11 @@ public class Matrix extends Vector {
     public Matrix(Vector[] vector) {
         super(vector.length);
         n = vector.length;
-        int maxVectorSize = vector[0].getSize();
+        int maxVectorSize = vector[0].getDimension();
 
         for (int i = 1; i < vector.length; i++) {
-            if (maxVectorSize < vector[i].getSize()) {
-                maxVectorSize = vector[i].getSize();
+            if (maxVectorSize < vector[i].getDimension()) {
+                maxVectorSize = vector[i].getDimension();
             }
         }
 
@@ -103,11 +103,11 @@ public class Matrix extends Vector {
     }
 
     public void transposition() {
-        int maxVectorSize = vectorsArray[0].getSize();
+        int maxVectorSize = vectorsArray[0].getDimension();
 
         for (int i = 1; i < vectorsArray.length; i++) {
-            if (maxVectorSize < vectorsArray[i].getSize()) {
-                maxVectorSize = vectorsArray[i].getSize();
+            if (maxVectorSize < vectorsArray[i].getDimension()) {
+                maxVectorSize = vectorsArray[i].getDimension();
             }
         }
 

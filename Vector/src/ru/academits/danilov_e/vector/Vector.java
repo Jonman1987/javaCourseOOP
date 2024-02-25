@@ -35,7 +35,7 @@ public class Vector {
         components = Arrays.copyOf(array, vectorDimension);
     }
 
-    public int getSize() {
+    public int getDimension() {
         return components.length;
     }
 
@@ -44,12 +44,10 @@ public class Vector {
         StringBuilder stringBuilder = new StringBuilder("{");
 
         for (double component : components) {
-            stringBuilder.append(component);
-            stringBuilder.append(", ");
+            stringBuilder.append(component).append(", ");
         }
 
-        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
-        stringBuilder.append('}');
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append('}');
 
         return stringBuilder.toString();
     }
@@ -80,10 +78,8 @@ public class Vector {
         }
     }
 
-    public void makeReverse() {
-        for (int i = 0; i < components.length; i++) {
-            components[i] = components[i] * -1;
-        }
+    public void unwrap() {
+        this.multiply(-1);
     }
 
     public double getLength() {
@@ -97,18 +93,18 @@ public class Vector {
     }
 
     public double getComponent(int index) {
-        if (index < 0 || index > components.length - 1) {
-            throw new IndexOutOfBoundsException("Vector component position is " + index
-                    + ". Vector component position may belong to [0, " + (components.length - 1) + "]");
+        if (index < 0 || index >= components.length) {
+            throw new IndexOutOfBoundsException("Vector component index is " + index
+                    + ". Vector component index may belong to [0, " + (components.length - 1) + "]");
         }
 
         return components[index];
     }
 
     public void setComponent(int index, double value) {
-        if (index < 0 || index > components.length - 1) {
-            throw new IndexOutOfBoundsException("Vector component position is " + index
-                    + ". Vector component position may belong to [0, " + (components.length - 1) + "]");
+        if (index < 0 || index >= components.length) {
+            throw new IndexOutOfBoundsException("Vector component index is " + index
+                    + ". Vector component index may belong to [0, " + (components.length - 1) + "]");
         }
 
         components[index] = value;
@@ -148,28 +144,28 @@ public class Vector {
             hash = prime * hash + Double.hashCode(component);
         }
 
-        hash = prime * hash + components.length;
-
         return hash;
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        vector1.subtract(vector2);
+        Vector difference = new Vector(vector1);
+        difference.subtract(vector2);
 
-        return vector1;
+        return difference;
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        vector1.add(vector2);
+        Vector sum = new Vector(vector1);
+        sum.add(vector2);
 
-        return vector1;
+        return sum;
     }
 
-    public static double scalarProduct(Vector vector1, Vector vector2) {
-        int minVectorLength = Math.min(vector1.components.length, vector2.components.length);
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
+        int minVectorDimension = Math.min(vector1.components.length, vector2.components.length);
         double scalarProduct = 0;
 
-        for (int i = 0; i < minVectorLength; i++) {
+        for (int i = 0; i < minVectorDimension; i++) {
             scalarProduct += vector1.components[i] * vector2.components[i];
         }
 

@@ -2,16 +2,17 @@ package ru.academits.danilov_e.vector_main;
 
 import ru.academits.danilov_e.vector.Vector;
 
+import java.util.Arrays;
+
 public class VectorMain {
     public static void main(String[] args) {
-
         int n = 10;
         int number1 = 3;
         int number2 = -2;
 
-        double[] array1 = new double[]{-3.4, 3.3, 5.7, 6.7};
-        double[] array2 = new double[]{2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
-        double[] array3 = new double[]{6.7, -3.1, 0.0, 8.8, 2.7, 9.9, 4.2, 5.5};
+        double[] array1 = {-3.4, 3.3, 5.7, 6.7};
+        double[] array2 = {2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
+        double[] array3 = {6.7, -3.1, 0.0, 8.8, 2.7, 9.9, 4.2, 5.5};
 
         System.out.println("1. Конструктор Vector(n), n = 10:");
         Vector vector1 = new Vector(n);
@@ -39,11 +40,11 @@ public class VectorMain {
         System.out.println();
 
         System.out.println("6. Метод genSize() для вектора из пункта 4");
-        System.out.println("Размерность вектора: " + vector4.getSize());
+        System.out.println("Размерность вектора: " + vector4.getDimension());
         System.out.println();
 
         System.out.println("7. Метод genSize() для вектора из пункта 5");
-        System.out.println("Размерность вектора: " + vector5.getSize());
+        System.out.println("Размерность вектора: " + vector5.getDimension());
         System.out.println();
 
         System.out.println("8. Работа метода toString()");
@@ -98,7 +99,7 @@ public class VectorMain {
 
         System.out.println("12. Реверс вектора:");
         System.out.println("Реверсируемый вектор: " + vector3);
-        vector3.makeReverse();
+        vector3.unwrap();
         System.out.println("Результат: " + vector3);
         System.out.println();
 
@@ -133,11 +134,15 @@ public class VectorMain {
         System.out.println("Сравнение с нулевым вектором:");
         System.out.println("Вектор: " + vector13 + " и");
         System.out.println("Вектор: " + vector10);
-        System.out.println("Результат: " + vector13.equals(vector10));
+        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector13}, new Vector[]{vector10}));
+        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
+        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
         System.out.println("Сравнение одного и того же вектора:");
         System.out.println("Вектор: " + vector14 + " и");
         System.out.println("Вектор: " + vector14);
-        System.out.println("Результат: " + vector14.equals(vector14));
+        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector14}, new Vector[]{vector14}));
+        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
+        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
         System.out.println("Сравнение одинаковых векторов:");
         System.out.println("Вектор: " + vector14 + " и");
         System.out.println("Вектор: " + vector15);
@@ -145,14 +150,24 @@ public class VectorMain {
         System.out.println("Сравнение исходного вектора и созданного из того же массива, но дополненного нулями:");
         System.out.println("Вектор: " + vector15 + " и");
         System.out.println("Вектор: " + vector16);
-        System.out.println("Результат: " + vector15.equals(vector16));
+        System.out.println("Результат: " + Arrays.equals(new Vector[]{vector15}, new Vector[]{vector16}));
+        // Я не совсем понял замечание, что нужно использовать Arrays.equals вместо equals.
+        // Не понимаю, как сравнить не образовывая нового массива. Прямого доступа к массиву же нет.
         System.out.println();
 
         System.out.println("15. Метод hashCode():");
         System.out.println("Вектор: " + vector14);
-        System.out.println("Результат: " + vector14.hashCode());
+        System.out.println("Результат: " + Arrays.hashCode(new Vector[]{vector14}));
+        // Я так понимаю, что вызов Arrays должен работать по-другому и иметь доступ к массиву components.
+        // И сравнивать метод должен массив components. Без образования массива векторов.
+        // Но я не понимаю - или я не верное выполнил метод equals или не верно вызываю Arrays.
+        // Не совсем понял этот пункт замечаний про вызов Arrays.
         System.out.println("Вектор: " + vector2);
-        System.out.println("Результат: " + vector2.hashCode());
+        System.out.println("Результат: " + Arrays.hashCode(new Vector[]{vector2}));
+        // Я так понимаю, что вызов Arrays должен работать по-другому и иметь доступ к массиву components.
+        // И сравнивать метод должен массив components. Без образования массива векторов.
+        // Но я не понимаю - или я не верное выполнил метод equals или не верно вызываю Arrays.
+        // Не совсем понял этот пункт замечаний про вызов Arrays.
         System.out.println();
 
         System.out.println("16. Статический метод сложения векторов с получением нового вектора:");
@@ -194,12 +209,12 @@ public class VectorMain {
         System.out.println("Первый вектор меньшей размерности, чем второй:");
         System.out.println("Вектор: " + vector27);
         System.out.println("Вектор: " + vector28);
-        double scalarProduct1 = Vector.scalarProduct(vector27, vector28);
+        double scalarProduct1 = Vector.getScalarProduct(vector27, vector28);
         System.out.println("Результат: " + scalarProduct1);
         System.out.println("Второй вектор меньшей размерности, чем первый:");
         System.out.println("Вектор: " + vector29);
         System.out.println("Вектор: " + vector28);
-        double scalarProduct2 = Vector.scalarProduct(vector29, vector28);
+        double scalarProduct2 = Vector.getScalarProduct(vector29, vector28);
         System.out.println("Результат: " + scalarProduct2);
         System.out.println();
     }

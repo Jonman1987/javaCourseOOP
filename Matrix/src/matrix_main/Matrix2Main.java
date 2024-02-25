@@ -119,9 +119,11 @@ public class Matrix2Main {
         matrix5.print();
         System.out.println();
 
+        // Закомментировал, чтобы не вылетала ошибка.
         System.out.println("17. Сложение матриц разной размерности:");
-        Matrix2 matrix7 = new Matrix2(2, 4);
-        matrix5.add(matrix7);
+        /*Matrix2 matrix7 = new Matrix2(2, 4);
+        matrix5.add(matrix7);*/
+        System.out.println();
 
         System.out.println("18. Вычитание матрицы из пункта 9 с самой собой:");
         Matrix2 matrix8 = new Matrix2(myArray);
@@ -133,8 +135,33 @@ public class Matrix2Main {
         matrix8.print();
         System.out.println();
 
+        // Закомментировал, чтобы не вылетала ошибка.
         System.out.println("19. Вычитание матриц разной размерности:");
-        Matrix2 matrix10 = new Matrix2(2, 4);
-        matrix5.subtract(matrix10);
+        /*Matrix2 matrix10 = new Matrix2(2, 4);
+        matrix5.subtract(matrix10);*/
+        System.out.println();
+
+        System.out.println("20. Сложение матриц статическим методом:");
+        Matrix2 matrix11 = new Matrix2(myArray);
+        Matrix2 matrix12 = new Matrix2(myArray);
+        Matrix2.add(matrix11, matrix12).print();
+        System.out.println();
+
+        System.out.println("21. Вычитание матриц статическим методом:");
+        Matrix2 matrix13 = new Matrix2(myArray);
+        Matrix2 matrix14 = new Matrix2(myArray);
+        Matrix2.subtract(matrix13, matrix14).print();
+        System.out.println();
+
+        System.out.println("21. Умножение матриц статическим методом:");
+        double[][] array4 = {{1, 2, 3}, {1, 0, -1}};
+        double[][] array5 = {{3, 4, 5}, {6, 0, -2}, {7, 1, 8}};
+
+        Matrix2 matrix15 = new Matrix2(array4);
+        matrix15.print();
+        Matrix2 matrix16 = new Matrix2(array5);
+        matrix16.print();
+       // Matrix2.multiply(matrix15, matrix16).print();
+        System.out.println();
     }
 }
