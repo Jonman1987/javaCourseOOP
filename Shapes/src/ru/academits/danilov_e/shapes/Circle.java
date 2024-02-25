@@ -7,37 +7,43 @@ public class Circle implements Shape {
         this.radius = radius;
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
     public double getRadius() {
         return radius;
     }
 
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
     public double getWidth() {
         return 2 * radius;
     }
 
+    @Override
     public double getHeight() {
         return 2 * radius;
     }
 
+    @Override
     public double getArea() {
         return Math.PI * radius * radius;
     }
+
+    @Override
 
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
 
+    @Override
     public String getName() {
         return "Круг";
     }
 
     @Override
     public String toString() {
-        return "Фигура: " + getName() + ", Площадь: " + getArea() + ", Периметр: " + getPerimeter();
+        return "Радиус: " + radius + ".";
     }
 
     @Override
@@ -50,10 +56,9 @@ public class Circle implements Shape {
             return false;
         }
 
-        Circle temp = (Circle) object;
+        Circle circle = (Circle) object;
 
-        return getWidth() == temp.getWidth() && getHeight() == temp.getHeight()
-                && getArea() == temp.getArea() && getPerimeter() == temp.getPerimeter();
+        return radius == circle.radius;
     }
 
     @Override

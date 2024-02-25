@@ -3,11 +3,7 @@ package ru.academits.danilov_e.shapes;
 public class Square implements Shape {
     private double sideLength;
 
-    public Square(double sideSize) {
-        this.sideLength = sideSize;
-    }
-
-    public void setSideLength(double sideLength) {
+    public Square(double sideLength) {
         this.sideLength = sideLength;
     }
 
@@ -15,29 +11,38 @@ public class Square implements Shape {
         return sideLength;
     }
 
+    public void setSideLength(double sideLength) {
+        this.sideLength = sideLength;
+    }
+
+    @Override
     public double getWidth() {
         return sideLength;
     }
 
+    @Override
     public double getHeight() {
         return sideLength;
     }
 
+    @Override
     public double getArea() {
         return sideLength * sideLength;
     }
 
+    @Override
     public double getPerimeter() {
         return 4 * sideLength;
     }
 
+    @Override
     public String getName() {
         return "Квадрат";
     }
 
     @Override
     public String toString() {
-        return "Фигура: " + getName() + ", Площадь: " + getArea() + ", Периметр: " + getPerimeter();
+        return "Длина стороны: " + sideLength + ".";
     }
 
     @Override
@@ -50,10 +55,9 @@ public class Square implements Shape {
             return false;
         }
 
-        Square temp = (Square) object;
+        Square square = (Square) object;
 
-        return getWidth() == temp.getWidth() && getHeight() == temp.getHeight()
-                && getArea() == temp.getArea() && getPerimeter() == temp.getPerimeter();
+        return sideLength == square.sideLength;
     }
 
     @Override
