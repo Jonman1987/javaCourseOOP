@@ -10,12 +10,32 @@ public class List {
     }
 
     public List(Object... object){
-        items = object;
+        while (object.length > items.length){
+            items = new Object[arrayDimension + 10];
+        }
+
+        System.arraycopy(object, 0, items, 0, object.length);
+
         size = object.length;
     }
 
     public int getSize() {
         return size;
+    }
+
+    public int getArrayLength(){ // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
+        // размер массива. В дальнейшем его можно удалить.
+        return items.length;
+    }
+
+    public void setArrayLength(int size){ // Данный метод использовал для отладки, чтобы задавать ситуации, когда
+        // массив сначала разрастается, а затем сильно сокращается и была возможность отследить сокращение массива.
+        // В дальнейшем его можно удалить.
+        Object[] objects = new Object[size];
+
+        System.arraycopy(items, 0, objects, 0, items.length);
+
+        items = objects;
     }
 
     public Object getFirst() {
@@ -27,11 +47,11 @@ public class List {
     }
 
     public Object get(int index) {
-        if (items.length == 0) {
+        if (size == 0) {
             throw new NullPointerException("List is empty");
         }
 
-        if (index < 0 || index >= items.length) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Invalid value of index = " + index + ". List length is " + size + ".");
         }
 
@@ -39,17 +59,12 @@ public class List {
     }
 
     public Object set(int index, Object object) { // Я так понял, что в этом методе я должен возвращать старое значение
-        if (items.length == 0) {
+        if (size == 0) {
             throw new NullPointerException("List is empty");
         }
 
-        if (index < 0 || index >= items.length) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Invalid value of index = " + index + ". List length is " + size + ".");
-        }
-
-        if (items.getClass() != object.getClass()) {
-            throw new IllegalArgumentException("Invalid value of Object type " + object.getClass() + ". List type is "
-                    + items.getClass() + ".");
         }
 
         Object listObject = items[index];
@@ -59,16 +74,15 @@ public class List {
     }
 
     public Object remove(int index) {
-        if (items.length == 0) {
+        if (size == 0) {
             throw new NullPointerException("List is empty");
         }
 
-        if (index < 0 || index >= items.length) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Invalid value of index = " + index + ". List length is " + size + ".");
         }
 
         Object removedObject = items[index];
-        ;
 
         if (index == items.length - 1) {
             items[index] = null;
@@ -84,7 +98,7 @@ public class List {
         items[items.length - 1] = null;
         size--;
 
-        if (items.length != 0 && (items.length - 1 - size > 10)) {
+        if (size != 0 && (items.length - size >= 10)) {
             Object[] smallerItems = new Object[items.length - 10];
             int j = 0;
 
@@ -102,11 +116,6 @@ public class List {
     }
 
     public void addFirst(Object object) {
-        /*if (items.getClass() != object.getClass()) {
-            throw new IllegalArgumentException("Invalid value of Object type " + object.getClass() + ". List type is "
-                    + items.getClass() + ".");
-        }*/
-
         Object[] objectArray;
 
         if (size == items.length - 1) {
@@ -124,11 +133,6 @@ public class List {
     public void add(int index, Object object) {
         if (index < 0 || index >= items.length) {
             throw new IllegalArgumentException("Invalid value of index = " + index + ". List length is " + size + ".");
-        }
-
-        if (items.getClass() != object.getClass()) {
-            throw new IllegalArgumentException("Invalid value of Object type " + object.getClass() + ". List type is "
-                    + items.getClass() + ".");
         }
 
         Object[] objectArray;
