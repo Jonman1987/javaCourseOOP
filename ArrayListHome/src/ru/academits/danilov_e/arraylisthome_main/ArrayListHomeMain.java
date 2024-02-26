@@ -10,6 +10,10 @@ public class ArrayListHomeMain {
     public static ArrayList<Integer> getArrayListWithoutRepeats(ArrayList<Integer> integerList) {
         ArrayList<Integer> integerListWithoutRepeats = new ArrayList<>();
 
+        if(integerList.isEmpty()){
+            throw new NullPointerException("Исходный массив не содержит элементов");
+        }
+
         integerListWithoutRepeats.add(integerList.getFirst());
 
         for (int i = 1; i < integerList.size(); i++) {
