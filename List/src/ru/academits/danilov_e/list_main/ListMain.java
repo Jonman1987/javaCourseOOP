@@ -8,9 +8,9 @@ public class ListMain {
     public static void main(String[] args) {
         System.out.println("1. Создаем List:");
         System.out.println("Конструктор на массиве:");
-        SinglyLinkedList<String> colorsList = new SinglyLinkedList<>(new Node<>("Синий", null), // По моему,
-                // тут вы говорили, что нужно сделать unchecked warnings?
-                new Node<>("Красный", null), new Node<>("Черный", null));
+        // По моему, тут вы говорили, что нужно сделать unchecked warnings?
+        SinglyLinkedList<String> colorsList = new SinglyLinkedList<>(new Node[]{new Node<>("Синий", null),
+                new Node<>("Красный", null), new Node<>("Черный", null)});
         System.out.println(colorsList);
         System.out.println("Размер списка: " + colorsList.getCount());
         System.out.println();
@@ -85,7 +85,7 @@ public class ListMain {
         System.out.println("Размер списка: " + colorsList.getCount());
         System.out.println();
 
-        System.out.println("9. Удаление первого узла:");
+        System.out.println("10. Удаление первого узла:");
         System.out.println("Изначальный список: " + colorsList);
         System.out.println("Размер списка: " + colorsList.getCount());
         System.out.println("Возвращаемое значение удаляемого узла: " + colorsList.deleteFirst());

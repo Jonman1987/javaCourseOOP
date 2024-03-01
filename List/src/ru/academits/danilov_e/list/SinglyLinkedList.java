@@ -9,7 +9,9 @@ public class SinglyLinkedList<T> {
         count = 1;
     }
 
-    public SinglyLinkedList(Node<T>... nodes) { // Не совсем понял, что это за замечание
+    public SinglyLinkedList(Node<T>[] nodes) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
+        // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
+        // что я могу указать через запятую разные типы объектов?
         this.head = nodes[0];
         this.head.setNext(nodes[1]);
         count = 2;
@@ -80,16 +82,16 @@ public class SinglyLinkedList<T> {
         return stringBuilder.toString();
     }
 
-    public T delete(int index){
+    public T delete(int index) {
         T deleteValue = null;
         int nodeIndex = 1;
         Node<T> currentNode;
 
-        if(index == 1){
+        if (index == 1) {
             deleteFirst();
         }
 
-        if(index == getCount()){
+        if (index == getCount()) {
             for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
                 if (nodeIndex == getCount()) {
                     currentNode.setNext(null);
@@ -113,22 +115,22 @@ public class SinglyLinkedList<T> {
         return deleteValue;
     }
 
-    public void inputFirst(Node<T> node){
+    public void inputFirst(Node<T> node) {
         Node<T> oldHead = head;
         head = node;
         head.setNext(oldHead);
         count++;
     }
 
-    public void input(int index, Node<T> node){
+    public void input(int index, Node<T> node) {
         Node<T> currentNode;
 
-        if(index == 1){
+        if (index == 1) {
             inputFirst(node);
         }
 
         int nodeIndex = 1;
-        if(index == getCount()){
+        if (index == getCount()) {
             for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
                 if (nodeIndex == getCount() - 1) {
                     currentNode.setNext(node);
@@ -156,13 +158,13 @@ public class SinglyLinkedList<T> {
         count++;
     }
 
-    public boolean deleteData(T data){
+    public boolean deleteData(T data) {
         Node<T> currentNode;
         int nodeIndex = 1;
         boolean deleteResult = false;
 
         for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            if(currentNode.getData().equals(data)){
+            if (currentNode.getData().equals(data)) {
                 delete(nodeIndex);
                 deleteResult = true;
             }
@@ -173,7 +175,7 @@ public class SinglyLinkedList<T> {
         return deleteResult;
     }
 
-    public T deleteFirst(){
+    public T deleteFirst() {
         Node<T> deletedNode = head;
         head = head.getNext();
         count--;
@@ -181,12 +183,17 @@ public class SinglyLinkedList<T> {
         return deletedNode.getData();
     }
 
-    public void unwrap(){
+    public void unwrap() {
 
     }
 
-    public SinglyLinkedList<T> copy(){
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+    public SinglyLinkedList<T> copy() {
+        Node<T> currentNode;
+        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>(head);
+
+        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
+
+        }
 
         return newSinglyLinkedList;
     }
