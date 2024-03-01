@@ -1,10 +1,10 @@
 package ru.academits.danilov_e.list;
 
-public class List<T> {
+public class Node<T> {
     private T data;
-    private List<T> next;
+    private Node<T> next;
 
-    public List(T data, List<T> next){
+    public Node(T data, Node<T> next){
         this.data = data;
         this.next = next;
     }
@@ -17,11 +17,11 @@ public class List<T> {
         this.data = data;
     }
 
-    public List<T> getNext(){
+    public Node<T> getNext(){
         return next;
     }
 
-    public void setNext(List<T> next){
+    public void setNext(Node<T> next){
         this.next = next;
     }
 }
