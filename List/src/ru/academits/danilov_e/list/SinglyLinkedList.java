@@ -5,21 +5,21 @@ public class SinglyLinkedList<T> {
     private int count;
 
     public SinglyLinkedList(Node<T> node) {
-        this.head = node;
+        head = node;
         count = 1;
     }
 
     public SinglyLinkedList(Node<T>[] nodes) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
         // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
         // что я могу указать через запятую разные типы объектов?
-        this.head = nodes[0];
-        this.head.setNext(nodes[1]);
+        head = nodes[0];
+        head.setNext(nodes[1]);
         count = 2;
 
         int nodeIndex;
         Node<T> currentElement;
 
-        for (currentElement = this.head.getNext(), nodeIndex = 2; nodeIndex < nodes.length; nodeIndex++) {
+        for (currentElement = head.getNext(), nodeIndex = 2; nodeIndex < nodes.length; nodeIndex++) {
             currentElement.setNext(nodes[nodeIndex]);
             count++;
             currentElement = currentElement.getNext();
@@ -35,6 +35,11 @@ public class SinglyLinkedList<T> {
     }
 
     public T getData(int index) {
+        if (index < count || index > count) {
+            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+                    + index + ".");
+        }
+
         T data = null;
         int nodeIndex = 1;
         Node<T> currentElement;
@@ -51,20 +56,29 @@ public class SinglyLinkedList<T> {
     }
 
     public T setData(int index, T data) {
-        T oldValue = null;
+        if (index < count || index > count) {
+            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+                    + index + ".");
+        }
+
+        if (data == null) {
+            throw new IllegalArgumentException("Input data is null.");
+        }
+
+        T oldData = null;
         int nodeIndex = 1;
         Node<T> currentNode;
 
         for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
             if (nodeIndex == index) {
-                oldValue = currentNode.getData();
+                oldData = currentNode.getData();
                 currentNode.setData(data);
             }
 
             nodeIndex++;
         }
 
-        return oldValue;
+        return oldData;
     }
 
     @Override
@@ -83,7 +97,12 @@ public class SinglyLinkedList<T> {
     }
 
     public T delete(int index) {
-        T deleteValue = null;
+        if (index < count || index > count) {
+            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+                    + index + ".");
+        }
+
+        T deleteData = null;
         int nodeIndex = 1;
         Node<T> currentNode;
 
@@ -104,7 +123,7 @@ public class SinglyLinkedList<T> {
         nodeIndex = 1;
         for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
             if (nodeIndex == index - 1) {
-                deleteValue = currentNode.getNext().getData();
+                deleteData = currentNode.getNext().getData();
                 currentNode.setNext(currentNode.getNext().getNext());
                 count--;
             }
@@ -112,10 +131,14 @@ public class SinglyLinkedList<T> {
             nodeIndex++;
         }
 
-        return deleteValue;
+        return deleteData;
     }
 
     public void inputFirst(Node<T> node) {
+        if (node == null) {
+            throw new IllegalArgumentException("Input node is null.");
+        }
+
         Node<T> oldHead = head;
         head = node;
         head.setNext(oldHead);
@@ -123,6 +146,15 @@ public class SinglyLinkedList<T> {
     }
 
     public void input(int index, Node<T> node) {
+        if (index < count || index > count) {
+            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+                    + index + ".");
+        }
+
+        if (node == null) {
+            throw new IllegalArgumentException("Input node is null.");
+        }
+
         Node<T> currentNode;
 
         if (index == 1) {
@@ -141,14 +173,14 @@ public class SinglyLinkedList<T> {
             }
         }
 
-        Node<T> oldValue;
+        Node<T> oldNode;
 
         nodeIndex = 1;
         for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
             if (nodeIndex == index - 1) {
-                oldValue = currentNode.getNext();
+                oldNode = currentNode.getNext();
                 currentNode.setNext(node);
-                node.setNext(oldValue);
+                node.setNext(oldNode);
 
             }
 
@@ -159,20 +191,24 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteData(T data) {
+        if (data == null) {
+            throw new IllegalArgumentException("Input data is null.");
+        }
+
         Node<T> currentNode;
         int nodeIndex = 1;
-        boolean deleteResult = false;
+        boolean isDeleted = false;
 
         for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
             if (currentNode.getData().equals(data)) {
                 delete(nodeIndex);
-                deleteResult = true;
+                isDeleted = true;
             }
 
             nodeIndex++;
         }
 
-        return deleteResult;
+        return isDeleted;
     }
 
     public T deleteFirst() {
