@@ -10,7 +10,8 @@ public class ListMain {
         System.out.println("Конструктор на массиве:");
         // По моему, тут вы говорили, что нужно сделать unchecked warnings?
         SinglyLinkedList<String> colorsList1 = new SinglyLinkedList<>(new Node[]{new Node<>("Синий", null),
-                new Node<>("Красный", null), new Node<>("Черный", null)});
+                new Node<>("Красный", null), new Node<>("Черный", null)}); // Я оставил ссылку
+        // на следующий элемент, на случай если мы добавляем в конструктор head другого списка. Или лучше убрать?
         System.out.println(colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
@@ -76,7 +77,7 @@ public class ListMain {
         System.out.println();
 
         System.out.println("8. Вставка элемента по номеру index:");
-        int index5 = 2;
+        int index5 = 4;
         Node<String> newNode = new Node<>("Бордовый", null);
         System.out.println("Изначальный список: " + colorsList1);
         System.out.println("Индекс узла: " + index5);
@@ -103,5 +104,22 @@ public class ListMain {
         System.out.println("Новый список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
+
+        System.out.println("11. Разворот List:");
+        SinglyLinkedList<String> colorsList3 = new SinglyLinkedList<>(new Node[]{new Node<>("Фиолетовый", null),
+                new Node<>("Желтый", null), new Node<>("Зеленый", null)});
+        System.out.println("Изначальный список: " + colorsList3);
+        System.out.println("Размер списка: " + colorsList3.getCount());
+
+        System.out.println();
+
+        System.out.println("12. Копирование List:");
+        colorsList1.inputFirst(new Node<>("Бирюзовый", null));
+        colorsList1.inputFirst(new Node<>("Оранжевый", null));
+        System.out.println("Изначальный список: " + colorsList1);
+        System.out.println("Размер списка: " + colorsList1.getCount());
+        SinglyLinkedList<String> colorsList4 = colorsList1.copy();
+        System.out.println("Новый список: " + colorsList4);
+        System.out.println("Размер списка: " + colorsList4.getCount());
     }
 }

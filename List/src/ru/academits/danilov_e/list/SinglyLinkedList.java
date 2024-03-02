@@ -35,7 +35,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T getData(int index) {
-        if (index < count || index > count) {
+        if (index < 1 || index > count) {
             throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
                     + index + ".");
         }
@@ -56,7 +56,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T setData(int index, T data) {
-        if (index < count || index > count) {
+        if (index < 1 || index > count) {
             throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
                     + index + ".");
         }
@@ -97,7 +97,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T delete(int index) {
-        if (index < count || index > count) {
+        if (index < 1 || index > count) {
             throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
                     + index + ".");
         }
@@ -146,7 +146,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void input(int index, Node<T> node) {
-        if (index < count || index > count) {
+        if (index < 1 || index > count + 1) {
             throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
                     + index + ".");
         }
@@ -156,38 +156,35 @@ public class SinglyLinkedList<T> {
         }
 
         Node<T> currentNode;
+        int nodeIndex = 1;
 
         if (index == 1) {
             inputFirst(node);
-        }
-
-        int nodeIndex = 1;
-        if (index == getCount()) {
+        } else if (index == count + 1) {
             for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-                if (nodeIndex == getCount() - 1) {
+                if (nodeIndex == count) {
                     currentNode.setNext(node);
-                    count++;
                 }
 
                 nodeIndex++;
             }
-        }
 
-        Node<T> oldNode;
+            count++;
+        } else {
+            Node<T> oldNode;
 
-        nodeIndex = 1;
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            if (nodeIndex == index - 1) {
-                oldNode = currentNode.getNext();
-                currentNode.setNext(node);
-                node.setNext(oldNode);
+            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
+                if (nodeIndex == index - 1) {
+                    oldNode = currentNode.getNext();
+                    currentNode.setNext(node);
+                    node.setNext(oldNode);
+                }
 
+                nodeIndex++;
             }
 
-            nodeIndex++;
+            count++;
         }
-
-        count++;
     }
 
     public boolean deleteData(T data) {
@@ -225,10 +222,15 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList<T> copy() {
         Node<T> currentNode;
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>(head);
+        Node<T> newHead = new Node<>(head.getData(), null);
 
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
+        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>(newHead);
+        int nodeIndex = 2;
 
+        for (currentNode = head.getNext(); currentNode != null; currentNode = currentNode.getNext()) {
+            newSinglyLinkedList.input(nodeIndex, new Node<>(currentNode.getData(), null));
+
+            nodeIndex++;
         }
 
         return newSinglyLinkedList;
