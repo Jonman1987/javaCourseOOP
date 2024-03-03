@@ -4,7 +4,13 @@ import ru.academits.danilov_e.vector.Vector;
 
 public class VectorMain {
     public static void main(String[] args) {
-        int n = 10;
+        // Вопрос: я создал переменные, которые используются в нескольких местах кода. Как лучше организовать оформление переменных?
+        // Создать блок с перечислением переменных в начале, где я перечисляю все переменные. На мой взгляд это даст
+        // удобство доступа и мне не нужно будет искать отдельно переменные в нижней единообразной части кода.
+        // Или же я должен создавать переменные в местах близких к моменту их использования?
+        int vectorDimension1 = 10;
+        int vectorDimension2 = 2;
+
         int number1 = 3;
         int number2 = -2;
 
@@ -13,7 +19,7 @@ public class VectorMain {
         double[] array3 = {6.7, -3.1, 0.0, 8.8, 2.7, 9.9, 4.2, 5.5};
 
         System.out.println("1. Конструктор Vector(n), n = 10:");
-        Vector vector1 = new Vector(n);
+        Vector vector1 = new Vector(vectorDimension1);
         System.out.println("Результат: " + vector1);
         System.out.println();
 
@@ -28,12 +34,12 @@ public class VectorMain {
         System.out.println();
 
         System.out.println("4. Конструктор Vector(n, array) при n > array.length:");
-        Vector vector4 = new Vector(n, array1);
+        Vector vector4 = new Vector(vectorDimension1, array1);
         System.out.println("Результат: " + vector4);
         System.out.println();
 
         System.out.println("5. Конструктор Vector(n, array) при n < array.length:");
-        Vector vector5 = new Vector(2, array1);
+        Vector vector5 = new Vector(vectorDimension2, array1);
         System.out.println("Результат: " + vector5);
         System.out.println();
 
@@ -97,15 +103,15 @@ public class VectorMain {
 
         System.out.println("12. Реверс вектора:");
         System.out.println("Реверсируемый вектор: " + vector3);
-        vector3.unwrap();
+        vector3.deploy();
         System.out.println("Результат: " + vector3);
         System.out.println();
 
         System.out.println("13. Получение длины вектора:");
         Vector vector9 = new Vector(array1);
-        Vector vector10 = new Vector(10, array2);
+        Vector vector10 = new Vector(vectorDimension1, array2);
         Vector vector11 = new Vector(array3);
-        Vector vector12 = new Vector(10, array3);
+        Vector vector12 = new Vector(vectorDimension1, array3);
 
         System.out.println("Обычный вектор: " + vector9);
         System.out.println("Результат: " + vector9.getLength());
@@ -117,18 +123,22 @@ public class VectorMain {
         System.out.println("Результат: " + vector12.getLength());
         System.out.println();
 
-        System.out.println("13. Редактирование компоненты вектора по ее индексу (9, 4.1):");
+        System.out.println("14. Редактирование компоненты вектора по ее индексу (9, 4.1):");
+        int index1 = 9;
+        int index2 = 2;
+        double value1 = 4.1;
         System.out.println("Вектор: " + vector10);
-        vector10.setComponent(9, 4.1);
+        vector10.setComponent(index1, value1);
         System.out.println("Результат: " + vector10);
-        System.out.println("Получение значения компоненты по индексу 2: " + vector10.getComponent(2));
+        System.out.println("Получение значения компоненты по индексу 2: " + vector10.getComponent(index2));
         System.out.println();
 
-        System.out.println("14. Метод Equals():");
-        Vector vector13 = new Vector(4);
+        System.out.println("15. Метод Equals():");
+        int vectorDimension3 = 4;
+        Vector vector13 = new Vector(vectorDimension3);
         Vector vector14 = new Vector(array1);
         Vector vector15 = new Vector(array1);
-        Vector vector16 = new Vector(10, array1);
+        Vector vector16 = new Vector(vectorDimension1, array1);
         System.out.println("Сравнение с нулевым вектором:");
         System.out.println("Вектор: " + vector13 + " и");
         System.out.println("Вектор: " + vector10);
@@ -147,14 +157,14 @@ public class VectorMain {
         System.out.println("Результат: " + vector15.equals(vector16));
         System.out.println();
 
-        System.out.println("15. Метод hashCode():");
+        System.out.println("16. Метод hashCode():");
         System.out.println("Вектор: " + vector14);
         System.out.println("Результат: " + vector14.hashCode());
         System.out.println("Вектор: " + vector2);
         System.out.println("Результат: " + vector2.hashCode());
         System.out.println();
 
-        System.out.println("16. Статический метод сложения векторов с получением нового вектора:");
+        System.out.println("17. Статический метод сложения векторов с получением нового вектора:");
         Vector vector17 = new Vector(array1);
         Vector vector18 = new Vector(array2);
         Vector vector19 = new Vector(array3);
@@ -170,7 +180,7 @@ public class VectorMain {
         System.out.println("Результат: " + vector21);
         System.out.println();
 
-        System.out.println("17. Статический метод вычитания векторов с получением нового вектора:");
+        System.out.println("18. Статический метод вычитания векторов с получением нового вектора:");
         Vector vector22 = new Vector(array1);
         Vector vector23 = new Vector(array2);
         Vector vector24 = new Vector(array3);
@@ -186,7 +196,7 @@ public class VectorMain {
         System.out.println("Результат: " + vector26);
         System.out.println();
 
-        System.out.println("17. Скалярное произведение векторов с получением нового вектора:");
+        System.out.println("19. Скалярное произведение векторов с получением нового вектора:");
         Vector vector27 = new Vector(array1);
         Vector vector28 = new Vector(array2);
         Vector vector29 = new Vector(array3);

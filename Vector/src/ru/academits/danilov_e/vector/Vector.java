@@ -78,8 +78,8 @@ public class Vector {
         }
     }
 
-    public void unwrap() {
-        this.multiply(-1);
+    public void deploy() {
+        multiply(-1);
     }
 
     public double getLength() {
@@ -95,7 +95,7 @@ public class Vector {
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
             throw new IndexOutOfBoundsException("Vector component index is " + index
-                    + ". Vector component index may belong to [0, " + (components.length - 1) + "]");
+                    + ". Vector component index must belong to [0, " + (components.length - 1) + "]");
         }
 
         return components[index];
@@ -104,7 +104,7 @@ public class Vector {
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
             throw new IndexOutOfBoundsException("Vector component index is " + index
-                    + ". Vector component index may belong to [0, " + (components.length - 1) + "]");
+                    + ". Vector component index must belong to [0, " + (components.length - 1) + "]");
         }
 
         components[index] = value;
@@ -121,10 +121,6 @@ public class Vector {
         }
 
         Vector vector = (Vector) object;
-
-        if (components.length != vector.components.length) {
-            return false;
-        }
 
         return Arrays.equals(components, vector.components);
     }
