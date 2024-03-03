@@ -40,11 +40,18 @@ public class ListMain {
         System.out.println("4. Получаем значение узла по номеру index:");
         int index1 = 3;
         int index2 = 2;
+        int index6 = 1;
         System.out.println("Изначальный список: " + colorsList1);
         System.out.println("Индекс узла: " + index1);
         System.out.println("Значение: " + colorsList1.getData(index1));
         System.out.println("Индекс узла: " + index2);
         System.out.println("Значение: " + colorsList1.getData(index2));
+        System.out.println();
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Индекс узла: " + index6);
+        System.out.println("Значение: " + colorsList2.getData(index6));
+        System.out.println("Индекс узла: " + index6);
+        System.out.println("Значение: " + colorsList2.getData(index6));
         System.out.println();
 
         System.out.println("5. Изменяем значение узла по номеру index:");
@@ -57,6 +64,14 @@ public class ListMain {
         System.out.println("Новый список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println("Индекс узла: " + index6);
+        System.out.println("Возвращаемое значение старого узла: " + colorsList2.setData(index6, "Терракотовый"));
+        System.out.println("Новое значение: " + colorsList2.getData(index6));
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println();
 
         System.out.println("6. Удаление узла по номеру index:");
         int index4 = 2;
@@ -67,6 +82,14 @@ public class ListMain {
         System.out.println("Новый список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
+        /*System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Индекс узла: " + index6);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println("Возвращаемое значение удаляемого узла: " + colorsList2.delete(index6));
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());*/
+        System.out.println("Необходимо раскомментировать код");
+        System.out.println();
 
         System.out.println("7. Вставка элемента в начало:");
         System.out.println("Изначальный список: " + colorsList1);
@@ -75,16 +98,52 @@ public class ListMain {
         System.out.println("Новый список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        colorsList2.inputFirst(new Node<>("Розовый", null));
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println();
 
         System.out.println("8. Вставка элемента по номеру index:");
         int index5 = 4;
-        Node<String> newNode = new Node<>("Бордовый", null);
+        int index7 = 2;
+        int index8 = 3;
+        int index9 = 5;
+        Node<String> newNode1 = new Node<>("Бордовый", null);
+        Node<String> newNode2 = new Node<>("Сиреневый", null);
+        Node<String> newNode3 = new Node<>("Серый", null);
+        Node<String> newNode4 = new Node<>("Белый", null);
         System.out.println("Изначальный список: " + colorsList1);
         System.out.println("Индекс узла: " + index5);
         System.out.println("Размер списка: " + colorsList1.getCount());
-        colorsList1.input(index5, newNode);
+        colorsList1.input(index5, newNode1);
         System.out.println("Новый список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
+        System.out.println();
+        System.out.println("Вставка в середину:");
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Индекс узла: " + index7);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        colorsList2.input(index7, newNode2);
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println();
+        System.out.println("Вставка предпоследним:");
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Индекс узла: " + index8);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        colorsList2.input(index8, newNode3);
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        System.out.println();
+        System.out.println("Вставка в конец:");
+        System.out.println("Изначальный список: " + colorsList2);
+        System.out.println("Индекс узла: " + index9);
+        System.out.println("Размер списка: " + colorsList2.getCount());
+        colorsList2.input(index9, newNode4);
+        System.out.println("Новый список: " + colorsList2);
+        System.out.println("Размер списка: " + colorsList2.getCount());
         System.out.println();
 
         System.out.println("9. Удаление узла по значению:");
@@ -110,7 +169,9 @@ public class ListMain {
                 new Node<>("Желтый", null), new Node<>("Зеленый", null)});
         System.out.println("Изначальный список: " + colorsList3);
         System.out.println("Размер списка: " + colorsList3.getCount());
-
+        colorsList3.deploy();
+        System.out.println("Новый список: " + colorsList3);
+        System.out.println("Размер списка: " + colorsList3.getCount());
         System.out.println();
 
         System.out.println("12. Копирование List:");

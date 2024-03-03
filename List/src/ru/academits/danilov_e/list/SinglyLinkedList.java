@@ -97,6 +97,10 @@ public class SinglyLinkedList<T> {
     }
 
     public T delete(int index) {
+        if (count == 1) {
+            throw new IllegalArgumentException("You try to delete last element");
+        }
+
         if (index < 1 || index > count) {
             throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
                     + index + ".");
@@ -216,8 +220,37 @@ public class SinglyLinkedList<T> {
         return deletedNode.getData();
     }
 
-    public void unwrap() {
+    public void deploy() {
+        Node<T> currentStartNode = null;
+        Node<T> currentNode;
+        Node<T> startNode = null;
+        int nodeCount = count;
 
+        while (nodeCount != 0) {
+            int nodeIndex = 1;
+
+            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
+                if (nodeIndex == count) {
+                    startNode = currentNode;
+                    currentStartNode = startNode;
+                } else if (nodeIndex == nodeCount) {
+                    assert startNode != null;
+                    currentNode.setNext(null);
+                    currentStartNode.setNext(currentNode);
+                    currentStartNode = startNode.getNext();
+                }
+
+                nodeIndex++;
+
+                if (nodeIndex > nodeCount) {
+                    break;
+                }
+            }
+
+            nodeCount--;
+        }
+
+        head = startNode;
     }
 
     public SinglyLinkedList<T> copy() {
