@@ -1,9 +1,13 @@
 package ru.academits.danilov_e.csv_main;
 
-import ru.academits.danilov_e.csv.Csv;
+import ru.academits.danilov_e.csv.ConverterFromCsvToHtml;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CsvMain {
-    private static String getOutputFilename(String inputFileName) {
+    private static String getOutputFileName(String inputFileName) {
+
         StringBuilder stringBuilder = new StringBuilder(inputFileName);
 
         int dotIndex = stringBuilder.indexOf(".");
@@ -13,13 +17,19 @@ public class CsvMain {
         return stringBuilder.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             System.out.println("Вы не указали файл для конвертации.");
         } else {
-            String path = args[0];
-            String outputFileName = getOutputFilename(path);
-            Csv.convert(path, outputFileName); // Я попытался поймать IOException в main, IDEA не дает это сделать
+            String fileName = args[0];
+            String outputFileName = getOutputFileName(fileName);
+            try {
+                ConverterFromCsvToHtml.convert(fileName, outputFileName);
+            } catch (FileNotFoundException e){
+                throw new FileNotFoundException("Файл не найден");
+            } catch (IOException e) {
+                throw new IOException(e);
+            }
         }
     }
 }
