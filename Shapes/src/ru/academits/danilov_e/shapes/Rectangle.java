@@ -44,7 +44,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Ширина: " + width + ", Высота: " + height + ".";
+        return getName() + ". Ширина: " + width + ", Высота: " + height + ".";
     }
 
     @Override

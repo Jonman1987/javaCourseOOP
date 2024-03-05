@@ -19,10 +19,10 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private static boolean isTriangle(double x1, double x2, double x3, double y1, double y2, double y3) {
+    private static boolean isTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         final double epsilon = 1.0e-10;
 
-        return !(Math.abs((x3 - x1) * (y2 - y1) - (x2 - x1) * (y3 - y1)) < epsilon);
+        return Math.abs((x3 - x1) * (y2 - y1) - (x2 - x1) * (y3 - y1)) >= epsilon;
     }
 
     public double getX1() {
@@ -31,7 +31,7 @@ public class Triangle implements Shape {
 
     public void setX1(double x1) {
         // Я решил добавить проверку на правильность фигуры треугольник из курса основ, чтобы оставить возможность выброса ошибки.
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X1 = " + x1 + ".");
         }
 
@@ -43,7 +43,7 @@ public class Triangle implements Shape {
     }
 
     public void setX2(double x2) {
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X2 = " + x2 + ".");
         }
 
@@ -55,7 +55,7 @@ public class Triangle implements Shape {
     }
 
     public void setX3(double x3) {
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X3 = " + x3 + ".");
         }
 
@@ -67,7 +67,7 @@ public class Triangle implements Shape {
     }
 
     public void setY1(double y1) {
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y1 = " + y1 + ".");
         }
 
@@ -79,7 +79,7 @@ public class Triangle implements Shape {
     }
 
     public void setY2(double y2) {
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y2 = " + y2 + ".");
         }
 
@@ -91,7 +91,7 @@ public class Triangle implements Shape {
     }
 
     public void setY3(double y3) {
-        if (isTriangle(x1, x2, x3, y1, y2, y3)) {
+        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y3 = " + y3 + ".");
         }
 
@@ -133,7 +133,7 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        return "(" + x1 + "; " + y1 + "), (" + x2 + "; " + y2 + "), (" + x3 + "; " + y3 + ").";
+        return getName() + ". (" + x1 + "; " + y1 + "), (" + x2 + "; " + y2 + "), (" + x3 + "; " + y3 + ").";
     }
 
     @Override
@@ -148,8 +148,9 @@ public class Triangle implements Shape {
 
         Triangle triangle = (Triangle) object;
 
-        return x1 == triangle.x1 && x2 == triangle.x2 && x3 == triangle.x3 && y1 == triangle.y1 && y2 == triangle.y2
-                && y3 == triangle.y3;
+        return x1 == triangle.x1 && y1 == triangle.y1
+                && x2 == triangle.x2 && y2 == triangle.y2
+                && x3 == triangle.x3 && y3 == triangle.y3;
     }
 
     @Override

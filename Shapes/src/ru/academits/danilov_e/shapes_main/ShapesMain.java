@@ -1,41 +1,41 @@
 package ru.academits.danilov_e.shapes_main;
 
 import ru.academits.danilov_e.shapes.*;
-import ru.academits.danilov_e.shapes_comparator.AreaComparator;
-import ru.academits.danilov_e.shapes_comparator.PerimeterComparator;
+import ru.academits.danilov_e.shapes_comparators.ShapeAreaComparator;
+import ru.academits.danilov_e.shapes_comparators.ShapePerimeterComparator;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class ShapesMain {
-    private static Shape getShapeWithAreaRating(Shape[] shapesArray, int indexFromEnd) {
-        if (shapesArray.length == 0) {
-            return null;
+    private static Shape getShapeWithAreaRating(Shape[] shapes, int indexFromEnd) {
+        if (shapes.length == 0) {
+            throw new NullPointerException("Array index is empty. Array length is " + shapes.length);
         }
 
-        if (indexFromEnd < 0 || indexFromEnd >= shapesArray.length) {
-            throw new IllegalArgumentException("Array index is " + indexFromEnd
-                    + ". Index may belong to [0, " + (shapesArray.length - 1) + "]");
+        if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
+            throw new ArrayIndexOutOfBoundsException("Array index is " + indexFromEnd
+                    + ". Index may belong to [1, " + (shapes.length) + "]");
         }
 
-        Arrays.sort(shapesArray, new AreaComparator());
+        Arrays.sort(shapes, new ShapeAreaComparator());
 
-        return shapesArray[shapesArray.length - indexFromEnd];
+        return shapes[shapes.length - indexFromEnd];
     }
 
-    private static Shape getShapeWithPerimeterRating(Shape[] shapesArray, int indexFromEnd) {
-        if (shapesArray.length == 0) {
-            return null;
+    private static Shape getShapeWithPerimeterRating(Shape[] shapes, int indexFromEnd) {
+        if (shapes.length == 0) {
+            throw new NullPointerException("Array index is empty. Array length is " + shapes.length);
         }
 
-        if (indexFromEnd < 0 || indexFromEnd >= shapesArray.length) {
-            throw new IllegalArgumentException("Array index is " + indexFromEnd
-                    + ". Index may belong to [0, " + (shapesArray.length - 1) + "]");
+        if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
+            throw new ArrayIndexOutOfBoundsException("Array index is " + indexFromEnd
+                    + ". Index may belong to [1, " + (shapes.length) + "]");
         }
 
-        Arrays.sort(shapesArray, new PerimeterComparator());
+        Arrays.sort(shapes, new ShapePerimeterComparator());
 
-        return shapesArray[shapesArray.length - indexFromEnd];
+        return shapes[shapes.length - indexFromEnd];
     }
 
     public static void main(String[] args) {
@@ -54,17 +54,11 @@ public class ShapesMain {
                 new Square(4.9)
         };
 
-        System.out.println("Список фигур с указанием размера площади и периметра:");
+        Shape foundShape = getShapeWithAreaRating(shapesArray, position);
+
+        System.out.println("Информация о полученной фигуре:");
+        System.out.println(foundShape);
         System.out.println();
-
-        for (Shape shape : shapesArray) {
-            System.out.println(shape.getName());
-            System.out.println("Площадь: " + shape.getArea());
-            System.out.println("Периметр: " + shape.getPerimeter());
-            System.out.println();
-        }
-
-        Shape findedShape = getShapeWithAreaRating(shapesArray, position);
         System.out.println("Список фигур отсортированный, по размеру площади:");
         System.out.println();
 
@@ -75,13 +69,15 @@ public class ShapesMain {
             System.out.println();
         }
 
-        System.out.println("Информация о полученной фигуре:");
-        System.out.println(findedShape);
         System.out.println();
         System.out.println("Введите значение позиции фигуры по размеру периметра в списке фигур:");
         position = scanner.nextInt();
 
-        findedShape = getShapeWithPerimeterRating(shapesArray, position);
+        foundShape = getShapeWithPerimeterRating(shapesArray, position);
+
+        System.out.println("Информация о полученной фигуре:");
+        System.out.println(foundShape);
+        System.out.println();
         System.out.println("Список отсортированных периметров фигур:");
         System.out.println();
 
@@ -92,9 +88,6 @@ public class ShapesMain {
             System.out.println();
         }
 
-        System.out.println("Информация о полученной фигуре:");
-        System.out.println(findedShape);
-
         Shape[] simpleShapesArray = {
                 new Square(2.4),
                 new Triangle(2, -3, 1, 1, -6, 5),
@@ -102,7 +95,6 @@ public class ShapesMain {
                 new Square(2.4)
         };
 
-        System.out.println();
         System.out.println("Проверка равенства фигур:");
         System.out.println();
         System.out.println("Сравнение " + simpleShapesArray[0].getName() + " и " + simpleShapesArray[3].getName());
