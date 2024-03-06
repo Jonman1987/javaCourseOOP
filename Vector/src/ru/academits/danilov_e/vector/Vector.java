@@ -78,7 +78,7 @@ public class Vector {
         }
     }
 
-    public void deploy() {
+    public void reverse() {
         multiply(-1);
     }
 

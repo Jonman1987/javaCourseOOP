@@ -103,7 +103,7 @@ public class VectorMain {
 
         System.out.println("12. Реверс вектора:");
         System.out.println("Реверсируемый вектор: " + vector3);
-        vector3.deploy();
+        vector3.reverse();
         System.out.println("Результат: " + vector3);
         System.out.println();
 
