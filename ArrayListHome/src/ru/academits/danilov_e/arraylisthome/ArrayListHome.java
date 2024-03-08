@@ -1,56 +1,65 @@
-package ru.academits.danilov_e.arraylisthome_main;
+package ru.academits.danilov_e.arraylisthome;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ArrayListHomeMain {
-    public static ArrayList<Integer> getArrayListWithoutRepeats(ArrayList<Integer> integerList) {
-        ArrayList<Integer> integerListWithoutRepeats = new ArrayList<>();
+public class ArrayListHome {
+    public static ArrayList<Integer> getListWithoutRepeats(ArrayList<Integer> integerList) {
+        ArrayList<Integer> integerListWithoutRepeats = new ArrayList<>(integerList.size());
 
-        if(integerList.isEmpty()){
-            throw new NullPointerException("Исходный массив не содержит элементов");
+        if (integerList.isEmpty()) {
+            return integerListWithoutRepeats;
         }
 
-        integerListWithoutRepeats.add(integerList.getFirst());
-
-        for (int i = 1; i < integerList.size(); i++) {
-            if (!integerListWithoutRepeats.contains(integerList.get(i))) {
-                integerListWithoutRepeats.add(integerList.get(i));
+        for (Integer arrayListElement : integerList) {
+            if (!integerListWithoutRepeats.contains(arrayListElement)) {
+                integerListWithoutRepeats.add(arrayListElement);
             }
         }
 
         return integerListWithoutRepeats;
     }
 
-    public static void addToListLinesFromFile(ArrayList<String> list, String inputPath) {
+    public static ArrayList<String> addFileLines(String inputPath) throws IOException {
         String line;
+        ArrayList<String> list = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputPath))) {
             while ((line = reader.readLine()) != null) {
                 list.add(line);
             }
-        } catch (IOException e) {
-            System.out.println("Ошибка открытия файла");
         }
+
+        return list;
     }
 
-    public static void removeEvenNumbersFromList(ArrayList<Integer> list) {
+    public static void removeEvenNumbers(ArrayList<Integer> list) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) % 2 == 0) {
-                list.remove(i); // Я прочитал, что это не безопасный способ удаления, поэтому есть предупреждение
+                list.remove(list.get(i));
             }
         }
     }
 
     public static void main(String[] args) {
-        String inputPath = "ArrayListHome/src/input.txt";
-        ArrayList<String> list = new ArrayList<>();
+        String inputFilePath = "ArrayListHome/src/input.txt";
+        ArrayList<String> list = null;
 
         System.out.println("Задача ArrayListHome пункт 1.");
-        addToListLinesFromFile(list, inputPath);
+
+        try {
+            list = addFileLines(inputFilePath);
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл " + inputFilePath + " не найден");
+        } catch (IOException e) {
+            String error = e.toString();
+            System.out.println(error);
+        }
+
         System.out.println(list);
         System.out.println();
 
@@ -60,7 +69,7 @@ public class ArrayListHomeMain {
         System.out.println("Список:");
         System.out.println(integerList);
         System.out.println("Список без четных чисел:");
-        removeEvenNumbersFromList(integerList);
+        removeEvenNumbers(integerList);
         System.out.println(integerList);
         System.out.println();
 
@@ -69,6 +78,6 @@ public class ArrayListHomeMain {
         System.out.println("Список с повторами:");
         System.out.println(integerListWithRepeats);
         System.out.println("Список без повторов:");
-        System.out.println(getArrayListWithoutRepeats(integerListWithRepeats));
+        System.out.println(getListWithoutRepeats(integerListWithRepeats));
     }
 }
