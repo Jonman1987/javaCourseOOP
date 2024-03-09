@@ -6,6 +6,25 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ArrayList<E> implements List<E> {
+    public class ArrayListIterator implements Iterator<E> {
+        private int currentIndex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex + 1 < size;
+        }
+
+        @Override
+        public E next() {
+            ++currentIndex;
+            return items[currentIndex];
+        }
+
+        public E current() { // Я так понимаю можно обойтись без этого метода, я написал его, чтобы отслеживать перемещение итератора
+            return items[currentIndex];
+        }
+    }
+
     private E[] items;
     private int size;
 
@@ -53,12 +72,18 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
+        for(int i = 0; i < size; i++){
+            if(items[i].equals(o)){
+                return true;
+            }
+        }
+
         return false;
     }
 
     @Override
-    public Iterator<E> iterator() {
-        return null;
+    public ArrayListIterator iterator() {
+        return new ArrayListIterator();
     }
 
     @Override
@@ -121,12 +146,16 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        return null;
+        return items[index];
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        // Дописать исключение
+        E oldElement = items[index];
+        items[index] = element;
+
+        return oldElement;
     }
 
     @Override
@@ -175,13 +204,38 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        return 0;
+    public int indexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
+        int index = -1;
+
+        for(int i = 0; i < size; i++){
+            if(items[i].equals(o)){
+                index = i;
+                break;
+            }
+        }
+
+        if(index == -1){
+            System.out.println("Element not found");
+        }
+
+        return index;
     }
 
     @Override
-    public int lastIndexOf(Object o) {
-        return 0;
+    public int lastIndexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
+        int index = -1;
+
+        for(int i = 0; i < size; i++){
+            if(items[i].equals(o)){
+                index = i;
+            }
+        }
+
+        if(index == -1){
+            System.out.println("Element not found");
+        }
+
+        return index;
     }
 
     @Override

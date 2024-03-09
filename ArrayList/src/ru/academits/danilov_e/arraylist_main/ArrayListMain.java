@@ -15,7 +15,9 @@ public class ArrayListMain<E> {
         System.out.println();
 
         System.out.println("2. Создание пустого ArrayList с заданным значением capacity = 20:");
-        ArrayList<String> colorList2 = new ArrayList<>(20);
+        int capacity1 = 20;
+
+        ArrayList<String> colorList2 = new ArrayList<>(capacity1);
         System.out.println("Результат:");
         System.out.println(colorList2);
         System.out.println("Размер ArrayList:");
@@ -68,6 +70,55 @@ public class ArrayListMain<E> {
         ArrayList<String> colorList4 = new ArrayList<>();
         System.out.println("Результат для пустого ArrayList = " + colorList4.isEmpty());
         System.out.println("Результат для не пустого ArrayList = " + colorList3.isEmpty());
+        System.out.println();
 
+        System.out.println("7. Проверка содержит ли ArrayList элемент:");
+        System.out.println("Результат для цвета красный: " + colorList2.contains("Красный"));
+        System.out.println("Результат для цвета розовый: " + colorList2.contains("Розовый"));
+        System.out.println();
+
+        System.out.println("8. Получение элемента ArrayList по индексу:");
+        System.out.println("ArrayList:");
+        System.out.println(colorList3);
+        System.out.println("Второй элемент: " + colorList2.get(1));
+        System.out.println();
+
+        System.out.println("9. Замена элемента ArrayList по индексу:");
+        System.out.println("ArrayList:");
+        System.out.println(colorList3);
+        int index1 = 1;
+
+        System.out.println("Заменяемый элемент: " + colorList3.set(index1, "Малиновый"));
+        System.out.println("Результат:");
+        System.out.println(colorList3);
+        System.out.println();
+
+        System.out.println("10. Получение индекса по элементу ArrayList:");
+        System.out.println("ArrayList:");
+        System.out.println(colorList3);
+        System.out.println("Индекс элемента \"Голубой\": " + colorList2.indexOf("Голубой"));
+        System.out.println();
+
+        System.out.println("11. Получение индекса последнего нахождения элемента ArrayList:");
+        int index2 = 9;
+
+        colorList3.set(index2, "Голубой");
+        System.out.println("ArrayList:");
+        System.out.println(colorList3);
+        System.out.println("Последний индекс элемента \"Голубой\": " + colorList2.lastIndexOf("Голубой"));
+        System.out.println();
+
+        System.out.println("12. Перемещение итератора по ArrayList:");
+        ArrayList<String>.ArrayListIterator iterator = colorList2.iterator();
+        System.out.println("ArrayList:");
+        System.out.println(colorList3);
+        System.out.println("Первый элемент:");
+        System.out.println(iterator.next());
+        System.out.println("Второй элемент:");
+        System.out.println(iterator.next());
+        System.out.println("Третий элемент:");
+        System.out.println(iterator.next());
+        System.out.println("Повторное обращение к третьему элементу:");
+        System.out.println(iterator.current());
     }
 }
