@@ -2,7 +2,7 @@ package ru.academits.danilov_e.arraylist_main;
 
 import ru.academits.danilov_e.arraylist.ArrayList;
 
-public class ArrayListMain<E> {
+public class ArrayListMain {
     public static void main(String[] args) {
         System.out.println("1. Создание пустого ArrayList:");
         ArrayList<String> colorList1 = new ArrayList<>();
@@ -14,7 +14,7 @@ public class ArrayListMain<E> {
         System.out.println(colorList1.getArrayLength());
         System.out.println();
 
-        int capacity1 = 20;
+        int capacity1 = 10;
         System.out.println("2. Создание пустого ArrayList с заданным значением capacity = " + capacity1 + ":");
 
         ArrayList<String> colorList2 = new ArrayList<>(capacity1);
@@ -37,6 +37,8 @@ public class ArrayListMain<E> {
         System.out.println("Размер массива под элементы:");
         System.out.println(colorList1.getArrayLength());
         System.out.println();
+
+        // toString((ArrayList<E>) colorList1); проверка
 
         System.out.println("4. Увеличение размера массива под элементы при его заполненности:");
         String color2 = "Красный";

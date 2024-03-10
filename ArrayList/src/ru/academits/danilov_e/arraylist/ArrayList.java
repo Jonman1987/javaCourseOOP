@@ -14,11 +14,11 @@ public class ArrayList<E> implements List<E> {
 
         @Override
         public E next() {
-            if(size() != countChanger){
+            if (size() != countChanger) {
                 throw new ConcurrentModificationException("Array has been changed");
             }
 
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException("The next element is null");
             }
 
@@ -45,11 +45,16 @@ public class ArrayList<E> implements List<E> {
     }
 
     public ArrayList(int capacity) {
+        if (capacity < 10 || capacity % 10 != 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 10 and a multiple of 10. Capacity is "
+                    + capacity + ".");
+        }
+
         items = (E[]) new Object[capacity];
         size = 0;
     }
 
-    public void ensureCapacity(int capacity) {
+    private void ensureCapacity(int capacity) {
         E[] array = (E[]) new Object[capacity];
 
         System.arraycopy(items, 0, array, 0, items.length);
@@ -57,7 +62,7 @@ public class ArrayList<E> implements List<E> {
         items = array;
     }
 
-    public void trimToSize(int capacity) { // Я не стал делать исключения для capacity так как пользователь напрямую
+    private void trimToSize(int capacity) { // Я не стал делать исключения для capacity так как пользователь напрямую
         // не работает со значением capacity
         if (items.length / size >= 2 && items.length != 10) {
             E[] array = (E[]) new Object[capacity];
@@ -195,7 +200,7 @@ public class ArrayList<E> implements List<E> {
         ArrayListIterator iterator = (ArrayListIterator) c.iterator();
         int addCount = 0;
 
-        for(int i = 0; i < c.size(); i++){
+        for (int i = 0; i < c.size(); i++) {
             add(i, iterator.next());
             addCount++;
         }
@@ -205,11 +210,16 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size)
+                    + "]. Index is " + index + ".");
+        }
+
         ArrayListIterator iterator = (ArrayListIterator) c.iterator();
         int addCount = 0;
         int position = index;
 
-        for(int i = 0; i < c.size(); i++){
+        for (int i = 0; i < c.size(); i++) {
             add(position, iterator.next());
             addCount++;
             position++;
@@ -246,12 +256,21 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
+                    + "]. Index is " + index + ".");
+        }
+
         return items[index];
     }
 
     @Override
     public E set(int index, E element) {
-        // Дописать исключение
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
+                    + "]. Index is " + index + ".");
+        }
+
         E oldElement = items[index];
         items[index] = element;
 
@@ -260,8 +279,8 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index >= items.length) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (items.length - 1)
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size)
                     + "]. Index is " + index + ".");
         }
 
@@ -294,13 +313,18 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
+                    + "]. Index is " + index + ".");
+        }
+
         E element;
         E[] array = (E[]) new Object[size];
         System.arraycopy(items, 0, array, 0, size);
         element = items[index];
 
         if (index == 0) {
-            if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
+            System.arraycopy(array, 1, items, 0, size - 1);
 
             items[size - 1] = null;
             size--;
@@ -347,22 +371,29 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public ListIterator<E> listIterator() {
+    public ListIterator<E> listIterator() { // Указано, что данный метод реализовывать не нужно
         return null;
     }
 
     @Override
-    public ListIterator<E> listIterator(int index) {
+    public ListIterator<E> listIterator(int index) { // Указано, что данный метод реализовывать не нужно
         return null;
     }
 
     @Override
-    public List<E> subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) { // Указано, что данный метод реализовывать не нужно
         return null;
     }
 
     @Override
-    public String toString() {
+    public String toString() { // Я пытался реализовать данный метод в main, но у меня возникла проблема со
+        // взаимоисключающими static метода в main и самого main при использовании generic. Я не понял как эту проблему решить.
+        // Если это реализовать можно и я намудрил и все предельно просто, то в целом я возьмусь переделать.
+        // Если я в main делаю метод public static String toString(ArrayList<E> arrayList), то просит сделать main not static
+        // Если делаю main not static, то просит сделать not static мой метод печати - public String toString(ArrayList<E> arrayList)
+        // Удаляю везде static, ошибки пропадают, запускаю класс - выдается ошибка
+        // Error: Main method is not static in class ru.academits.danilov_e.arraylist_main.ArrayListMain, please define the main method as:
+        // Вызов в main делаю таким toString((ArrayList<E>) colorList1);
         if (size == 0) {
             return "[]";
         }
