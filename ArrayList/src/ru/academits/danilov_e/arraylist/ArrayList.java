@@ -1,13 +1,11 @@
 package ru.academits.danilov_e.arraylist;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class ArrayList<E> implements List<E> {
     public class ArrayListIterator implements Iterator<E> {
         private int currentIndex = -1;
+        int countChanger = size();
 
         @Override
         public boolean hasNext() {
@@ -16,6 +14,14 @@ public class ArrayList<E> implements List<E> {
 
         @Override
         public E next() {
+            if(size() != countChanger){
+                throw new ConcurrentModificationException("Array has been changed");
+            }
+
+            if(!hasNext()){
+                throw new NoSuchElementException("The next element is null");
+            }
+
             ++currentIndex;
             return items[currentIndex];
         }
