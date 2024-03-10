@@ -10,7 +10,7 @@ public class Triangle implements Shape {
     private double y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-        if(!isTriangle(x1, y1, x2, y2, x3, y3)){
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X1 = " + x1 + ", Y1 = " + y1
                     + ", X2 = " + x2 + ", Y2 = " + y2 + ", X3 = " + x3 + ", Y3 = " + y3 + ".");
         }
