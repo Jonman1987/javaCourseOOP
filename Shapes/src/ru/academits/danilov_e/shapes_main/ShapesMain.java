@@ -9,10 +9,6 @@ import java.util.Scanner;
 
 public class ShapesMain {
     private static Shape getShapeWithAreaRating(Shape[] shapes, int indexFromEnd) {
-        if (shapes.length == 0) {
-            throw new NullPointerException("Array is empty. Array length is " + shapes.length);
-        }
-
         if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
             throw new ArrayIndexOutOfBoundsException("Array index is " + indexFromEnd
                     + ". Index may belong to [1, " + shapes.length + "]");
