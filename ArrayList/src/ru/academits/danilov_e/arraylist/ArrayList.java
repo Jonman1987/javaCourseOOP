@@ -51,11 +51,17 @@ public class ArrayList<E> implements List<E> {
         items = array;
     }
 
-    public void trimToSize() {
+    public void trimToSize(int capacity) {
+        if(items.length / size >= 2 && items.length != 10){
+            E[] array = (E[]) new Object[capacity];
 
+            if (size >= 0) System.arraycopy(items, 0, array, 0, size);
+
+            items = array;
+        }
     }
 
-    public int getArrayLength(){ // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
+    public int getArrayLength() { // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
         // размер массива. В дальнейшем его можно удалить.
         return items.length;
     }
@@ -72,8 +78,8 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        for(int i = 0; i < size; i++){
-            if(items[i].equals(o)){
+        for (int i = 0; i < size; i++) {
+            if (items[i].equals(o)) {
                 return true;
             }
         }
@@ -87,18 +93,25 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public Object[] toArray() { // Если честно я пытался делать cast в E[] и преобразовывать
+        // Object[] в String[], но у меня не получилось. Если можно поясните как работать в этим методом public Object[] toArray()
+        Object[] objects = new Object[size];
+
+        System.arraycopy(items, 0, objects, 0, size);
+
+        return objects;
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+
+
+        return a;
     }
 
     @Override
     public boolean add(E element) {
-        if(items.length - 1 == size){
+        if (items.length - 1 == size) {
             ensureCapacity(items.length * 2);
         }
 
@@ -111,6 +124,45 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
+        E[] array = (E[]) new Object[size];
+
+        boolean isChanged = false;
+
+        while (true){
+            System.arraycopy(items, 0, array, 0, size);
+
+            int index = this.indexOf(o);
+
+            if(index == 0){
+                if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
+
+                items[size - 1] = null;
+                isChanged = true;
+                size--;
+            }else if(index == size - 1){
+                items[size - 1] = null;
+                isChanged = true;
+                size--;
+            }else if(index != -1) {
+                System.arraycopy(array, 0, items, 0, index);
+
+                if (size - 1 - index >= 0) System.arraycopy(array, index + 1, items, index, size - 1 - index);
+
+                items[size - 1] = null;
+                isChanged = true;
+                size--;
+            }
+
+            if(index == -1 && isChanged){
+                trimToSize(items.length / 2);
+
+                return true;
+            }else if(index == -1){
+                break;
+            }
+        }
+
+
         return false;
     }
 
@@ -141,7 +193,8 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-
+        items = (E[]) new Object[10];
+        size = 0;
     }
 
     @Override
@@ -159,40 +212,34 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public void add(int index, E element){
+    public void add(int index, E element) {
         if (index < 0 || index >= items.length) {
             throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (items.length - 1)
                     + "]. Index is " + index + ".");
         }
 
-        if(items.length - 1 == size){
+        if (items.length - 1 == size) {
             ensureCapacity(items.length * 2);
         }
 
-        E[] array = items;
+        E[] array = (E[]) new Object[size];
 
-        if(index == 0){
+        System.arraycopy(items, 0, array, 0, size);
+
+        if (index == 0) {
             items[0] = element;
 
-            for (int i = 0; i < size; i++){
-                items[i + 1] = array[i];
-            }
-        }else if(index == size){
-            for (int i = 0; i < index; i++){
-                items[i + 1] = array[i];
-            }
+            System.arraycopy(array, 0, items, 1, size);
+        } else if (index == size) {
+            System.arraycopy(array, 0, items, 0, index);
 
             items[index] = element;
-        }else {
-            for (int i = 0; i < index; i++){
-                items[i + 1] = array[i];
-            }
+        } else {
+            System.arraycopy(array, 0, items, 0, index);
 
             items[index] = element;
 
-            for (int i = index; i < size; i++){
-                items[i + 1] = array[i];
-            }
+            System.arraycopy(array, index, items, index + 1, size - index);
         }
 
         size++;
@@ -207,15 +254,11 @@ public class ArrayList<E> implements List<E> {
     public int indexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
         int index = -1;
 
-        for(int i = 0; i < size; i++){
-            if(items[i].equals(o)){
+        for (int i = 0; i < size; i++) {
+            if (items[i].equals(o)) {
                 index = i;
                 break;
             }
-        }
-
-        if(index == -1){
-            System.out.println("Element not found");
         }
 
         return index;
@@ -225,13 +268,13 @@ public class ArrayList<E> implements List<E> {
     public int lastIndexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
         int index = -1;
 
-        for(int i = 0; i < size; i++){
-            if(items[i].equals(o)){
+        for (int i = 0; i < size; i++) {
+            if (items[i].equals(o)) {
                 index = i;
             }
         }
 
-        if(index == -1){
+        if (index == -1) {
             System.out.println("Element not found");
         }
 
@@ -254,15 +297,15 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public String toString(){
-        if(size == 0){
+    public String toString() {
+        if (size == 0) {
             return "[]";
         }
 
         StringBuilder stringBuilder = new StringBuilder("[");
 
         for (Object item : items) {
-            if(item != null){
+            if (item != null) {
                 stringBuilder.append(item).append(", ");
             }
         }

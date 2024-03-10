@@ -80,15 +80,17 @@ public class ArrayListMain<E> {
         System.out.println("8. Получение элемента ArrayList по индексу:");
         System.out.println("ArrayList:");
         System.out.println(colorList3);
-        System.out.println("Второй элемент: " + colorList2.get(1));
+        int index1 = 1;
+
+        System.out.println("Второй элемент: " + colorList2.get(index1));
         System.out.println();
 
         System.out.println("9. Замена элемента ArrayList по индексу:");
         System.out.println("ArrayList:");
         System.out.println(colorList3);
-        int index1 = 1;
+        int index2 = 1;
 
-        System.out.println("Заменяемый элемент: " + colorList3.set(index1, "Малиновый"));
+        System.out.println("Заменяемый элемент: " + colorList3.set(index2, "Малиновый"));
         System.out.println("Результат:");
         System.out.println(colorList3);
         System.out.println();
@@ -100,9 +102,9 @@ public class ArrayListMain<E> {
         System.out.println();
 
         System.out.println("11. Получение индекса последнего нахождения элемента ArrayList:");
-        int index2 = 9;
+        int index3 = 9;
 
-        colorList3.set(index2, "Голубой");
+        colorList3.set(index3, "Голубой");
         System.out.println("ArrayList:");
         System.out.println(colorList3);
         System.out.println("Последний индекс элемента \"Голубой\": " + colorList2.lastIndexOf("Голубой"));
@@ -120,5 +122,173 @@ public class ArrayListMain<E> {
         System.out.println(iterator.next());
         System.out.println("Повторное обращение к третьему элементу:");
         System.out.println(iterator.current());
+        System.out.println();
+
+        System.out.println("13. Очистка ArrayList:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList3);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList3.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList3.getArrayLength());
+        colorList3.clear();
+        System.out.println("Результат:");
+        System.out.println(colorList3);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList3.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList3.getArrayLength());
+        System.out.println();
+
+        System.out.println("14. Метод toArray():"); // Если честно я пытался делать cast в E[] и преобразовывать
+        // Object[] в String[], но у меня не получилось. Если можно поясните как работать в этим методом public Object[] toArray()
+        Object[] el = colorList2.toArray();
+
+        for (Object string : el) {
+            System.out.println(string);
+        }
+
+        System.out.println();
+
+        System.out.println("15. Добавление элемента \"Пурпурный\" в начало ArrayIndex по индексу:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        int index4 = 0;
+
+        colorList2.add(index4, "Пурпурный");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("16. Добавление элемента \"Бирюзовый\" в середину ArrayIndex по индексу:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        int index5 = colorList2.size() / 2;
+
+        colorList2.add(index5, "Бирюзовый");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("17. Добавление элемента \"Бежевый\" предпоследним в ArrayIndex по индексу:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        int index6 = colorList2.size() - 1;
+
+        colorList2.add(index6, "Бежевый");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("18. Добавление элемента \"Перламутровый\" в конец в ArrayIndex по индексу:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        int index7 = colorList2.size();
+
+        colorList2.add(index7, "Перламутровый");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("19. Удаление элемента \"Пурпурный\" в начале ArrayIndex по значению элемента:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+
+        colorList2.remove("Пурпурный");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("20. Удаление элемента \"Синий\" из середины ArrayIndex по значению элемента:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+
+        colorList2.remove("Синий");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("21. Удаление элемента \"Перламутровый\" с конца ArrayIndex по значению элемента:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+
+        colorList2.remove("Перламутровый");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("21. Удаление двойного элемента \"Голубой\" из ArrayIndex по значению элемента с сокращением"
+                + " длинны массива:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+
+        colorList2.remove("Голубой");
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
     }
 }
