@@ -10,6 +10,11 @@ public class Triangle implements Shape {
     private double y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+        if(!isTriangle(x1, y1, x2, y2, x3, y3)){
+            throw new IllegalArgumentException("All points lie on the same straight line. X1 = " + x1 + ", Y1 = " + y1
+                    + ", X2 = " + x2 + ", Y2 = " + y2 + ", X3 = " + x3 + ", Y3 = " + y3 + ".");
+        }
+
         this.x1 = x1;
         this.x2 = x2;
         this.x3 = x3;
@@ -31,7 +36,7 @@ public class Triangle implements Shape {
 
     public void setX1(double x1) {
         // Я решил добавить проверку на правильность фигуры треугольник из курса основ, чтобы оставить возможность выброса ошибки.
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X1 = " + x1 + ".");
         }
 
@@ -43,7 +48,7 @@ public class Triangle implements Shape {
     }
 
     public void setX2(double x2) {
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X2 = " + x2 + ".");
         }
 
@@ -55,7 +60,7 @@ public class Triangle implements Shape {
     }
 
     public void setX3(double x3) {
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. X3 = " + x3 + ".");
         }
 
@@ -67,7 +72,7 @@ public class Triangle implements Shape {
     }
 
     public void setY1(double y1) {
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y1 = " + y1 + ".");
         }
 
@@ -79,7 +84,7 @@ public class Triangle implements Shape {
     }
 
     public void setY2(double y2) {
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y2 = " + y2 + ".");
         }
 
@@ -91,7 +96,7 @@ public class Triangle implements Shape {
     }
 
     public void setY3(double y3) {
-        if (isTriangle(x1, y1, x2, y2, x3, y3)) {
+        if (!isTriangle(x1, y1, x2, y2, x3, y3)) {
             throw new IllegalArgumentException("All points lie on the same straight line. Y3 = " + y3 + ".");
         }
 

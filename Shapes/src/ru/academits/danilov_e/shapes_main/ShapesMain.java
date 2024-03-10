@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class ShapesMain {
     private static Shape getShapeWithAreaRating(Shape[] shapes, int indexFromEnd) {
         if (shapes.length == 0) {
-            throw new NullPointerException("Array index is empty. Array length is " + shapes.length);
+            throw new NullPointerException("Array is empty. Array length is " + shapes.length);
         }
 
         if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
             throw new ArrayIndexOutOfBoundsException("Array index is " + indexFromEnd
-                    + ". Index may belong to [1, " + (shapes.length) + "]");
+                    + ". Index may belong to [1, " + shapes.length + "]");
         }
 
         Arrays.sort(shapes, new ShapeAreaComparator());
@@ -25,12 +25,12 @@ public class ShapesMain {
 
     private static Shape getShapeWithPerimeterRating(Shape[] shapes, int indexFromEnd) {
         if (shapes.length == 0) {
-            throw new NullPointerException("Array index is empty. Array length is " + shapes.length);
+            throw new NullPointerException("Array is empty. Array length is " + shapes.length);
         }
 
         if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
             throw new ArrayIndexOutOfBoundsException("Array index is " + indexFromEnd
-                    + ". Index may belong to [1, " + (shapes.length) + "]");
+                    + ". Index may belong to [1, " + shapes.length + "]");
         }
 
         Arrays.sort(shapes, new ShapePerimeterComparator());
@@ -47,6 +47,7 @@ public class ShapesMain {
         Shape[] shapesArray = {
                 new Square(2.4),
                 new Triangle(2, -3, 1, 1, -6, 5),
+                // new Triangle(1, 1, 2, 2, 3, 3), проверка на isTriangle
                 new Rectangle(5.6, 10.1),
                 new Circle(4.4),
                 new Circle(2.6),
