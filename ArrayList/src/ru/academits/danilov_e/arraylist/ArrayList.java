@@ -117,7 +117,6 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) {
 
-
         return a;
     }
 

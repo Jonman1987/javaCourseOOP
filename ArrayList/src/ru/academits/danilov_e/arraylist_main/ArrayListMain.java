@@ -53,7 +53,6 @@ public class ArrayListMain {
         String color11 = "Белый";
         String color12 = "Черный";
 
-
         colorList2.add(color2);
         colorList2.add(color3);
         colorList2.add(color4);
