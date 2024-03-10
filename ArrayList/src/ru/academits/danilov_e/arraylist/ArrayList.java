@@ -247,12 +247,34 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        return null;
+        E element;
+        E[] array = (E[]) new Object[size];
+        System.arraycopy(items, 0, array, 0, size);
+        element = items[index];
+
+        if(index == 0){
+            if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
+
+            items[size - 1] = null;
+            size--;
+        }else if(index == size - 1){
+            items[size - 1] = null;
+            size--;
+        }else {
+            System.arraycopy(array, 0, items, 0, index);
+
+            if (size - 1 - index >= 0) System.arraycopy(array, index + 1, items, index, size - 1 - index);
+
+            items[size - 1] = null;
+            size--;
+        }
+
+        return element;
     }
 
     @Override
     public int indexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
-        int index = -1;
+        int index = -1; // Предположил, что нужно возвращать отрицательное значение
 
         for (int i = 0; i < size; i++) {
             if (items[i].equals(o)) {
@@ -266,16 +288,12 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
-        int index = -1;
+        int index = -1; // Предположил, что нужно возвращать отрицательное значение
 
         for (int i = 0; i < size; i++) {
             if (items[i].equals(o)) {
                 index = i;
             }
-        }
-
-        if (index == -1) {
-            System.out.println("Element not found");
         }
 
         return index;
