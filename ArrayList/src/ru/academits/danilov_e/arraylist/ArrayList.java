@@ -51,8 +51,9 @@ public class ArrayList<E> implements List<E> {
         items = array;
     }
 
-    public void trimToSize(int capacity) {
-        if(items.length / size >= 2 && items.length != 10){
+    public void trimToSize(int capacity) { // Я не стал делать исключения для capacity так как пользователь напрямую
+        // не работает со значением capacity
+        if (items.length / size >= 2 && items.length != 10) {
             E[] array = (E[]) new Object[capacity];
 
             if (size >= 0) System.arraycopy(items, 0, array, 0, size);
@@ -128,22 +129,22 @@ public class ArrayList<E> implements List<E> {
 
         boolean isChanged = false;
 
-        while (true){
+        while (true) {
             System.arraycopy(items, 0, array, 0, size);
 
             int index = this.indexOf(o);
 
-            if(index == 0){
+            if (index == 0) {
                 if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
 
                 items[size - 1] = null;
                 isChanged = true;
                 size--;
-            }else if(index == size - 1){
+            } else if (index == size - 1) {
                 items[size - 1] = null;
                 isChanged = true;
                 size--;
-            }else if(index != -1) {
+            } else if (index != -1) {
                 System.arraycopy(array, 0, items, 0, index);
 
                 if (size - 1 - index >= 0) System.arraycopy(array, index + 1, items, index, size - 1 - index);
@@ -153,37 +154,77 @@ public class ArrayList<E> implements List<E> {
                 size--;
             }
 
-            if(index == -1 && isChanged){
+            if (index == -1 && isChanged) {
                 trimToSize(items.length / 2);
 
                 return true;
-            }else if(index == -1){
+            } else if (index == -1) {
                 break;
             }
         }
-
 
         return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        ArrayListIterator iterator = iterator();
+        int matchCount = 0;
+
+        while (true) {
+            if (c.contains(iterator.next())) {
+                matchCount++;
+            } else {
+                if (!iterator.hasNext()) {
+                    break;
+                }
+            }
+        }
+
+        return matchCount == c.size();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
+        int addCount = 0;
+
+        for(int i = 0; i < c.size(); i++){
+            add(i, iterator.next());
+            addCount++;
+        }
+
+        return size - addCount == c.size();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
+        int addCount = 0;
+        int position = index;
+
+        for(int i = 0; i < c.size(); i++){
+            add(position, iterator.next());
+            addCount++;
+            position++;
+        }
+
+        return size - addCount == c.size();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
+        int removedCount = 0;
+
+        do {
+            if (remove(iterator.next())) {
+                removedCount++;
+            }
+
+        } while (iterator.hasNext());
+
+        return removedCount > 0;
     }
 
     @Override
@@ -252,15 +293,15 @@ public class ArrayList<E> implements List<E> {
         System.arraycopy(items, 0, array, 0, size);
         element = items[index];
 
-        if(index == 0){
+        if (index == 0) {
             if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
 
             items[size - 1] = null;
             size--;
-        }else if(index == size - 1){
+        } else if (index == size - 1) {
             items[size - 1] = null;
             size--;
-        }else {
+        } else {
             System.arraycopy(array, 0, items, 0, index);
 
             if (size - 1 - index >= 0) System.arraycopy(array, index + 1, items, index, size - 1 - index);

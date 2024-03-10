@@ -374,5 +374,157 @@ public class ArrayListMain<E> {
         System.out.println("Размер массива под элементы:");
         System.out.println(colorList2.getArrayLength());
         System.out.println();
+
+        System.out.println("25. Проверка совпадения коллекции в ArrayList полном совпадении:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color25 = "Желтый";
+        String color26 = "Серый";
+
+        ArrayList<String> colorList5 = new ArrayList<>();
+        colorList5.add(color25);
+        colorList5.add(color26);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList5);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList5.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList5.getArrayLength());
+        System.out.println("Результат: " + colorList2.containsAll(colorList5));
+        System.out.println();
+
+        System.out.println("26. Проверка совпадения коллекции в ArrayList при частичном совпадении:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color27 = "Желтый";
+        String color28 = "Сливовый";
+
+        ArrayList<String> colorList6 = new ArrayList<>();
+        colorList6.add(color27);
+        colorList6.add(color28);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList6);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList6.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList6.getArrayLength());
+        System.out.println("Результат: " + colorList2.containsAll(colorList6));
+        System.out.println();
+
+        System.out.println("27. Проверка совпадения коллекции в ArrayList при отсутствии совпадении:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color29 = "Золотой";
+        String color30 = "Сливовый";
+
+        ArrayList<String> colorList7 = new ArrayList<>();
+        colorList7.add(color29);
+        colorList7.add(color30);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList7);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList7.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList7.getArrayLength());
+        System.out.println("Результат: " + colorList2.containsAll(colorList7));
+        System.out.println();
+
+        System.out.println("28. Добавляем коллекцию в начало ArrayList:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color31 = "Золотой";
+        String color32 = "Сливовый";
+
+        ArrayList<String> colorList8 = new ArrayList<>();
+        colorList8.add(color31);
+        colorList8.add(color32);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList8);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList8.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList8.getArrayLength());
+        colorList2.addAll(colorList8);
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("29. Добавляем коллекцию в ArrayList с индекса:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color33 = "Серебряный";
+        String color34 = "Кирпичный";
+        int index11 = 2;
+
+        ArrayList<String> colorList9 = new ArrayList<>();
+        colorList9.add(color33);
+        colorList9.add(color34);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList9);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList9.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList9.getArrayLength());
+        System.out.println("Индекс начальной позиции: " + index11);
+        colorList2.addAll(index11, colorList9);
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
+
+        System.out.println("30. Удаление коллекции в ArrayList с индекса при полном совпадении:");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        String color35 = "Серебряный";
+        String color36 = "Кирпичный";
+
+        ArrayList<String> colorList10 = new ArrayList<>();
+        colorList10.add(color35);
+        colorList10.add(color36);
+        System.out.println("Искомая коллекция:");
+        System.out.println(colorList10);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList10.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList10.getArrayLength());
+        colorList2.removeAll(colorList10);
+        System.out.println("Результат:");
+        System.out.println(colorList2);
+        System.out.println("Размер ArrayList:");
+        System.out.println(colorList2.size());
+        System.out.println("Размер массива под элементы:");
+        System.out.println(colorList2.getArrayLength());
+        System.out.println();
     }
 }
