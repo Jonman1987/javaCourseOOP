@@ -117,6 +117,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) {
 
+
         return a;
     }
 
@@ -244,7 +245,25 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
+        boolean isHasRemoved = false;
+        ArrayList<E> arrayList = new ArrayList<>();
+
+        do {
+            E element = iterator.next();
+
+            if (contains(element)) {
+                arrayList.add(element);
+                isHasRemoved = true;
+            }
+        } while (iterator.hasNext());
+
+        if(isHasRemoved){
+            items = arrayList.items;
+            size = arrayList.size;
+        }
+
+        return isHasRemoved;
     }
 
     @Override
