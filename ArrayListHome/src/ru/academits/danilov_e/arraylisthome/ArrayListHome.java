@@ -11,56 +11,51 @@ public class ArrayListHome {
     public static ArrayList<Integer> getListWithoutRepeats(ArrayList<Integer> integerList) {
         ArrayList<Integer> integerListWithoutRepeats = new ArrayList<>(integerList.size());
 
-        if (integerList.isEmpty()) {
-            return integerListWithoutRepeats;
-        }
-
-        for (Integer arrayListElement : integerList) {
-            if (!integerListWithoutRepeats.contains(arrayListElement)) {
-                integerListWithoutRepeats.add(arrayListElement);
+        for (Integer element : integerList) {
+            if (!integerListWithoutRepeats.contains(element)) {
+                integerListWithoutRepeats.add(element);
             }
         }
 
         return integerListWithoutRepeats;
     }
 
-    public static ArrayList<String> addFileLines(String inputPath) throws IOException {
-        String line;
-        ArrayList<String> list = new ArrayList<>();
+    public static ArrayList<String> readFile(String inputFilePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
+            String line;
+            ArrayList<String> list = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputPath))) {
             while ((line = reader.readLine()) != null) {
                 list.add(line);
             }
-        }
 
-        return list;
+            return list;
+        }
     }
 
-    public static void removeEvenNumbers(ArrayList<Integer> list) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) % 2 == 0) {
-                list.remove(list.get(i));
+    public static void removeEvenNumbers(ArrayList<Integer> numbers) {
+        for (int i = 0; i < numbers.size(); i++) {
+            if (numbers.get(i) % 2 == 0) {
+                numbers.remove(i);
+                i--;
             }
         }
     }
 
     public static void main(String[] args) {
         String inputFilePath = "ArrayListHome/src/input.txt";
-        ArrayList<String> list = null;
 
         System.out.println("Задача ArrayListHome пункт 1.");
 
         try {
-            list = addFileLines(inputFilePath);
+            ArrayList<String> stringList = readFile(inputFilePath);
+            System.out.println(stringList);
         } catch (FileNotFoundException e) {
             System.out.println("Файл " + inputFilePath + " не найден");
         } catch (IOException e) {
-            String error = e.toString();
-            System.out.println(error);
+            System.out.println("Ошибка чтения из файла " + inputFilePath);
         }
 
-        System.out.println(list);
         System.out.println();
 
         System.out.println("Задача ArrayListHome пункт 2.");
