@@ -15,25 +15,24 @@ public class ConverterFromCsvToHtml {
     private static void printHeader(PrintWriter printWriter) {
         printWriter.println("<!DOCTYPE html>");
         printWriter.println("<html lang=\"en\">");
-        printWriter.println("\t<head>");
-        printWriter.println("\t\t<meta charset=\"utf-8\">");
-        printWriter.println("\t\t<title>Задача CSV</title>");
+        printWriter.println("<head>");
+        printWriter.println("\t<meta charset=\"utf-8\">");
+        printWriter.println("\t<title>Задача CSV</title>");
         printWriter.println("</head>");
-        printWriter.println();
         printWriter.println("<body>");
         printWriter.println("\t<table border = \"1\">");
     }
 
     private static void printTable(PrintWriter printWriter, BufferedReader reader) throws IOException {
         String line;
-        boolean isTableLineOpen = false;
+        boolean isTableRowOpen = false;
         boolean isTableCellOpen = false;
         boolean isQuotesOpen = false;
 
         while ((line = reader.readLine()) != null) {
-            if (!isTableLineOpen) {
+            if (!isTableRowOpen) {
                 printWriter.println("\t\t<tr>");
-                isTableLineOpen = true;
+                isTableRowOpen = true;
             }
 
             for (int i = 0; i < line.length(); i++) {
@@ -105,7 +104,7 @@ public class ConverterFromCsvToHtml {
                 printWriter.println("</td>");
                 isTableCellOpen = false;
                 printWriter.println("\t\t</tr>");
-                isTableLineOpen = false;
+                isTableRowOpen = false;
             } else {
                 printWriter.print("<br/>");
             }
