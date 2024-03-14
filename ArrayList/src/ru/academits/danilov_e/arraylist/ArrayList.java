@@ -116,7 +116,23 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
+        T[] array;
 
+        if(size + a.length < items.length){
+            array = (T[]) new Object[items.length];
+        }else if(size + a.length < a.length ){
+            array = (T[]) new Object[a.length];
+        }else {
+            array = (T[]) new Object[a.length + items.length];
+        }
+
+        for(int i = 0; i < size + array.length; i++){
+            if(i < size){
+                array[i] = (T) items[i];
+            }else{
+
+            }
+        }
 
         return a;
     }
@@ -362,8 +378,8 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public int indexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
-        int index = -1; // Предположил, что нужно возвращать отрицательное значение
+    public int indexOf(Object o) {
+        int index = -1;
 
         for (int i = 0; i < size; i++) {
             if (items[i].equals(o)) {
@@ -376,8 +392,8 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public int lastIndexOf(Object o) { // Не совсем понял как поступить в случае если элемент не найден
-        int index = -1; // Предположил, что нужно возвращать отрицательное значение
+    public int lastIndexOf(Object o) {
+        int index = -1;
 
         for (int i = 0; i < size; i++) {
             if (items[i].equals(o)) {
@@ -404,14 +420,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public String toString() { // Я пытался реализовать данный метод в main, но у меня возникла проблема со
-        // взаимоисключающими static метода в main и самого main при использовании generic. Я не понял как эту проблему решить.
-        // Если это реализовать можно и я намудрил и все предельно просто, то в целом я возьмусь переделать.
-        // Если я в main делаю метод public static String toString(ArrayList<E> arrayList), то просит сделать main not static
-        // Если делаю main not static, то просит сделать not static мой метод печати - public String toString(ArrayList<E> arrayList)
-        // Удаляю везде static, ошибки пропадают, запускаю класс - выдается ошибка
-        // Error: Main method is not static in class ru.academits.danilov_e.arraylist_main.ArrayListMain, please define the main method as:
-        // Вызов в main делаю таким toString((ArrayList<E>) colorList1);
+    public String toString() {
         if (size == 0) {
             return "[]";
         }

@@ -3,6 +3,21 @@ package ru.academits.danilov_e.arraylist_main;
 import ru.academits.danilov_e.arraylist.ArrayList;
 
 public class ArrayListMain {
+    public static String toString(ArrayList<?> arrayList) {
+        if (arrayList.isEmpty()) {
+            return "[]";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        for (Object item : arrayList) {
+            if (item != null) {
+                stringBuilder.append(item).append(", ");
+            }
+        }
+
+        return stringBuilder.deleteCharAt(stringBuilder.length() - 1).deleteCharAt(stringBuilder.length() - 1).append(']').toString();
+    }
     public static void main(String[] args) {
         System.out.println("1. Создание пустого ArrayList:");
         ArrayList<String> colorList1 = new ArrayList<>();
@@ -38,7 +53,7 @@ public class ArrayListMain {
         System.out.println(colorList1.getArrayLength());
         System.out.println();
 
-        // toString((ArrayList<E>) colorList1); проверка
+        System.out.println(toString(colorList1)); //проверка
 
         System.out.println("4. Увеличение размера массива под элементы при его заполненности:");
         String color2 = "Красный";
