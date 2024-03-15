@@ -430,21 +430,4 @@ public class ArrayList<E> implements List<E> {
     public List<E> subList(int fromIndex, int toIndex) { // Указано, что данный метод реализовывать не нужно
         return null;
     }
-
-    @Override
-    public String toString() {
-        if (size == 0) {
-            return "[]";
-        }
-
-        StringBuilder stringBuilder = new StringBuilder("[");
-
-        for (Object item : items) {
-            if (item != null) {
-                stringBuilder.append(item).append(", ");
-            }
-        }
-
-        return stringBuilder.deleteCharAt(stringBuilder.length() - 1).deleteCharAt(stringBuilder.length() - 1).append(']').toString();
-    }
 }
