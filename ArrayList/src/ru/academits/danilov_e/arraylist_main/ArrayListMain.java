@@ -2,6 +2,8 @@ package ru.academits.danilov_e.arraylist_main;
 
 import ru.academits.danilov_e.arraylist.ArrayList;
 
+import java.util.Arrays;
+
 public class ArrayListMain {
     public static String toString(ArrayList<?> arrayList) {
         if (arrayList.isEmpty()) {
@@ -18,6 +20,7 @@ public class ArrayListMain {
 
         return stringBuilder.deleteCharAt(stringBuilder.length() - 1).deleteCharAt(stringBuilder.length() - 1).append(']').toString();
     }
+
     public static void main(String[] args) {
         System.out.println("1. Создание пустого ArrayList:");
         ArrayList<String> colorList1 = new ArrayList<>();
@@ -605,5 +608,15 @@ public class ArrayListMain {
         System.out.println("Размер массива под элементы:");
         System.out.println(colorList2.getArrayLength());
         System.out.println();
+
+        System.out.println("33. Функция public <T> T[] toArray(T[] a):");
+        System.out.println("Исходный ArrayList:");
+        System.out.println(colorList2);
+        System.out.println("Случай с созданием нового массива:");
+        String[] colorArray1 = {"Мятный", "Чайный", "Стальной"};
+        System.out.println(Arrays.toString(colorList2.toArray(colorArray1)));
+        System.out.println("Случай с использованием старого массива:");
+        String[] colorArray2 = {"Горчичный", "Смородиновый", "Угольный", null, null, null, null, null};
+        System.out.println(Arrays.toString(colorList2.toArray(colorArray2)));
     }
 }

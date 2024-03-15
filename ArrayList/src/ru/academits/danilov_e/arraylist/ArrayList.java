@@ -1,11 +1,10 @@
 package ru.academits.danilov_e.arraylist;
-
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
     public class ArrayListIterator implements Iterator<E> {
         private int currentIndex = -1;
-        int countChanger = size();
+        int countChanger = size;
 
         @Override
         public boolean hasNext() {
@@ -14,7 +13,7 @@ public class ArrayList<E> implements List<E> {
 
         @Override
         public E next() {
-            if (size() != countChanger) {
+            if (size != countChanger) {
                 throw new ConcurrentModificationException("Array has been changed");
             }
 
@@ -105,8 +104,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public Object[] toArray() { // Если честно я пытался делать cast в E[] и преобразовывать
-        // Object[] в String[], но у меня не получилось. Если можно поясните как работать в этим методом public Object[] toArray()
+    public Object[] toArray() {
         Object[] objects = new Object[size];
 
         System.arraycopy(items, 0, objects, 0, size);
@@ -116,25 +114,39 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        T[] array;
+        int arraySize = 0;
 
-        if(size + a.length < items.length){
-            array = (T[]) new Object[items.length];
-        }else if(size + a.length < a.length ){
-            array = (T[]) new Object[a.length];
-        }else {
-            array = (T[]) new Object[a.length + items.length];
-        }
-
-        for(int i = 0; i < size + array.length; i++){
-            if(i < size){
-                array[i] = (T) items[i];
-            }else{
-
+        for (T t : a) {
+            if (t != null) {
+                arraySize++;
             }
         }
 
-        return a;
+        if (size + arraySize <= a.length) {
+            T[] items = (T[]) toArray();
+
+            for (int i = 0; i < items.length; i++) {
+                a[arraySize + i] = items[i];
+            }
+
+            return a;
+        }
+
+        T[] array = (T[]) new Object[size + arraySize];
+        int j = 0;
+
+        for (int i = 0; i < size + arraySize; i++) {
+            if (i < arraySize) {
+                array[i] = a[i];
+
+                continue;
+            }
+
+            array[i] = (T) items[j];
+            j++;
+        }
+
+        return array;
     }
 
     @Override
@@ -227,7 +239,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size)
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + size
                     + "]. Index is " + index + ".");
         }
 
@@ -274,7 +286,7 @@ public class ArrayList<E> implements List<E> {
             }
         } while (iterator.hasNext());
 
-        if(isHasRemoved){
+        if (isHasRemoved) {
             items = arrayList.items;
             size = arrayList.size;
         }
@@ -314,7 +326,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size)
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + size
                     + "]. Index is " + index + ".");
         }
 
