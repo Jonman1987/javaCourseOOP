@@ -46,5 +46,63 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable1.toArray()));
         System.out.println("Размер таблицы: " + colorsTable1.tableLength());
         System.out.println();
+
+        System.out.println("4. Добавление элементов в таблицу при ее заполненности:");
+        System.out.println("В данном пункте я пытался всячески отловить перемещения элементов по таблице в зависимости " +
+                "от изменения размерности и отследить изменения хэша элемента в зависимости от размера таблицы.");
+        String color7 = "Розовый";
+        int capacity2 = 1;
+        HashTable<String> colorsTable3 = new HashTable<>(color7, capacity2);
+        System.out.println("Хэш элемента " + color7 + " с учетом размера таблицы: " + color7.hashCode() % colorsTable3.tableLength());
+        System.out.println("Позиция элемента " + color7 + " в таблице: " + colorsTable3.tableIndex(color7));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
+
+        System.out.println("Добавление элемента \"Золотой\":");
+        String color8 = "Золотой";
+        colorsTable3.add(color8);
+        System.out.println("Позиция элемента " + color7 + " в таблице: " + colorsTable3.tableIndex(color7));
+        System.out.println("Хэш элемента " + color8 + " с учетом размера таблицы: " + color8.hashCode() % colorsTable3.tableLength());
+        System.out.println("Позиция элемента " + color8 + " в таблице: " + colorsTable3.tableIndex(color8));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
+
+        System.out.println("Добавление элемента " + color1 + ":");
+        colorsTable3.add(color1);
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
+
+        System.out.println("Добавление элемента " + color2 + ":");
+        colorsTable3.add(color2);
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
+
+        System.out.println("Добавление элемента " + color3 + ":");
+        colorsTable3.add(color3);
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
+
+        System.out.println("Добавление элемента " + color4 + ":");
+        colorsTable3.add(color4);
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
     }
 }
