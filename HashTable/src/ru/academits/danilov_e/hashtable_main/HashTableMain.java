@@ -104,5 +104,34 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println("Размер таблицы: " + colorsTable3.tableLength());
         System.out.println();
+
+        System.out.println("5. Проверка содержит ли таблица элемент:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Элемент: " + color2);
+        System.out.println("Результат: " + colorsTable3.contains(color2));
+        System.out.println("Элемент: " + color1);
+        System.out.println("Результат: " + colorsTable3.contains(color1));
+        String color9 = "Серый";
+        System.out.println("Элемент: " + color9);
+        System.out.println("Результат: " + colorsTable3.contains(color9));
+        System.out.println();
+
+        System.out.println("6. Удаление элемента из таблицы:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Элемент: " + color1);
+        System.out.println("Результат: " + colorsTable3.remove(color1));
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println();
+
+        System.out.println("Элемент: " + color8);
+        System.out.println("Результат: " + colorsTable3.remove(color8));
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
     }
 }

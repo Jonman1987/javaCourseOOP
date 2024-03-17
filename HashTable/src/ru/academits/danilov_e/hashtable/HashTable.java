@@ -64,15 +64,15 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].size() > 1) {
-                for (Iterator<T> iterator = items[i].iterator(); iterator.hasNext(); ) {
-                    if (iterator.next().equals(o)) {
-                        return true;
-                    }
-                }
-            } else if (items[i] != null) {
-                if (items[i].equals(o)) {
+        int index = Math.abs(o.hashCode() % items.length);
+
+        if(items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)){
+            return true;
+        }
+
+        if(items[index] != null && items[index].size() > 1){
+            for (Iterator<T> iterator = items[index].iterator(); iterator.hasNext(); ) {
+                if(iterator.next().equals(o)){
                     return true;
                 }
             }
@@ -141,20 +141,13 @@ public class HashTable<T> implements Collection<T> {
                             if (itemsArray[index] != null) {
                                 itemsArray[index].add(element);
                             } else {
-                                // Мне пришлось прибегнуть к такой конструкции
                                 LinkedList<T> list = new LinkedList<>();
                                 itemsArray[index] = list;
                                 itemsArray[index].add(element);
-                                // Так как при использовании команды
-                                // itemsArray[index] = (LinkedList<T>) iterator.next();
-                                // 85 строка в файле HashTableMain давала ошибку ClassCastExсeption и я не смог
-                                // разобраться почему у меня получается в рабочем режиме добавить 2 цвета, но
-                                // происходит падение при 3м добавлении цвета. При этом на отладке иногда класс
-                                // отрабатывает нормально, а иногда падает. Я не смог отловить ошибку.
                             }
                         }
                     } else {
-                        index = Math.abs(items[i].hashCode() % itemsArray.length);
+                        index = Math.abs(items[i].getFirst().hashCode() % itemsArray.length);
 
                         if (itemsArray[index] != null) {
                             itemsArray[index].add(items[i].getFirst());
@@ -186,6 +179,30 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object o) {
+        int index = Math.abs(o.hashCode() % items.length);
+
+        if(items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)){
+            items[index] = null;
+            size--;
+
+            return true;
+        }
+
+        if(items[index] != null && items[index].size() > 1){
+            int iteratorIndex = 0;
+
+            for (Iterator<T> iterator = items[index].iterator(); iterator.hasNext(); ) {
+                if(iterator.next().equals(o)){
+                    items[index].remove(iteratorIndex);
+                    size--;
+
+                    return true;
+                }
+
+                iteratorIndex++;
+            }
+        }
+
         return false;
     }
 
