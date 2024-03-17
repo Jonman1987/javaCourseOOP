@@ -3,6 +3,7 @@ package ru.academits.danilov_e.hashtable_main;
 import ru.academits.danilov_e.hashtable.HashTable;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class HashTableMain {
     public static void main(String[] args) {
@@ -156,7 +157,51 @@ public class HashTableMain {
         System.out.println("Третий элемент таблицы: " + hashTableIterator.next());
         System.out.println();
 
+        System.out.println("8. Вхождение коллекции:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        LinkedList<String> stringLinkedList1 = new LinkedList<>();
+        stringLinkedList1.add("Черный");
+        stringLinkedList1.add("Белый");
+        System.out.println("Коллекция:");
+        System.out.println(stringLinkedList1);
+        System.out.println("Результат: " + colorsTable3.containsAll(stringLinkedList1));
+        stringLinkedList1.add("Сизый");
+        System.out.println("Коллекция:");
+        System.out.println(stringLinkedList1);
+        System.out.println("Результат: " + colorsTable3.containsAll(stringLinkedList1));
+        System.out.println();
 
+        System.out.println("9. Добавление коллекции:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        LinkedList<String> stringLinkedList2 = new LinkedList<>();
+        stringLinkedList2.add("Малиновый");
+        stringLinkedList2.add("Бирюзовый");
+        stringLinkedList2.add("Гранатовый");
+        stringLinkedList2.add("Оранжевый");
+        stringLinkedList2.add("Голубой");
+        System.out.println("Коллекция:");
+        System.out.println(stringLinkedList2);
+        System.out.println("Результат: " + colorsTable3.addAll(stringLinkedList2));
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
+        System.out.println("Размер таблицы: " + colorsTable3.tableLength());
 
+        System.out.println("10. Удаление коллекции:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        LinkedList<String> stringLinkedList3 = new LinkedList<>();
+        stringLinkedList3.add("Черный");
+        stringLinkedList3.add("Белый");
+        stringLinkedList3.add("Голубой");
+        System.out.println("Коллекция:");
+        System.out.println(stringLinkedList3);
+        System.out.println("Результат: " + colorsTable3.removeAll(stringLinkedList3));
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
     }
 }

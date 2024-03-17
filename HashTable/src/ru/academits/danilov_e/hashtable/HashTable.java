@@ -5,7 +5,7 @@ import java.util.*;
 public class HashTable<T> implements Collection<T> {
     public class HashTableIterator implements Iterator<T> {
         private int currentIndex = -1;
-        private int currentListIndex = 0;
+        private int currentListIndex = -1;
         int countChanger = size;
         int listChanger;
 
@@ -30,13 +30,19 @@ public class HashTable<T> implements Collection<T> {
                 ++currentIndex;
             }
 
+            if(items[currentIndex].size() > 1){
+                currentListIndex = 0;
+            }else {
+                currentListIndex = -1;
+            }
+
             listChanger = items[currentIndex].size();
 
             return items[currentIndex].getFirst();
         }
 
         public boolean hasNextList() {
-            return currentListIndex + 1 <= items[currentIndex].size();
+            return currentListIndex + 1 < items[currentIndex].size();
         }
 
         public T nextListElement() {
@@ -44,11 +50,11 @@ public class HashTable<T> implements Collection<T> {
                 throw new ConcurrentModificationException("Array has been changed");
             }
 
-            ++currentListIndex;
-
             if(!hasNextList()){
                 throw new NoSuchElementException("The next element is null");
             }
+
+            ++currentListIndex;
 
             return items[currentIndex].get(currentListIndex);
         }
@@ -300,22 +306,71 @@ public class HashTable<T> implements Collection<T> {
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
-        return false;
+    public boolean containsAll(Collection<?> c) { // По идее, наверное более правильно искать коллекцию в таблице, а
+        // не наоборот. Но мне тогда не понятно для чего нужен итератор таблицы, если мы будем использовать итератор
+        // коллекции. Я реализовал поиск таблицы в коллекции. Могу переделать в обратный вариант.
+        int matchCount = 0;
+        HashTableIterator hashTableIterator = (HashTableIterator) iterator();
+
+        while (true){
+            if(hashTableIterator.hasNext()){
+                T element = hashTableIterator.next();
+
+                if(c.contains(element)){
+                    matchCount++;
+
+                    while (true){
+                        if(hashTableIterator.hasNextList()){
+                            T element2 = hashTableIterator.nextListElement();
+
+                            if(c.contains(element2)){
+                                matchCount++;
+                            }
+                        }else {
+                            break;
+                        }
+                    }
+
+                }
+            }else {
+                break;
+            }
+        }
+
+        return matchCount == c.size();
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        int oldSize = size;
+
+        for (T t : c) {
+            add(t);
+        }
+
+        return size - oldSize == c.size();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        int oldSize = size;
+
+        for (Object object : c) {
+            remove(object);
+        }
+
+        return oldSize - size == c.size();
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
+        Iterator<?> iterator = c.iterator();
+
+        while (iterator.hasNext()){
+
+        }
+
+
         return false;
     }
 
