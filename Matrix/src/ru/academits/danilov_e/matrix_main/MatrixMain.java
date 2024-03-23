@@ -80,7 +80,7 @@ public class MatrixMain {
         System.out.println();
 
         System.out.println("10. Получение вектора-столбца матрицы из примера 9 по индексу 1:");
-        System.out.println(matrix1.getColumnArray(1));
+        System.out.println(matrix1.getColumn(1));
         System.out.println();
 
         System.out.println("11. Транспонирование матрицы из примера 4:");
@@ -111,7 +111,7 @@ public class MatrixMain {
         System.out.println();
 
         System.out.println("15. Умножение матрицы из пункта 12 на вектор из пункта 10:");
-        Vector vector4 = matrix1.getColumnArray(1);
+        Vector vector4 = matrix1.getColumn(1);
         System.out.println(matrix2.multiply(vector4));
         System.out.println();
 
