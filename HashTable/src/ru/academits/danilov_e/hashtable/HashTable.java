@@ -4,7 +4,7 @@ import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
     public class HashTableIterator implements Iterator<T> {
-        private int currentIndex = -1;
+        private int currentIndex = 0;
         private int currentListIndex = -1;
         int countChanger = size;
         int listChanger;
@@ -26,19 +26,34 @@ public class HashTable<T> implements Collection<T> {
 
             ++currentIndex;
 
-            while (items[currentIndex] == null){
+            while (items[currentIndex] == null && hasNext() && !hasLastElement()) {
                 ++currentIndex;
             }
 
-            if(items[currentIndex].size() > 1){
+            if (items[currentIndex] != null && items[currentIndex].size() > 1) {
                 currentListIndex = 0;
-            }else {
-                currentListIndex = -1;
+            } else {
+                currentListIndex = 0;
+            }
+            if (items[currentIndex] != null){
+                listChanger = items[currentIndex].size();
             }
 
-            listChanger = items[currentIndex].size();
+            if(items[currentIndex] == null){
+                return null;
+            }
 
             return items[currentIndex].getFirst();
+        }
+
+        public boolean hasLastElement(){
+            for(int i = currentIndex; i < items.length; i++){
+                if(items[i] != null){
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public boolean hasNextList() {
@@ -46,12 +61,12 @@ public class HashTable<T> implements Collection<T> {
         }
 
         public T nextListElement() {
-            if (items[currentIndex].size() != listChanger) {
-                throw new ConcurrentModificationException("Array has been changed");
+            if (!hasNextList()) {
+                throw new NoSuchElementException("The next element is null");
             }
 
-            if(!hasNextList()){
-                throw new NoSuchElementException("The next element is null");
+            if (items[currentIndex].size() != listChanger) {
+                throw new ConcurrentModificationException("Array has been changed");
             }
 
             ++currentListIndex;
@@ -312,27 +327,26 @@ public class HashTable<T> implements Collection<T> {
         int matchCount = 0;
         HashTableIterator hashTableIterator = (HashTableIterator) iterator();
 
-        while (true){
-            if(hashTableIterator.hasNext()){
+        while (true) {
+            if (hashTableIterator.hasNext()) {
                 T element = hashTableIterator.next();
 
-                if(c.contains(element)){
+                if (c.contains(element)) {
                     matchCount++;
-
-                    while (true){
-                        if(hashTableIterator.hasNextList()){
-                            T element2 = hashTableIterator.nextListElement();
-
-                            if(c.contains(element2)){
-                                matchCount++;
-                            }
-                        }else {
-                            break;
-                        }
-                    }
-
                 }
-            }else {
+
+                while (true) {
+                    if (hashTableIterator.hasNextList()) {
+                        T element2 = hashTableIterator.nextListElement();
+
+                        if (c.contains(element2)) {
+                            matchCount++;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            } else {
                 break;
             }
         }
@@ -364,14 +378,47 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        Iterator<?> iterator = c.iterator();
+        HashTableIterator hashTableIterator = (HashTableIterator) iterator();
+        LinkedList<T> array = new LinkedList<>();
+        int matchCount = 0;
 
-        while (iterator.hasNext()){
+        while (true) {
+            System.out.println("здесь");
+            if (hashTableIterator.hasNext() && !hashTableIterator.hasLastElement() && !hashTableIterator.hasLastElement()) {
+                T element = hashTableIterator.next();
+                System.out.println("тут");
 
+                if (c.contains(element)) {
+                    System.out.println(element);
+                    array.add(element);
+                    matchCount++;
+                }
+
+                while (true) {
+                    if (hashTableIterator.hasNextList()) {
+                        T element2 = hashTableIterator.nextListElement();
+                        System.out.println("там");
+
+                        if (c.contains(element2)) {
+                            array.add(element2);
+                            System.out.println(element);
+                            matchCount++;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+            } else {
+                break;
+            }
         }
 
+        clear();
 
-        return false;
+        this.addAll(array);
+
+        return matchCount == c.size();
     }
 
     @Override

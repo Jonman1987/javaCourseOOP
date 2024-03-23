@@ -203,5 +203,17 @@ public class HashTableMain {
         System.out.println("Результат: " + colorsTable3.removeAll(stringLinkedList3));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
+
+        System.out.println("11. Использование метода retainAll:");
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
+        LinkedList<String> stringLinkedList4 = new LinkedList<>();
+        stringLinkedList4.add("Малиновый");
+        stringLinkedList4.add("Синий");
+        stringLinkedList4.add("Оранжевый");
+        System.out.println(stringLinkedList4);
+        System.out.println("Результат: " + colorsTable3.retainAll(stringLinkedList4));
+        System.out.println("Содержимое таблицы:");
+        System.out.println(Arrays.toString(colorsTable3.toArray()));
     }
 }
