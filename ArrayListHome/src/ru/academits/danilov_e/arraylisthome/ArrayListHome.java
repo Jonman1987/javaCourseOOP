@@ -8,28 +8,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArrayListHome {
-    public static ArrayList<Integer> getListWithoutRepeats(ArrayList<Integer> integerList) {
-        ArrayList<Integer> integerListWithoutRepeats = new ArrayList<>(integerList.size());
+    public static ArrayList<?> getListWithoutRepeats(ArrayList<?> objectsList) {
+        ArrayList<Object> objectsListWithoutRepeats = new ArrayList<>(objectsList.size());
 
-        for (Integer element : integerList) {
-            if (!integerListWithoutRepeats.contains(element)) {
-                integerListWithoutRepeats.add(element);
+        for (Object object : objectsList) {
+            if (!objectsListWithoutRepeats.contains(object)) {
+                objectsListWithoutRepeats.add(object);
             }
         }
 
-        return integerListWithoutRepeats;
+        return objectsListWithoutRepeats;
     }
 
-    public static ArrayList<String> readFile(String inputFilePath) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
+    public static ArrayList<String> getFileLines(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            ArrayList<String> list = new ArrayList<>();
+            ArrayList<String> fileLinesArrayList = new ArrayList<>();
 
             while ((line = reader.readLine()) != null) {
-                list.add(line);
+                fileLinesArrayList.add(line);
             }
 
-            return list;
+            return fileLinesArrayList;
         }
     }
 
@@ -43,36 +43,35 @@ public class ArrayListHome {
     }
 
     public static void main(String[] args) {
-        String inputFilePath = "ArrayListHome/src/input.txt";
+        String filePath = "ArrayListHome/src/input.txt";
 
         System.out.println("Задача ArrayListHome пункт 1.");
 
         try {
-            ArrayList<String> stringList = readFile(inputFilePath);
-            System.out.println(stringList);
+            ArrayList<String> fileLinesList = getFileLines(filePath);
+            System.out.println(fileLinesList);
         } catch (FileNotFoundException e) {
-            System.out.println("Файл " + inputFilePath + " не найден");
+            System.out.println("Файл " + filePath + " не найден");
         } catch (IOException e) {
-            System.out.println("Ошибка чтения из файла " + inputFilePath);
+            System.out.println(e.getMessage());
         }
 
         System.out.println();
-
         System.out.println("Задача ArrayListHome пункт 2.");
-        ArrayList<Integer> integerList = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        ArrayList<Integer> integersList = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
         System.out.println("Список:");
-        System.out.println(integerList);
+        System.out.println(integersList);
         System.out.println("Список без четных чисел:");
-        removeEvenNumbers(integerList);
-        System.out.println(integerList);
+        removeEvenNumbers(integersList);
+        System.out.println(integersList);
         System.out.println();
 
         System.out.println("Задача ArrayListHome пункт 3.");
-        ArrayList<Integer> integerListWithRepeats = new ArrayList<>(Arrays.asList(1, 9, 2, 1, 7, 1, 3, 2, 4, 5, 5, 6, 7, 8, 9));
+        ArrayList<Integer> integersListWithRepeats = new ArrayList<>(Arrays.asList(1, 9, 2, 1, 7, 1, 3, 2, 4, 5, 5, 6, 7, 8, 9));
         System.out.println("Список с повторами:");
-        System.out.println(integerListWithRepeats);
+        System.out.println(integersListWithRepeats);
         System.out.println("Список без повторов:");
-        System.out.println(getListWithoutRepeats(integerListWithRepeats));
+        System.out.println(getListWithoutRepeats(integersListWithRepeats));
     }
 }
