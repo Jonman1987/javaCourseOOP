@@ -9,11 +9,11 @@ public class CsvMain {
     private static String getOutputFileName(String inputFileName) {
         int lastIndex = inputFileName.lastIndexOf('.');
 
-        if(lastIndex == -1){
+        if (lastIndex == -1) {
             return inputFileName + ".html";
         }
 
-        if(lastIndex == inputFileName.length() - 1){
+        if (lastIndex == inputFileName.length() - 1) {
             return inputFileName + "html";
         }
 
