@@ -3,24 +3,24 @@ package ru.academits.danilov_e.matrix;
 import ru.academits.danilov_e.vector.Vector;
 
 public class Matrix {
-    private Vector[] lines;
+    private Vector[] rows;
 
-    public Matrix(int matrixLinesCount, int matrixColumnCount) {
-        lines = new Vector[matrixLinesCount];
+    public Matrix(int matrixRowsCount, int matrixColumnCount) {
+        rows = new Vector[matrixRowsCount];
 
-        for (int i = 0; i < matrixLinesCount; i++) {
-            lines[i] = new Vector(matrixColumnCount);
+        for (int i = 0; i < matrixRowsCount; i++) {
+            rows[i] = new Vector(matrixColumnCount);
         }
     }
 
-    public Matrix(Matrix matrix) { // Нужно ли проверять на not null?
-        Vector[] vector = new Vector[matrix.getMatrixLinesDimension()];
+    public Matrix(Matrix matrix) {
+        Vector[] vector = new Vector[matrix.rows.length];
 
-        for (int i = 0; i < matrix.getMatrixLinesDimension(); i++) {
-            vector[i] = matrix.getLine(i);
+        for (int i = 0; i < matrix.rows.length; i++) {
+            vector[i] = matrix.getRow(i);
         }
 
-        lines = vector;
+        rows = vector;
     }
 
     public Matrix(double[][] array) {
@@ -32,19 +32,18 @@ public class Matrix {
             }
         }
 
-        lines = new Vector[array.length];
+        rows = new Vector[array.length];
 
         for (int i = 0; i < array.length; i++) {
-            lines[i] = new Vector(maxVectorDimension, array[i]);
+            rows[i] = new Vector(maxVectorDimension, array[i]);
         }
     }
 
     public Matrix(Vector[] vectorArray) {
         if (vectorArray.length == 0) {
-            lines = new Vector[]{new Vector(1)}; // Я добавил вариант, когда передается пустой массив.
+            rows = new Vector[]{new Vector(1)};
         } else {
-            int maxVectorDimension = vectorArray[0].getDimension(); // Я так понимаю пункт 5 замечаний не относится к данному
-            // случаю, так как размер матрицы еще не определен?
+            int maxVectorDimension = vectorArray[0].getDimension();
 
             for (int i = 1; i < vectorArray.length; i++) {
                 if (maxVectorDimension < vectorArray[i].getDimension()) {
@@ -52,125 +51,124 @@ public class Matrix {
                 }
             }
 
-            lines = new Vector[vectorArray.length];
+            rows = new Vector[vectorArray.length];
 
             for (int i = 0; i < vectorArray.length; i++) {
                 double[] array = new double[maxVectorDimension];
 
-                for (int j = 0; j < vectorArray[i].getDimension(); j++) { // Я так понял ошибка была в этом месте,
-                    // заполнялась только часть матрицы размером с квадрат из-за равенства ограничений в циклах for
+                for (int j = 0; j < vectorArray[i].getDimension(); j++) {
                     array[j] = vectorArray[i].getComponent(j);
                 }
 
-                lines[i] = new Vector(maxVectorDimension, array);
+                rows[i] = new Vector(maxVectorDimension, array);
             }
         }
     }
 
-    public int getMatrixColumnDimension() {
-        return lines[0].getDimension();
+    public int getColumnCount() {
+        return rows[0].getDimension();
     }
 
-    public int getMatrixLinesDimension() {
-        return lines.length;
+    public int getRowsCount() {
+        return rows.length;
     }
 
-    public Vector getLine(int index) {
-        if (index < 0 || index >= lines.length) {
-            throw new IndexOutOfBoundsException("The line index must belong to the range [0; " + (lines.length - 1)
-                    + "]. Line index is " + index + ".");
+    public Vector getRow(int index) {
+        if (index < 0 || index >= rows.length) {
+            throw new IndexOutOfBoundsException("The row index must belong to the range [0; " + (rows.length - 1)
+                    + "]. Row index is " + index + ".");
         }
 
-        Vector vector = new Vector(getMatrixColumnDimension());
+        Vector vector = new Vector(getColumnCount());
 
-        for (int i = 0; i < getMatrixColumnDimension(); i++) {
-            vector.setComponent(i, lines[index].getComponent(i));
+        for (int i = 0; i < getColumnCount(); i++) {
+            vector.setComponent(i, rows[index].getComponent(i));
         }
 
         return vector;
     }
 
-    public void setLine(int index, Vector vector) {
-        if (index < 0 || index >= lines.length) {
-            throw new IndexOutOfBoundsException("The line index must belong to the range [0; " + (lines.length - 1)
-                    + "]. Line index is " + index + ".");
+    public void setRow(int index, Vector vector) {
+        if (index < 0 || index >= rows.length) {
+            throw new IndexOutOfBoundsException("The row index must belong to the range [0; " + (rows.length - 1)
+                    + "]. Row index is " + index + ".");
         }
 
-        if (getMatrixColumnDimension() != vector.getDimension()) {
+        if (getColumnCount() != vector.getDimension()) {
             throw new IllegalArgumentException("Matrix dimension and vector dimension are different. Both dimension "
-                    + "must be same. Matrix dimension is " + getMatrixColumnDimension() + ". Vector dimension is "
+                    + "must be same. Matrix dimension is " + getColumnCount() + ". Vector dimension is "
                     + vector.getDimension() + ".");
         }
 
-        Vector vectorCopy = new Vector(getMatrixColumnDimension());
+        Vector vectorCopy = new Vector(getColumnCount());
 
         for (int i = 0; i < vector.getDimension(); i++) {
             vectorCopy.setComponent(i, vector.getComponent(i));
         }
 
-        lines[index] = vectorCopy;
+        rows[index] = vectorCopy;
     }
 
     public Vector getColumnArray(int index) {
-        if (index < 0 || index >= getMatrixColumnDimension()) {
+        if (index < 0 || index >= getColumnCount()) {
             throw new IndexOutOfBoundsException("The column index must belong to the range [0; "
-                    + (getMatrixColumnDimension() - 1) + "]. Column index is " + index + ".");
+                    + (getColumnCount() - 1) + "]. Column index is " + index + ".");
         }
 
-        double[] columnVector = new double[lines.length];
+        double[] columnVector = new double[rows.length];
 
-        for (int i = 0; i < lines.length; i++) {
-            columnVector[i] = lines[i].getComponent(index);
+        for (int i = 0; i < rows.length; i++) {
+            columnVector[i] = rows[i].getComponent(index);
         }
 
         return new Vector(columnVector);
     }
 
     public void transpose() {
-        Vector[] lines = new Vector[getMatrixColumnDimension()];
+        Vector[] rows = new Vector[getColumnCount()];
 
-        for (int i = 0; i < getMatrixColumnDimension(); i++) {
-            lines[i] = getColumnArray(i);
+        for (int i = 0; i < getColumnCount(); i++) {
+            rows[i] = getColumnArray(i);
         }
 
-        this.lines = lines;
+        this.rows = rows;
     }
 
     public void multiply(double number) {
-        for (Vector vector : lines) {
+        for (Vector vector : rows) {
             vector.multiply(number);
         }
     }
 
     public double getDeterminant() {
-        if (getMatrixLinesDimension() != getMatrixColumnDimension()) {
-            throw new IllegalArgumentException("Matrix must have same dimension of lines and columns. Lines dimension "
-                    + "is " + getMatrixLinesDimension() + ". Columns dimension is " + getMatrixColumnDimension() + ".");
+        if (rows.length != getColumnCount()) {
+            throw new IllegalArgumentException("Matrix must have same dimension of rows and columns. Rows dimension "
+                    + "is " + rows.length + ". Columns dimension is " + getColumnCount() + ".");
         }
 
-        if (lines.length == 1) {
-            return lines[0].getComponent(0);
+        if (rows.length == 1) {
+            return rows[0].getComponent(0);
         }
 
-        if (lines.length == 2) {
-            return lines[0].getComponent(0) * lines[1].getComponent(1)
-                    - lines[0].getComponent(1) * lines[1].getComponent(0);
+        if (rows.length == 2) {
+            return rows[0].getComponent(0) * rows[1].getComponent(1)
+                    - rows[0].getComponent(1) * rows[1].getComponent(0);
         }
 
         double determinant = 0;
         int sign = 1;
 
-        for (int determinantColumn = 0; determinantColumn < getMatrixColumnDimension(); ++determinantColumn) {
-            double[][] minor = new double[lines.length - 1][lines.length - 1];
+        for (int determinantColumn = 0; determinantColumn < getColumnCount(); ++determinantColumn) {
+            double[][] minor = new double[rows.length - 1][rows.length - 1];
             int minorRow = 0;
 
-            for (int row = 1; row < lines.length; ++row) {
+            for (int row = 1; row < rows.length; ++row) {
                 int minorColunm = 0;
 
-                for (int column = 0; column < getMatrixColumnDimension(); ++column) {
+                for (int column = 0; column < getColumnCount(); ++column) {
                     if (column != determinantColumn) {
                         minor[minorRow][minorColunm]
-                                = lines[row].getComponent(column);
+                                = rows[row].getComponent(column);
 
                         ++minorColunm;
                     }
@@ -179,7 +177,7 @@ public class Matrix {
                 ++minorRow;
             }
 
-            determinant += sign * lines[0].getComponent(determinantColumn) * new Matrix(minor).getDeterminant();
+            determinant += sign * rows[0].getComponent(determinantColumn) * new Matrix(minor).getDeterminant();
             sign *= -1;
         }
 
@@ -190,8 +188,8 @@ public class Matrix {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
 
-        for (Vector line : lines) {
-            stringBuilder.append(line).append(", ");
+        for (Vector row : rows) {
+            stringBuilder.append(row).append(", ");
         }
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append('}');
@@ -199,21 +197,20 @@ public class Matrix {
         return stringBuilder.toString();
     }
 
-    public Vector multiply(Vector vector) { // Судя по правилу умножение матрицы на вектор-столбец получается матрица
-        // одиночных векторов. Если я сейчас верну просто вектор, будет ли это считаться правильным?
-        if (getMatrixLinesDimension() != vector.getDimension()) {
-            throw new IllegalArgumentException("Matrix line dimension and vector dimension must have same dimension. "
-                    + "Matrix line dimension is " + getMatrixLinesDimension() + ". Vector dimension is "
+    public Vector multiply(Vector vector) {
+        if (rows.length != vector.getDimension()) {
+            throw new IllegalArgumentException("Matrix rows dimension and vector dimension must have same dimension. "
+                    + "Matrix rows dimension is " + rows.length + ". Vector dimension is "
                     + vector.getDimension() + ".");
         }
 
-        Vector unitVector = new Vector(getMatrixLinesDimension());
+        Vector unitVector = new Vector(rows.length);
 
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0; i < rows.length; i++) {
             double sum = 0;
 
-            for (int j = 0; j < getMatrixColumnDimension(); j++) {
-                sum += lines[i].getComponent(j) * vector.getComponent(j);
+            for (int j = 0; j < getColumnCount(); j++) {
+                sum += rows[i].getComponent(j) * vector.getComponent(j);
             }
 
             unitVector.setComponent(i, sum);
@@ -223,40 +220,40 @@ public class Matrix {
     }
 
     private static boolean getMatrixEquality(Matrix matrix1, Matrix matrix2) {
-        return matrix1.lines.length != matrix2.lines.length
-                && matrix1.getMatrixColumnDimension() != matrix2.getMatrixColumnDimension();
+        return matrix1.rows.length != matrix2.rows.length
+                && matrix1.getColumnCount() != matrix2.getColumnCount();
     }
 
     public void add(Matrix matrix) {
         if (getMatrixEquality(this, matrix)) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
-                    + lines.length + "x" + getMatrixColumnDimension() + ". Dimension of matrix2 is "
-                    + matrix.lines.length + "x" + matrix.getMatrixColumnDimension() + ".");
+                    + rows.length + "x" + getColumnCount() + ". Dimension of matrix2 is "
+                    + matrix.rows.length + "x" + matrix.getColumnCount() + ".");
         }
 
-        for (int i = 0; i < lines.length; i++) {
-            lines[i].add(matrix.lines[i]);
+        for (int i = 0; i < rows.length; i++) {
+            rows[i].add(matrix.rows[i]);
         }
     }
 
     public void subtract(Matrix matrix) {
         if (getMatrixEquality(this, matrix)) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
-                    + lines.length + "x" + getMatrixColumnDimension() + ". Dimension of matrix2 is "
-                    + matrix.lines.length + "x" + matrix.getMatrixColumnDimension() + ".");
+                    + rows.length + "x" + getColumnCount() + ". Dimension of matrix2 is "
+                    + matrix.rows.length + "x" + matrix.getColumnCount() + ".");
         }
 
-        for (int i = 0; i < lines.length; i++) {
-            lines[i].subtract(matrix.lines[i]);
+        for (int i = 0; i < rows.length; i++) {
+            rows[i].subtract(matrix.rows[i]);
         }
     }
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         if (getMatrixEquality(matrix1, matrix2)) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
-                    + matrix1.lines.length + "x" + matrix1.getMatrixColumnDimension()
-                    + ". Dimension of matrix2 is " + matrix2.lines.length + "x"
-                    + matrix2.getMatrixColumnDimension() + ".");
+                    + matrix1.rows.length + "x" + matrix1.getColumnCount()
+                    + ". Dimension of matrix2 is " + matrix2.rows.length + "x"
+                    + matrix2.getColumnCount() + ".");
         }
 
         matrix1.add(matrix2);
@@ -267,9 +264,9 @@ public class Matrix {
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         if (getMatrixEquality(matrix1, matrix2)) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
-                    + matrix1.lines.length + "x" + matrix1.getMatrixColumnDimension()
-                    + ". Dimension of matrix2 is " + matrix2.lines.length + "x"
-                    + matrix2.getMatrixColumnDimension() + ".");
+                    + matrix1.rows.length + "x" + matrix1.getColumnCount()
+                    + ". Dimension of matrix2 is " + matrix2.rows.length + "x"
+                    + matrix2.getColumnCount() + ".");
         }
 
         matrix1.subtract(matrix2);
@@ -278,21 +275,21 @@ public class Matrix {
     }
 
     public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
-        if (matrix1.getMatrixColumnDimension() != matrix2.lines.length) {
-            throw new IllegalArgumentException("Matrix1 columns count and matrix2 lines count must be same dimension. "
-                    + "Columns dimension of matrix1 is " + matrix1.getMatrixColumnDimension()
-                    + ". Lines dimension of matrix2 is " + matrix2.lines.length + ".");
+        if (matrix1.getColumnCount() != matrix2.rows.length) {
+            throw new IllegalArgumentException("Matrix1 columns count and matrix2 rows count must be same dimension. "
+                    + "Columns dimension of matrix1 is " + matrix1.getColumnCount()
+                    + ". Rows dimension of matrix2 is " + matrix2.rows.length + ".");
         }
 
-        double[][] array = new double[matrix1.lines.length][matrix2.getMatrixColumnDimension()];
+        double[][] array = new double[matrix1.rows.length][matrix2.getColumnCount()];
 
-        for (int i = 0; i < matrix1.lines.length; i++) {
-            Vector vector1 = matrix1.lines[i];
+        for (int i = 0; i < matrix1.rows.length; i++) {
+            Vector vector1 = matrix1.rows[i];
 
-            for (int j = 0; j < matrix2.getMatrixColumnDimension(); j++) {
+            for (int j = 0; j < matrix2.getColumnCount(); j++) {
                 Vector vector2 = matrix2.getColumnArray(j);
 
-                for (int k = 0; k < matrix1.getMatrixColumnDimension(); k++) {
+                for (int k = 0; k < matrix1.getColumnCount(); k++) {
                     array[i][j] += vector1.getComponent(k) * vector2.getComponent(k);
                 }
             }

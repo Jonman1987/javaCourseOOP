@@ -5,8 +5,8 @@ import ru.academits.danilov_e.vector.Vector;
 
 public class MatrixMain {
     public static void print(Matrix matrix) {
-        for (int i = 0; i < matrix.getMatrixLinesDimension(); i++) {
-            System.out.println(matrix.getLine(i));
+        for (int i = 0; i < matrix.getRowsCount(); i++) {
+            System.out.println(matrix.getRow(i));
         }
     }
 
@@ -15,13 +15,13 @@ public class MatrixMain {
         double[] array2 = {2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
         double[] array3 = {6.7, -3.1, 0.0, 8.8, 2.7, 9.9, 4.2, 5.5};
 
-        int lines = 4;
+        int rows = 4;
         int columns = 8;
 
         double[][] array4 = {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8}};
 
-        System.out.println("1. Конструктор матрицы нулей размером lines = " + lines + ", columns = " + columns + ":");
-        Matrix matrix01 = new Matrix(lines, columns);
+        System.out.println("1. Конструктор матрицы нулей размером rows = " + rows + ", columns = " + columns + ":");
+        Matrix matrix01 = new Matrix(rows, columns);
 
         print(matrix01);
         System.out.println();
@@ -51,22 +51,22 @@ public class MatrixMain {
         System.out.println();
 
         System.out.println("5. Получение высоты матрицы из пункта 4:");
-        System.out.println("Высота: " + matrix3.getMatrixLinesDimension());
+        System.out.println("Высота: " + matrix3.getRowsCount());
         System.out.println();
 
         System.out.println("6. Получение ширины матрицы из пункта 4:");
-        System.out.println("Ширина: " + matrix3.getMatrixColumnDimension());
+        System.out.println("Ширина: " + matrix3.getColumnCount());
         System.out.println();
 
         System.out.println("7. Получение вектора строки из пункта 4 по индексу 1:");
-        System.out.println(matrix3.getLine(1));
+        System.out.println(matrix3.getRow(1));
         System.out.println();
 
         System.out.println("8. Получение вектора-строки матрицы из примера 3 по индексу 1:");
         System.out.println("Матрица:");
         print(matrix1);
         System.out.println("Вектор:");
-        System.out.println(matrix1.getLine(1));
+        System.out.println(matrix1.getRow(1));
         System.out.println();
 
         System.out.println("9. Задание вектора-строки матрицы из примера 3 по индексу 2:");
@@ -74,7 +74,7 @@ public class MatrixMain {
         print(matrix1);
         System.out.println("Вектор:");
         System.out.println(new Vector(3));
-        matrix1.setLine(2, new Vector(3));
+        matrix1.setRow(2, new Vector(3));
         System.out.println("Новая матрица:");
         print(matrix1);
         System.out.println();
