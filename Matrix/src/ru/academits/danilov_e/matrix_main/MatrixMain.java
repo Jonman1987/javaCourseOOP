@@ -15,13 +15,13 @@ public class MatrixMain {
         double[] array2 = {2.4, 1.3, -0.7, 3.7, 1.1, 5.6};
         double[] array3 = {6.7, -3.1, 0.0, 8.8, 2.7, 9.9, 4.2, 5.5};
 
-        int rows = 4;
-        int columns = 8;
+        int rowsCount = 4;
+        int columnsCount = 8;
 
         double[][] array4 = {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8}};
 
-        System.out.println("1. Конструктор матрицы нулей размером rows = " + rows + ", columns = " + columns + ":");
-        Matrix matrix01 = new Matrix(rows, columns);
+        System.out.println("1. Конструктор матрицы нулей размером rows = " + rowsCount + ", columns = " + columnsCount + ":");
+        Matrix matrix01 = new Matrix(rowsCount, columnsCount);
 
         print(matrix01);
         System.out.println();
