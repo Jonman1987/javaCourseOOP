@@ -3,71 +3,9 @@ package ru.academits.danilov_e.hashtable;
 import java.util.*;
 
 public class HashTable<E> implements Collection<E> {
-    public class HashTableIterator implements Iterator<E> {
-        private int currentIndex = -1;
-        private int currentListIndex = -1;
-        private int countChanger = size;
-        private int listCountChanger;
-
-        @Override
-        public boolean hasNext() {
-            if(currentListIndex != -1){
-                if(currentListIndex + 1 < items[currentIndex].size()){
-                    return true;
-                }else {
-                    currentListIndex = -1;
-                }
-            }
-
-            int index = currentIndex + 1;
-
-            if(index < items.length && items[index] == null){
-                while (index < items.length){
-                    if(items[index] != null){
-                        return true;
-                    }
-
-                    index++;
-                }
-            }
-
-            return false;
-        }
-
-        @Override
-        public E next() {
-            if(currentListIndex != -1){
-                if(currentListIndex + 1 < items[currentIndex].size()){
-                    currentListIndex++;
-                    return items[currentIndex].get(currentListIndex);
-                }else {
-                    currentListIndex = -1;
-                }
-            }
-
-            currentIndex++;
-
-            if(items[currentIndex] == null){
-                while (currentIndex < items.length){
-                    if(items[currentIndex] != null){
-                        if(items[currentIndex].size() > 1){
-                            currentListIndex++;
-                            return items[currentIndex].get(currentListIndex);
-                        }
-
-                        return items[currentIndex].getFirst();
-                    }
-
-                    currentIndex++;
-                }
-            }
-
-            return null;
-        }
-    }
-
     private LinkedList<E>[] items;
     private int size;
+    private int modificationsCount = 0;
 
     public HashTable(E object) {
         if (object == null) {
@@ -146,6 +84,76 @@ public class HashTable<E> implements Collection<E> {
         return false;
     }
 
+    private class HashTableIterator implements Iterator<E> {
+        private int currentIndex = -1;
+        private int currentListIndex = -1;
+        private final int expectedModificationsCount = modificationsCount;
+
+        @Override
+        public boolean hasNext() {
+            if(currentListIndex != -1){
+                if(currentListIndex + 1 < items[currentIndex].size()){
+                    return true;
+                }else {
+                    currentListIndex = -1;
+                }
+            }
+
+            int index = currentIndex + 1;
+
+            if(index < items.length && items[index] == null){
+                while (index < items.length){
+                    if(items[index] != null){
+                        return true;
+                    }
+
+                    index++;
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        public E next() {
+            if (expectedModificationsCount != modificationsCount) {
+                throw new ConcurrentModificationException("HashTable has been changed");
+            }
+
+            if (!hasNext()) {
+                throw new NoSuchElementException("HashTable has not next element");
+            }
+
+            if(currentListIndex != -1){
+                if(currentListIndex + 1 < items[currentIndex].size()){
+                    currentListIndex++;
+                    return items[currentIndex].get(currentListIndex);
+                }else {
+                    currentListIndex = -1;
+                }
+            }
+
+            currentIndex++;
+
+            if(items[currentIndex] == null){
+                while (currentIndex < items.length){
+                    if(items[currentIndex] != null){
+                        if(items[currentIndex].size() > 1){
+                            currentListIndex++;
+                            return items[currentIndex].get(currentListIndex);
+                        }
+
+                        return items[currentIndex].getFirst();
+                    }
+
+                    currentIndex++;
+                }
+            }
+
+            return null;
+        }
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new HashTableIterator();
@@ -177,11 +185,6 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public <T1> T1[] toArray(T1[] a) {
         return null;
-    }
-
-    private boolean isTableNeedMoreSize() {
-
-        return false;
     }
 
     @Override
@@ -233,9 +236,11 @@ public class HashTable<E> implements Collection<E> {
             element.add(e);
             items[index] = element;
             size++;
+            modificationsCount++;
         } else {
             items[index].add(e);
             size++;
+            modificationsCount++;
         }
 
         return size != oldSize;
@@ -248,6 +253,7 @@ public class HashTable<E> implements Collection<E> {
         if (items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)) {
             items[index] = null;
             size--;
+            modificationsCount++;
 
             return true;
         }
@@ -259,6 +265,7 @@ public class HashTable<E> implements Collection<E> {
                 if (iterator.next().equals(o)) {
                     items[index].remove(iteratorIndex);
                     size--;
+                    modificationsCount++;
 
                     return true;
                 }
@@ -274,7 +281,7 @@ public class HashTable<E> implements Collection<E> {
     public boolean containsAll(Collection<?> c) { // По идее, наверное более правильно искать коллекцию в таблице, а
         // не наоборот. Но мне тогда не понятно для чего нужен итератор таблицы, если мы будем использовать итератор
         // коллекции. Я реализовал поиск таблицы в коллекции. Могу переделать в обратный вариант.
-        int matchCount = 0;
+        int matchesCount = 0;
         HashTableIterator hashTableIterator = (HashTableIterator) iterator();
 
         while (true) {
@@ -282,14 +289,14 @@ public class HashTable<E> implements Collection<E> {
                 E element = hashTableIterator.next();
 
                 if (c.contains(element)) {
-                    matchCount++;
+                    matchesCount++;
                 }
             } else {
                 break;
             }
         }
 
-        return matchCount == c.size();
+        return matchesCount == c.size();
     }
 
     @Override
@@ -318,7 +325,7 @@ public class HashTable<E> implements Collection<E> {
     public boolean retainAll(Collection<?> c) {
         HashTableIterator hashTableIterator = (HashTableIterator) iterator();
         LinkedList<E> array = new LinkedList<>();
-        int matchCount = 0;
+        int matchesCount = 0;
 
         while (true) {
             if (hashTableIterator.hasNext()) {
@@ -326,7 +333,7 @@ public class HashTable<E> implements Collection<E> {
 
                 if (c.contains(element)) {
                     array.add(element);
-                    matchCount++;
+                    matchesCount++;
                 }
             } else {
                 break;
@@ -337,12 +344,20 @@ public class HashTable<E> implements Collection<E> {
 
         this.addAll(array);
 
-        return matchCount == c.size();
+        return matchesCount == c.size();
     }
 
     @Override
     public void clear() {
-        items = (LinkedList<E>[]) new LinkedList[100];
-        size = 0;
+        if(size != 0){
+            for(int i = 0; i < items.length; i++){
+                if(items[i] != null){
+                    items[i] = null;
+                }
+            }
+
+            size = 0;
+            modificationsCount++;
+        }
     }
 }

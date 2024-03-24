@@ -3,6 +3,7 @@ package ru.academits.danilov_e.hashtable_main;
 import ru.academits.danilov_e.hashtable.HashTable;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class HashTableMain {
@@ -149,7 +150,7 @@ public class HashTableMain {
         System.out.println("7. Проверка итератора:");
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
-        HashTable.HashTableIterator hashTableIterator = (HashTable.HashTableIterator) colorsTable3.iterator();
+        Iterator<String> hashTableIterator = colorsTable3.iterator();
 
         System.out.println("Первый элемент таблицы: " + hashTableIterator.next());
         System.out.println("Второй элемент таблицы и первый элемент списка: " + hashTableIterator.next());
@@ -160,16 +161,16 @@ public class HashTableMain {
         System.out.println("8. Вхождение коллекции:");
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
-        LinkedList<String> stringLinkedList1 = new LinkedList<>();
-        stringLinkedList1.add("Черный");
-        stringLinkedList1.add("Белый");
+        LinkedList<String> stringsLinkedList1 = new LinkedList<>();
+        stringsLinkedList1.add("Черный");
+        stringsLinkedList1.add("Белый");
         System.out.println("Коллекция:");
-        System.out.println(stringLinkedList1);
-        System.out.println("Результат: " + colorsTable3.containsAll(stringLinkedList1));
-        stringLinkedList1.add("Сизый");
+        System.out.println(stringsLinkedList1);
+        System.out.println("Результат: " + colorsTable3.containsAll(stringsLinkedList1));
+        stringsLinkedList1.add("Сизый");
         System.out.println("Коллекция:");
-        System.out.println(stringLinkedList1);
-        System.out.println("Результат: " + colorsTable3.containsAll(stringLinkedList1));
+        System.out.println(stringsLinkedList1);
+        System.out.println("Результат: " + colorsTable3.containsAll(stringsLinkedList1));
         System.out.println();
 
         System.out.println("9. Добавление коллекции:");
@@ -177,15 +178,15 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println("Размер таблицы: " + colorsTable3.tableLength());
-        LinkedList<String> stringLinkedList2 = new LinkedList<>();
-        stringLinkedList2.add("Малиновый");
-        stringLinkedList2.add("Бирюзовый");
-        stringLinkedList2.add("Гранатовый");
-        stringLinkedList2.add("Оранжевый");
-        stringLinkedList2.add("Голубой");
+        LinkedList<String> stringsLinkedList2 = new LinkedList<>();
+        stringsLinkedList2.add("Малиновый");
+        stringsLinkedList2.add("Бирюзовый");
+        stringsLinkedList2.add("Гранатовый");
+        stringsLinkedList2.add("Оранжевый");
+        stringsLinkedList2.add("Голубой");
         System.out.println("Коллекция:");
-        System.out.println(stringLinkedList2);
-        System.out.println("Результат: " + colorsTable3.addAll(stringLinkedList2));
+        System.out.println(stringsLinkedList2);
+        System.out.println("Результат: " + colorsTable3.addAll(stringsLinkedList2));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
@@ -195,13 +196,13 @@ public class HashTableMain {
         System.out.println("10. Удаление коллекции:");
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
-        LinkedList<String> stringLinkedList3 = new LinkedList<>();
-        stringLinkedList3.add("Черный");
-        stringLinkedList3.add("Белый");
-        stringLinkedList3.add("Голубой");
+        LinkedList<String> stringsLinkedList3 = new LinkedList<>();
+        stringsLinkedList3.add("Черный");
+        stringsLinkedList3.add("Белый");
+        stringsLinkedList3.add("Голубой");
         System.out.println("Коллекция:");
-        System.out.println(stringLinkedList3);
-        System.out.println("Результат: " + colorsTable3.removeAll(stringLinkedList3));
+        System.out.println(stringsLinkedList3);
+        System.out.println("Результат: " + colorsTable3.removeAll(stringsLinkedList3));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println();
@@ -209,12 +210,12 @@ public class HashTableMain {
         System.out.println("11. Использование метода retainAll:");
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
-        LinkedList<String> stringLinkedList4 = new LinkedList<>();
-        stringLinkedList4.add("Малиновый");
-        stringLinkedList4.add("Синий");
-        stringLinkedList4.add("Оранжевый");
-        System.out.println(stringLinkedList4);
-        System.out.println("Результат: " + colorsTable3.retainAll(stringLinkedList4));
+        LinkedList<String> stringsLinkedList4 = new LinkedList<>();
+        stringsLinkedList4.add("Малиновый");
+        stringsLinkedList4.add("Синий");
+        stringsLinkedList4.add("Оранжевый");
+        System.out.println(stringsLinkedList4);
+        System.out.println("Результат: " + colorsTable3.retainAll(stringsLinkedList4));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println();
