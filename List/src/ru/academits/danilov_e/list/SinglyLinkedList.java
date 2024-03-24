@@ -12,14 +12,14 @@ public class SinglyLinkedList<E> {
     public SinglyLinkedList(E[] dataArray) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
         // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
         // что я могу указать через запятую разные типы объектов?
-        if(dataArray.length == 0){
+        if (dataArray.length == 0) {
             head = null;
             count = 0;
-        }else if(dataArray.length == 1){
+        } else if (dataArray.length == 1) {
             head = new Node<>(dataArray[0], null);
             head.setNext(null);
             count = 1;
-        }else {
+        } else {
             head = new Node<>(dataArray[0], null);
             head.setNext(new Node<>(dataArray[1], null));
             count = 2;
@@ -55,59 +55,64 @@ public class SinglyLinkedList<E> {
         return head.get();
     }
 
-    private static void checkingBounds(int index, int count){
+    private static void checkingBounds(int index, int count) {
         if (index < 0 || index >= count) {
             throw new IndexOutOfBoundsException("The index must belong to the range [0; " + (count - 1) + "]. Index is "
                     + index + ".");
         }
     }
 
+    private Node<E> getSearchedNode(Node<E> head, int index) {
+        Node<E> node;
+        Node<E> searchedNode = null;
+
+        int i;
+
+        for (i = 0, node = head; node != null; node = node.getNext(), i++) {
+            if (i == index) {
+                searchedNode = node;
+                break;
+            }
+        }
+
+        return searchedNode;
+    }
+
     public E get(int index) {
         checkingBounds(index, count);
 
-        E data = null;
-        Node<E> node;
-        int i = 0;
-
-        for (node = head; node != null; node = node.getNext()) {
-            if (i == index) {
-                data = node.get();
-                break;
-            }
-
-            i++;
+        if (getSearchedNode(head, index) == null) {
+            return null;
         }
 
-        return data;
+        return getSearchedNode(head, index).get();
     }
 
     public E set(int index, E data) {
         checkingBounds(index, count);
 
-        E oldData = null;
-        Node<E> node;
-        int i = 0;
-
-        for (node = head; node != null; node = node.getNext()) {
-            if (i == index) {
-                oldData = node.get();
-                node.set(data);
-                break;
-            }
-
-            i++;
+        if (getSearchedNode(head, index) == null) {
+            return null;
         }
+
+        Node<E> node = getSearchedNode(head, index);
+        E oldData = node.get();
+        node.set(data);
 
         return oldData;
     }
 
     @Override
     public String toString() {
+        if (head == null) {
+            return "[]";
+        }
+
         StringBuilder stringBuilder = new StringBuilder("[");
         Node<E> node;
 
         for (node = head; node != null; node = node.getNext()) {
-            stringBuilder.append(node.get().toString());
+            stringBuilder.append(node.get());
             stringBuilder.append(", ");
         }
 
@@ -123,37 +128,26 @@ public class SinglyLinkedList<E> {
 
         checkingBounds(index, count);
 
-        E deleteData = null;
+        E deleteData;
         Node<E> node;
 
         if (index == 0) {
             deleteFirst();
         }
 
-        int i = 0;
-
         if (index == count) {
-            for (node = head; node != null; node = node.getNext()) {
-                if (i == count - 1) {
-                    node.setNext(null);
-                    break;
-                }
-
-                i++;
-            }
-        }
-
-        i = 0;
-
-        for (node = head; node != null; node = node.getNext()) {
-            if (i == index - 1) {
-                deleteData = node.getNext().get();
-                node.setNext(node.getNext().getNext());
-                count--;
+            if (getSearchedNode(head, index) == null) {
+                return null;
             }
 
-            i++;
+            node = getSearchedNode(head, count - 1);
+            node.setNext(null);
         }
+
+        node = getSearchedNode(head, index - 1);
+        deleteData = node.getNext().get();
+        node.setNext(node.getNext().getNext());
+        count--;
 
         return deleteData;
     }
@@ -177,7 +171,7 @@ public class SinglyLinkedList<E> {
         if (index == 0) {
             addFirst(data);
         } else if (index == count) {
-            for (newNode = head; newNode != null; newNode = newNode.getNext()) {
+            for (newNode = head; newNode != null; newNode = newNode.getNext()) { // заменить
                 if (i == count - 1) {
                     Node<E> node = new Node<>(data, null);
                     newNode.setNext(node);
@@ -191,7 +185,7 @@ public class SinglyLinkedList<E> {
         } else {
             Node<E> oldNode;
 
-            for (newNode = head; newNode != null; newNode = newNode.getNext()) {
+            for (newNode = head; newNode != null; newNode = newNode.getNext()) { // заменить
                 if (i == index - 1) {
                     oldNode = newNode.getNext();
                     Node<E> node = new Node<>(data, null);
