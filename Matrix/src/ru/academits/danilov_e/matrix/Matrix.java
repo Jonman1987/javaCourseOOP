@@ -2,7 +2,7 @@ package ru.academits.danilov_e.matrix;
 
 import ru.academits.danilov_e.vector.Vector;
 
-public class Matrix {  // Не исправлено 19, 20
+public class Matrix {
     private Vector[] rows;
 
     public Matrix(int rowsCount, int columnsCount) {
@@ -101,9 +101,13 @@ public class Matrix {  // Не исправлено 19, 20
         return new Vector(rows[index]);
     }
 
-    public void setRow(int index, Vector vector) { // Возможно добавить проверку длины вектора равной 0
+    public void setRow(int index, Vector vector) {
         if (vector == null) {
             throw new NullPointerException("The passed object refers to null");
+        }
+
+        if (vector.getDimension() == 0) {
+            throw new IllegalArgumentException("Vector size cannot be equal 0. Vector size is " + vector.getDimension() + ".");
         }
 
         if (index < 0 || index >= rows.length) {
@@ -206,9 +210,13 @@ public class Matrix {  // Не исправлено 19, 20
         return stringBuilder.toString();
     }
 
-    public Vector multiply(Vector vector) { // Возможно добавить проверку длины вектора равной 0
+    public Vector multiply(Vector vector) {
         if (vector == null) {
             throw new NullPointerException("The passed object refers to null");
+        }
+
+        if (vector.getDimension() == 0) {
+            throw new IllegalArgumentException("Vector size cannot be equal 0. Vector size is " + vector.getDimension() + ".");
         }
 
         if (rows[0].getDimension() != vector.getDimension()) {
@@ -231,7 +239,7 @@ public class Matrix {  // Не исправлено 19, 20
             throw new NullPointerException("The passed object refers to null");
         }
 
-        if(matrix1.rows.length != matrix2.rows.length && matrix1.getColumnCount() != matrix2.getColumnCount()){
+        if (matrix1.rows.length != matrix2.rows.length && matrix1.getColumnCount() != matrix2.getColumnCount()) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
                     + matrix1.rows.length + "x" + matrix1.getColumnCount() + ". Dimension of matrix2 is "
                     + matrix2.rows.length + "x" + matrix2.getColumnCount() + ".");
