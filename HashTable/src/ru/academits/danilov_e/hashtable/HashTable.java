@@ -2,94 +2,77 @@ package ru.academits.danilov_e.hashtable;
 
 import java.util.*;
 
-public class HashTable<T> implements Collection<T> {
-    public class HashTableIterator implements Iterator<T> {
-        private int currentIndex = 0;
+public class HashTable<E> implements Collection<E> {
+    public class HashTableIterator implements Iterator<E> {
+        private int currentIndex = -1;
         private int currentListIndex = -1;
-        int countChanger = size;
-        int listChanger;
+        private int countChanger = size;
+        private int listCountChanger;
 
         @Override
         public boolean hasNext() {
-            return currentIndex + 1 < items.length;
-        }
+            int index = currentIndex + 1;
 
-        @Override
-        public T next() { // Возможно я занимаюсь мазохизмом, но мне было интересно до какой глубины я могу написать итератор
-            if (size != countChanger) {
-                throw new ConcurrentModificationException("Array has been changed");
-            }
+            if(index < items.length && items[index] == null){
+                while (index < items.length){
+                    if(items[index] != null){
+                        return true;
+                    }
 
-            if (!hasNext()) {
-                throw new NoSuchElementException("The next element is null");
-            }
-
-            ++currentIndex;
-
-            while (items[currentIndex] == null && hasNext() && !hasLastElement()) {
-                ++currentIndex;
-            }
-
-            if (items[currentIndex] != null && items[currentIndex].size() > 1) {
-                currentListIndex = 0;
-            } else {
-                currentListIndex = 0;
-            }
-            if (items[currentIndex] != null){
-                listChanger = items[currentIndex].size();
-            }
-
-            if(items[currentIndex] == null){
-                return null;
-            }
-
-            return items[currentIndex].getFirst();
-        }
-
-        public boolean hasLastElement(){
-            for(int i = currentIndex; i < items.length; i++){
-                if(items[i] != null){
-                    return false;
+                    index++;
                 }
             }
 
-            return true;
+            return false;
         }
 
-        public boolean hasNextList() {
-            return currentListIndex + 1 < items[currentIndex].size();
-        }
-
-        public T nextListElement() {
-            if (!hasNextList()) {
-                throw new NoSuchElementException("The next element is null");
+        @Override
+        public E next() {
+            if(currentListIndex != -1){
+                if(currentListIndex + 1 < items[currentIndex].size()){
+                    currentListIndex++;
+                    return items[currentIndex].get(currentListIndex);
+                }else {
+                    currentListIndex = -1;
+                }
             }
 
-            if (items[currentIndex].size() != listChanger) {
-                throw new ConcurrentModificationException("Array has been changed");
+            currentIndex++;
+
+            if(items[currentIndex] == null){
+                while (currentIndex < items.length){
+                    if(items[currentIndex] != null){
+                        if(items[currentIndex].size() > 1){
+                            currentListIndex++;
+                            return items[currentIndex].get(currentListIndex);
+                        }
+
+                        return items[currentIndex].getFirst();
+                    }
+
+                    currentIndex++;
+                }
             }
 
-            ++currentListIndex;
-
-            return items[currentIndex].get(currentListIndex);
+            return null;
         }
     }
 
-    private LinkedList<T>[] items;
+    private LinkedList<E>[] items;
     private int size;
 
-    public HashTable(T object) {
+    public HashTable(E object) {
         if (object == null) {
             throw new NullPointerException("Added element is null");
         }
 
-        items = (LinkedList<T>[]) new LinkedList[100];
+        items = (LinkedList<E>[]) new LinkedList[100];
         size = 0;
 
         add(object);
     }
 
-    public HashTable(T object, int capacity) {
+    public HashTable(E object, int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be greater than 0. Capacity is "
                     + capacity + ".");
@@ -99,7 +82,7 @@ public class HashTable<T> implements Collection<T> {
             throw new NullPointerException("Added element is null");
         }
 
-        items = (LinkedList<T>[]) new LinkedList[capacity];
+        items = (LinkedList<E>[]) new LinkedList[capacity];
         size = 0;
 
         add(object);
@@ -109,7 +92,7 @@ public class HashTable<T> implements Collection<T> {
         return items.length;
     }
 
-    public int tableIndex(T element) { // Метод отладки используется для контроля изменения индекса при изменении
+    public int tableIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
         // размера таблицы. В дальнейшем можно удалить
         int index = -1;
 
@@ -145,7 +128,7 @@ public class HashTable<T> implements Collection<T> {
         }
 
         if (items[index] != null && items[index].size() > 1) {
-            for (java.util.Iterator<T> iterator = items[index].iterator(); iterator.hasNext(); ) {
+            for (java.util.Iterator<E> iterator = items[index].iterator(); iterator.hasNext(); ) {
                 if (iterator.next().equals(o)) {
                     return true;
                 }
@@ -156,15 +139,15 @@ public class HashTable<T> implements Collection<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new HashTableIterator();
+    public Iterator<E> iterator() {
+        return (Iterator<E>) new HashTableIterator();
     }
 
     @Override
     public Object[] toArray() {
         int elementsCount = 0;
 
-        for (LinkedList<T> item : items) {
+        for (LinkedList<E> item : items) {
             if (item != null) {
                 elementsCount++;
             }
@@ -173,7 +156,7 @@ public class HashTable<T> implements Collection<T> {
         Object[] objects = new Object[elementsCount];
         int j = 0;
 
-        for (LinkedList<T> item : items) {
+        for (LinkedList<E> item : items) {
             if (item != null) {
                 objects[j] = item;
                 j++;
@@ -195,27 +178,27 @@ public class HashTable<T> implements Collection<T> {
     }
 
     @Override
-    public boolean add(T t) {
-        if (t == null) {
+    public boolean add(E e) {
+        if (e == null) {
             throw new NullPointerException("Added element is null");
         }
 
         if (size == items.length) {
-            LinkedList<T>[] itemsArray = (LinkedList<T>[]) new LinkedList[items.length * 2];
+            LinkedList<E>[] itemsArray = (LinkedList<E>[]) new LinkedList[items.length * 2];
 
             for (int i = 0; i < items.length; i++) {
                 if (items[i] != null) {
                     int index;
 
                     if (items[i].size() > 1) {
-                        for (java.util.Iterator<T> iterator = items[i].iterator(); iterator.hasNext(); ) {
-                            T element = iterator.next();
+                        for (java.util.Iterator<E> iterator = items[i].iterator(); iterator.hasNext(); ) {
+                            E element = iterator.next();
                             index = Math.abs(element.hashCode() % itemsArray.length);
 
                             if (itemsArray[index] != null) {
                                 itemsArray[index].add(element);
                             } else {
-                                LinkedList<T> list = new LinkedList<>();
+                                LinkedList<E> list = new LinkedList<>();
                                 itemsArray[index] = list;
                                 itemsArray[index].add(element);
                             }
@@ -235,16 +218,16 @@ public class HashTable<T> implements Collection<T> {
             items = itemsArray;
         }
 
-        int index = Math.abs(t.hashCode() % items.length);
+        int index = Math.abs(e.hashCode() % items.length);
         int oldSize = size;
 
         if (items[index] == null) {
-            LinkedList<T> element = new LinkedList<>();
-            element.add(t);
+            LinkedList<E> element = new LinkedList<>();
+            element.add(e);
             items[index] = element;
             size++;
         } else {
-            items[index].add(t);
+            items[index].add(e);
             size++;
         }
 
@@ -304,7 +287,7 @@ public class HashTable<T> implements Collection<T> {
         if (items[index] != null && items[index].size() > 1) {
             int iteratorIndex = 0;
 
-            for (java.util.Iterator<T> iterator = items[index].iterator(); iterator.hasNext(); ) {
+            for (java.util.Iterator<E> iterator = items[index].iterator(); iterator.hasNext(); ) {
                 if (iterator.next().equals(o)) {
                     items[index].remove(iteratorIndex);
                     size--;
@@ -329,22 +312,10 @@ public class HashTable<T> implements Collection<T> {
 
         while (true) {
             if (hashTableIterator.hasNext()) {
-                T element = hashTableIterator.next();
+                E element = hashTableIterator.next();
 
                 if (c.contains(element)) {
                     matchCount++;
-                }
-
-                while (true) {
-                    if (hashTableIterator.hasNextList()) {
-                        T element2 = hashTableIterator.nextListElement();
-
-                        if (c.contains(element2)) {
-                            matchCount++;
-                        }
-                    } else {
-                        break;
-                    }
                 }
             } else {
                 break;
@@ -355,10 +326,10 @@ public class HashTable<T> implements Collection<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends E> c) {
         int oldSize = size;
 
-        for (T t : c) {
+        for (E t : c) {
             add(t);
         }
 
@@ -379,14 +350,12 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public boolean retainAll(Collection<?> c) {
         HashTableIterator hashTableIterator = (HashTableIterator) iterator();
-        LinkedList<T> array = new LinkedList<>();
+        LinkedList<E> array = new LinkedList<>();
         int matchCount = 0;
 
         while (true) {
-            System.out.println("здесь");
-            if (hashTableIterator.hasNext() && !hashTableIterator.hasLastElement() && !hashTableIterator.hasLastElement()) {
-                T element = hashTableIterator.next();
-                System.out.println("тут");
+            if (hashTableIterator.hasNext()) {
+                E element = hashTableIterator.next();
 
                 if (c.contains(element)) {
                     System.out.println(element);
@@ -395,9 +364,8 @@ public class HashTable<T> implements Collection<T> {
                 }
 
                 while (true) {
-                    if (hashTableIterator.hasNextList()) {
-                        T element2 = hashTableIterator.nextListElement();
-                        System.out.println("там");
+                    if (hashTableIterator.hasNext()) {
+                        E element2 = hashTableIterator.next();
 
                         if (c.contains(element2)) {
                             array.add(element2);
@@ -408,7 +376,6 @@ public class HashTable<T> implements Collection<T> {
                         break;
                     }
                 }
-
             } else {
                 break;
             }
@@ -423,7 +390,7 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
-        items = (LinkedList<T>[]) new LinkedList[100];
+        items = (LinkedList<E>[]) new LinkedList[100];
         size = 0;
     }
 }

@@ -149,11 +149,11 @@ public class HashTableMain {
         System.out.println("7. Проверка итератора:");
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
-        HashTable<String>.HashTableIterator hashTableIterator = (HashTable<String>.HashTableIterator) colorsTable3.iterator();
+        HashTable.HashTableIterator hashTableIterator = (HashTable.HashTableIterator) colorsTable3.iterator();
 
         System.out.println("Первый элемент таблицы: " + hashTableIterator.next());
         System.out.println("Второй элемент таблицы и первый элемент списка: " + hashTableIterator.next());
-        System.out.println("Второй элемент таблицы и второй элемент списка: " + hashTableIterator.nextListElement());
+        System.out.println("Второй элемент таблицы и второй элемент списка: " + hashTableIterator.next());
         System.out.println("Третий элемент таблицы: " + hashTableIterator.next());
         System.out.println();
 
