@@ -11,6 +11,14 @@ public class HashTable<E> implements Collection<E> {
 
         @Override
         public boolean hasNext() {
+            if(currentListIndex != -1){
+                if(currentListIndex + 1 < items[currentIndex].size()){
+                    return true;
+                }else {
+                    currentListIndex = -1;
+                }
+            }
+
             int index = currentIndex + 1;
 
             if(index < items.length && items[index] == null){
@@ -140,7 +148,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return (Iterator<E>) new HashTableIterator();
+        return new HashTableIterator();
     }
 
     @Override
@@ -172,7 +180,6 @@ public class HashTable<E> implements Collection<E> {
     }
 
     private boolean isTableNeedMoreSize() {
-
 
         return false;
     }
@@ -234,44 +241,6 @@ public class HashTable<E> implements Collection<E> {
         return size != oldSize;
     }
 
-    // Насколько понял этот метод не особо имеет смысла для хеш-таблиц, на всякий случай оставил, но если надо удалю
-    /*private void trimToSize() {
-        if (items.length / size >= 2) {
-            LinkedList<T>[] itemsArray = (LinkedList<T>[]) new LinkedList[items.length / 2];
-
-            for (int i = 0; i < items.length; i++) {
-                if (items[i] != null) {
-                    int index;
-
-                    if (items[i].size() > 1) {
-                        for (Iterator<T> iterator = items[i].iterator(); iterator.hasNext(); ) {
-                            T element = iterator.next();
-                            index = Math.abs(element.hashCode() % itemsArray.length);
-
-                            if (itemsArray[index] != null) {
-                                itemsArray[index].add(element);
-                            } else {
-                                LinkedList<T> list = new LinkedList<>();
-                                itemsArray[index] = list;
-                                itemsArray[index].add(element);
-                            }
-                        }
-                    } else {
-                        index = Math.abs(items[i].getFirst().hashCode() % itemsArray.length);
-
-                        if (itemsArray[index] != null) {
-                            itemsArray[index].add(items[i].getFirst());
-                        } else {
-                            itemsArray[index] = items[i];
-                        }
-                    }
-                }
-            }
-
-            items = itemsArray;
-        }
-    }*/
-
     @Override
     public boolean remove(Object o) {
         int index = Math.abs(o.hashCode() % items.length);
@@ -279,7 +248,6 @@ public class HashTable<E> implements Collection<E> {
         if (items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)) {
             items[index] = null;
             size--;
-            // trimToSize();
 
             return true;
         }
@@ -291,7 +259,6 @@ public class HashTable<E> implements Collection<E> {
                 if (iterator.next().equals(o)) {
                     items[index].remove(iteratorIndex);
                     size--;
-                    // trimToSize();
 
                     return true;
                 }
@@ -358,23 +325,8 @@ public class HashTable<E> implements Collection<E> {
                 E element = hashTableIterator.next();
 
                 if (c.contains(element)) {
-                    System.out.println(element);
                     array.add(element);
                     matchCount++;
-                }
-
-                while (true) {
-                    if (hashTableIterator.hasNext()) {
-                        E element2 = hashTableIterator.next();
-
-                        if (c.contains(element2)) {
-                            array.add(element2);
-                            System.out.println(element);
-                            matchCount++;
-                        }
-                    } else {
-                        break;
-                    }
                 }
             } else {
                 break;

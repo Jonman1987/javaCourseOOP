@@ -190,6 +190,7 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println("Размер таблицы: " + colorsTable3.tableLength());
+        System.out.println();
 
         System.out.println("10. Удаление коллекции:");
         System.out.println("Содержимое таблицы:");
@@ -203,6 +204,7 @@ public class HashTableMain {
         System.out.println("Результат: " + colorsTable3.removeAll(stringLinkedList3));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println();
 
         System.out.println("11. Использование метода retainAll:");
         System.out.println("Содержимое таблицы:");
@@ -215,5 +217,6 @@ public class HashTableMain {
         System.out.println("Результат: " + colorsTable3.retainAll(stringLinkedList4));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println();
     }
 }
