@@ -1,81 +1,101 @@
 package ru.academits.danilov_e.list;
 
-public class SinglyLinkedList<T> {
-    private Node<T> head;
+public class SinglyLinkedList<E> {
+    private Node<E> head;
     private int count;
 
-    public SinglyLinkedList(Node<T> node) {
-        head = node;
+    public SinglyLinkedList(E data) {
+        head = new Node<>(data, null);
         count = 1;
     }
 
-    public SinglyLinkedList(Node<T>[] nodes) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
+    public SinglyLinkedList(E[] dataArray) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
         // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
         // что я могу указать через запятую разные типы объектов?
-        head = nodes[0];
+        if(dataArray.length == 0){
+            head = null;
+            count = 0;
+        }else if(dataArray.length == 1){
+            head = new Node<>(dataArray[0], null);
+            head.setNext(null);
+            count = 1;
+        }else {
+            head = new Node<>(dataArray[0], null);
+            head.setNext(new Node<>(dataArray[1], null));
+            count = 2;
+
+            Node<E> node;
+            int i;
+
+            for (node = head.getNext(), i = 2; i < dataArray.length; i++) {
+                node.setNext(new Node<>(dataArray[i], null));
+                count++;
+                node = node.getNext();
+            }
+        }
+        /*head = nodes[0];
         head.setNext(nodes[1]);
         count = 2;
 
-        int nodeIndex;
-        Node<T> currentElement;
+        Node<E> node;
+        int i;
 
-        for (currentElement = head.getNext(), nodeIndex = 2; nodeIndex < nodes.length; nodeIndex++) {
-            currentElement.setNext(nodes[nodeIndex]);
+        for (node = head.getNext(), i = 2; i < nodes.length; i++) {
+            node.setNext(nodes[i]);
             count++;
-            currentElement = currentElement.getNext();
-        }
+            node = node.getNext();
+        }*/
     }
 
     public int getCount() {
         return count;
     }
 
-    public T getFirst() {
-        return head.getData();
+    public E getFirst() {
+        return head.get();
     }
 
-    public T getData(int index) {
-        if (index < 1 || index > count) {
-            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+    private static void checkingBounds(int index, int count){
+        if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException("The index must belong to the range [0; " + (count - 1) + "]. Index is "
                     + index + ".");
         }
+    }
 
-        T data = null;
-        int nodeIndex = 1;
-        Node<T> currentElement;
+    public E get(int index) {
+        checkingBounds(index, count);
 
-        for (currentElement = head; currentElement != null; currentElement = currentElement.getNext()) {
-            if (nodeIndex == index) {
-                data = currentElement.getData();
+        E data = null;
+        Node<E> node;
+        int i = 0;
+
+        for (node = head; node != null; node = node.getNext()) {
+            if (i == index) {
+                data = node.get();
+                break;
             }
 
-            nodeIndex++;
+            i++;
         }
 
         return data;
     }
 
-    public T setData(int index, T data) {
-        if (index < 1 || index > count) {
-            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
-                    + index + ".");
-        }
+    public E set(int index, E data) {
+        checkingBounds(index, count);
 
-        if (data == null) {
-            throw new IllegalArgumentException("Input data is null.");
-        }
+        E oldData = null;
+        Node<E> node;
+        int i = 0;
 
-        T oldData = null;
-        int nodeIndex = 1;
-        Node<T> currentNode;
-
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            if (nodeIndex == index) {
-                oldData = currentNode.getData();
-                currentNode.setData(data);
+        for (node = head; node != null; node = node.getNext()) {
+            if (i == index) {
+                oldData = node.get();
+                node.set(data);
+                break;
             }
 
-            nodeIndex++;
+            i++;
         }
 
         return oldData;
@@ -84,10 +104,10 @@ public class SinglyLinkedList<T> {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
-        Node<T> currentNode;
+        Node<E> node;
 
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            stringBuilder.append(currentNode.getData().toString());
+        for (node = head; node != null; node = node.getNext()) {
+            stringBuilder.append(node.get().toString());
             stringBuilder.append(", ");
         }
 
@@ -96,174 +116,145 @@ public class SinglyLinkedList<T> {
         return stringBuilder.toString();
     }
 
-    public T delete(int index) {
+    public E delete(int index) {
         if (count == 1) {
-            throw new IllegalArgumentException("You try to delete last element");
+            throw new IllegalArgumentException("You try to delete last node");
         }
 
-        if (index < 1 || index > count) {
-            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
-                    + index + ".");
-        }
+        checkingBounds(index, count);
 
-        T deleteData = null;
-        int nodeIndex = 1;
-        Node<T> currentNode;
+        E deleteData = null;
+        Node<E> node;
 
-        if (index == 1) {
+        if (index == 0) {
             deleteFirst();
         }
 
-        if (index == getCount()) {
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-                if (nodeIndex == getCount()) {
-                    currentNode.setNext(null);
+        int i = 0;
+
+        if (index == count) {
+            for (node = head; node != null; node = node.getNext()) {
+                if (i == count - 1) {
+                    node.setNext(null);
+                    break;
                 }
 
-                nodeIndex++;
+                i++;
             }
         }
 
-        nodeIndex = 1;
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            if (nodeIndex == index - 1) {
-                deleteData = currentNode.getNext().getData();
-                currentNode.setNext(currentNode.getNext().getNext());
+        i = 0;
+
+        for (node = head; node != null; node = node.getNext()) {
+            if (i == index - 1) {
+                deleteData = node.getNext().get();
+                node.setNext(node.getNext().getNext());
                 count--;
             }
 
-            nodeIndex++;
+            i++;
         }
 
         return deleteData;
     }
 
-    public void inputFirst(Node<T> node) {
-        if (node == null) {
-            throw new IllegalArgumentException("Input node is null.");
-        }
-
-        Node<T> oldHead = head;
+    public void addFirst(E data) {
+        Node<E> node = new Node<>(data, null);
+        node.setNext(head);
         head = node;
-        head.setNext(oldHead);
         count++;
     }
 
-    public void input(int index, Node<T> node) {
-        if (index < 1 || index > count + 1) {
-            throw new IllegalArgumentException("The index must belong to the range [1; " + count + "]. Index is "
+    public void add(int index, E data) {
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException("The index must belong to the range [0; " + count + "]. Index is "
                     + index + ".");
         }
 
-        if (node == null) {
-            throw new IllegalArgumentException("Input node is null.");
-        }
+        Node<E> newNode;
+        int i = 0;
 
-        Node<T> currentNode;
-        int nodeIndex = 1;
-
-        if (index == 1) {
-            inputFirst(node);
-        } else if (index == count + 1) {
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-                if (nodeIndex == count) {
-                    currentNode.setNext(node);
+        if (index == 0) {
+            addFirst(data);
+        } else if (index == count) {
+            for (newNode = head; newNode != null; newNode = newNode.getNext()) {
+                if (i == count - 1) {
+                    Node<E> node = new Node<>(data, null);
+                    newNode.setNext(node);
+                    break;
                 }
 
-                nodeIndex++;
+                i++;
             }
 
             count++;
         } else {
-            Node<T> oldNode;
+            Node<E> oldNode;
 
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-                if (nodeIndex == index - 1) {
-                    oldNode = currentNode.getNext();
-                    currentNode.setNext(node);
+            for (newNode = head; newNode != null; newNode = newNode.getNext()) {
+                if (i == index - 1) {
+                    oldNode = newNode.getNext();
+                    Node<E> node = new Node<>(data, null);
+                    newNode.setNext(node);
                     node.setNext(oldNode);
                 }
 
-                nodeIndex++;
+                i++;
             }
 
             count++;
         }
     }
 
-    public boolean deleteData(T data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Input data is null.");
-        }
-
-        Node<T> currentNode;
-        int nodeIndex = 1;
+    public boolean deleteByData(E data) {
+        Node<E> node;
         boolean isDeleted = false;
+        int i = 0;
 
-        for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-            if (currentNode.getData().equals(data)) {
-                delete(nodeIndex);
+        for (node = head; node != null; node = node.getNext()) {
+            if (node.get().equals(data)) {
+                delete(i);
                 isDeleted = true;
             }
 
-            nodeIndex++;
+            i++;
         }
 
         return isDeleted;
     }
 
-    public T deleteFirst() {
-        Node<T> deletedNode = head;
+    public E deleteFirst() {
+        Node<E> deletedNode = head;
         head = head.getNext();
         count--;
 
-        return deletedNode.getData();
+        return deletedNode.get();
     }
 
-    public void deploy() {
-        Node<T> currentStartNode = null;
-        Node<T> currentNode;
-        Node<T> startNode = null;
-        int nodeCount = count;
+    public void reverse() {
+        Node<E> reversedNode = null;
+        Node<E> node = head;
 
-        while (nodeCount != 0) {
-            int nodeIndex = 1;
-
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) {
-                if (nodeIndex == count) {
-                    startNode = currentNode;
-                    currentStartNode = startNode;
-                } else if (nodeIndex == nodeCount) {
-                    assert startNode != null;
-                    currentNode.setNext(null);
-                    currentStartNode.setNext(currentNode);
-                    currentStartNode = startNode.getNext();
-                }
-
-                nodeIndex++;
-
-                if (nodeIndex > nodeCount) {
-                    break;
-                }
-            }
-
-            nodeCount--;
+        while (node != null) {
+            Node<E> nextNode = node.getNext();
+            node.setNext(reversedNode);
+            reversedNode = node;
+            node = nextNode;
         }
 
-        head = startNode;
+        head = reversedNode;
     }
 
-    public SinglyLinkedList<T> copy() {
-        Node<T> currentNode;
-        Node<T> newHead = new Node<>(head.getData(), null);
+    public SinglyLinkedList<E> copy() {
+        Node<E> node;
 
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>(newHead);
-        int nodeIndex = 2;
+        SinglyLinkedList<E> newSinglyLinkedList = new SinglyLinkedList<>(head.get());
+        int i = 1;
 
-        for (currentNode = head.getNext(); currentNode != null; currentNode = currentNode.getNext()) {
-            newSinglyLinkedList.input(nodeIndex, new Node<>(currentNode.getData(), null));
+        for (node = head.getNext(); node != null; node = node.getNext()) {
+            newSinglyLinkedList.add(i, node.get());
 
-            nodeIndex++;
+            i++;
         }
 
         return newSinglyLinkedList;
