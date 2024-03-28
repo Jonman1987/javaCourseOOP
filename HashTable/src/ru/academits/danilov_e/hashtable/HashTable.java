@@ -74,8 +74,8 @@ public class HashTable<E> implements Collection<E> {
         }
 
         if (items[index] != null && items[index].size() > 1) {
-            for (java.util.Iterator<E> iterator = items[index].iterator(); iterator.hasNext(); ) {
-                if (iterator.next().equals(o)) {
+            for (E e : items[index]) {
+                if (e.equals(o)) {
                     return true;
                 }
             }
@@ -184,7 +184,14 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        return null;
+        T1[] array = (T1[]) toArray();
+        if(a.length < size){
+            a = (T1[]) Arrays.copyOf(array, size, array.getClass());
+        }else {
+            a = Arrays.copyOf(array, a.length);
+        }
+
+        return a;
     }
 
     @Override
@@ -196,13 +203,12 @@ public class HashTable<E> implements Collection<E> {
         if (size == items.length) {
             LinkedList<E>[] itemsArray = (LinkedList<E>[]) new LinkedList[items.length * 2];
 
-            for (int i = 0; i < items.length; i++) {
-                if (items[i] != null) {
+            for (LinkedList<E> item : items) {
+                if (item != null) {
                     int index;
 
-                    if (items[i].size() > 1) {
-                        for (java.util.Iterator<E> iterator = items[i].iterator(); iterator.hasNext(); ) {
-                            E element = iterator.next();
+                    if (item.size() > 1) {
+                        for (E element : item) {
                             index = Math.abs(element.hashCode() % itemsArray.length);
 
                             if (itemsArray[index] != null) {
@@ -214,12 +220,12 @@ public class HashTable<E> implements Collection<E> {
                             }
                         }
                     } else {
-                        index = Math.abs(items[i].getFirst().hashCode() % itemsArray.length);
+                        index = Math.abs(item.getFirst().hashCode() % itemsArray.length);
 
                         if (itemsArray[index] != null) {
-                            itemsArray[index].add(items[i].getFirst());
+                            itemsArray[index].add(item.getFirst());
                         } else {
-                            itemsArray[index] = items[i];
+                            itemsArray[index] = item;
                         }
                     }
                 }
@@ -261,8 +267,8 @@ public class HashTable<E> implements Collection<E> {
         if (items[index] != null && items[index].size() > 1) {
             int iteratorIndex = 0;
 
-            for (java.util.Iterator<E> iterator = items[index].iterator(); iterator.hasNext(); ) {
-                if (iterator.next().equals(o)) {
+            for (E e : items[index]) {
+                if (e.equals(o)) {
                     items[index].remove(iteratorIndex);
                     size--;
                     modificationsCount++;

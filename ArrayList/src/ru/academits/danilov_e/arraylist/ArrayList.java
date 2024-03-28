@@ -208,19 +208,27 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean containsAll(Collection<?> c) {
         ArrayListIterator iterator = iterator();
-        int matchCount = 0;
 
-        while (true) {
-            if (c.contains(iterator.next())) {
-                matchCount++;
-            } else {
-                if (!iterator.hasNext()) {
+        int matchesCount = 0;
+
+        E elem1 = iterator.next();
+
+        while (iterator.hasNext()) {
+            Iterator<?> collectionIterator = c.iterator();
+            Object elem2 = collectionIterator.next();
+            iterator.next();
+
+            while (collectionIterator.hasNext()){
+                if(elem1.equals(elem2)){
+                    matchesCount++;
                     break;
                 }
+
+                collectionIterator.next();
             }
         }
 
-        return matchCount == c.size();
+        return matchesCount == c.size();
     }
 
     @Override

@@ -219,5 +219,9 @@ public class HashTableMain {
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println();
+
+        System.out.println("12. Использование метода toArray(T1[] a):");
+        String[] array = new String[10];
+        System.out.println(Arrays.toString(colorsTable3.toArray(array)));
     }
 }
