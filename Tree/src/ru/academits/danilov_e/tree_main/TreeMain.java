@@ -29,5 +29,11 @@ public class TreeMain {
         tree.widthTreeShow();
         System.out.println("Число элементов: " + tree.size());
         System.out.println();
+
+        System.out.println("3. Бинарный поиск:");
+        System.out.println("Поиск числа 14: " + tree.binarySearch(14));
+        System.out.println("Поиск числа 5: " + tree.binarySearch(5));
+        System.out.println("Поиск числа 10: " + tree.binarySearch(10));
+        System.out.println();
     }
 }

@@ -110,6 +110,26 @@ public class BinarySearchTree<T> {
     }
 
     public boolean binarySearch(T data) {
+        TreeNode<T> currentNode = root;
+
+        while (true){
+            if(Math.abs(data.hashCode()) == Math.abs(currentNode.data().hashCode())){
+                return true;
+            }else if(Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())){
+                if (currentNode.getLeftChild() != null) {
+                    currentNode = currentNode.getLeftChild();
+                }else {
+                    break;
+                }
+            }else {
+                if (currentNode.getRightChild() != null) {
+                    currentNode = currentNode.getRightChild();
+                }else {
+                    break;
+                }
+            }
+        }
+
         return false;
     }
 
