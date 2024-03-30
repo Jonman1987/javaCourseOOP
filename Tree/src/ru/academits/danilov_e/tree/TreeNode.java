@@ -1,12 +1,13 @@
 package ru.academits.danilov_e.tree;
+
 class TreeNode<T> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
-    private String turn; // Отладочное поле
-    private int level; // Отладочное поле
+    private String turn; // Отладочное поле. Используется для отслеживания прохождения по дереву при добавлении узла.
+    private int level; // Отладочное поле. Используется для отслеживания уровня, на котором расположен узел.
 
-    public TreeNode(TreeNode<T> left, TreeNode<T> right, T data){
+    public TreeNode(TreeNode<T> left, TreeNode<T> right, T data) {
         this.left = left;
         this.right = right;
         this.data = data;
@@ -15,59 +16,57 @@ class TreeNode<T> {
         level = 0; // Отладочное поле
     }
 
-    public TreeNode(TreeNode<T> left, TreeNode<T> right, T data, String turn, int level){ // Отладочный конструктор
+    public TreeNode(TreeNode<T> left, TreeNode<T> right, T data, String turn, int level) { // Отладочный конструктор
         this.left = left;
         this.right = right;
         this.data = data;
 
-        this.turn = turn;
-        this.level = level;
+        this.turn = turn; // Отладочное поле
+        this.level = level; // Отладочное поле
     }
 
-    public TreeNode<T> getLeftChild(){
+    public TreeNode<T> getLeftChild() {
         return left;
     }
 
-    public void setLeftChild(TreeNode<T> left){
+    public void setLeftChild(TreeNode<T> left) {
         this.left = left;
     }
 
-    public TreeNode<T> getRightChild(){
+    public TreeNode<T> getRightChild() {
         return right;
     }
 
-    public void setRightChild(TreeNode<T> right){
+    public void setRightChild(TreeNode<T> right) {
         this.right = right;
     }
 
-    public T data(){
+    public T data() {
         return data;
     }
 
-    public void setData(T data){
+    public void setData(T data) {
         this.data = data;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return data + "";
     }
 
-    public String getTurn(){ // Отладочный метод
+    public String getTurn() { // Отладочный метод
         return turn;
     }
 
-    public void setTurn(String turn){ // Отладочный метод
+    public void setTurn(String turn) { // Отладочный метод
         this.turn = turn;
     }
 
-    public int getLevel(){ // Отладочный метод
+    public int getLevel() { // Отладочный метод
         return level;
     }
 
-    public void setLevel(int level){ // Отладочный метод
+    public void setLevel(int level) { // Отладочный метод
         this.level = level;
     }
-
-
 }
