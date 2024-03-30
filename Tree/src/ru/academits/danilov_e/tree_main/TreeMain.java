@@ -37,12 +37,29 @@ public class TreeMain {
         System.out.println("Поиск числа 10: " + tree.binarySearch(10));
         System.out.println();
 
+        System.out.println("4. Удаление отсутствующего узла:");
         tree.remove(6);
         tree.deepTreeShow();
         System.out.println();
 
+        System.out.println("5. Удаление узла с двумя потомками:");
         tree.remove(10);
         tree.widthTreeShow();
+        System.out.println();
 
+        System.out.println("6. Удаление корневого узла:");
+        tree.remove(14);
+        tree.widthTreeShow();
+        System.out.println();
+
+        System.out.println("7. Удаление узла с одним потомком:");
+        tree.remove(13);
+        tree.widthTreeShow();
+        System.out.println();
+
+        System.out.println("8. Удаление узла без потомка:");
+        tree.remove(22);
+        tree.widthTreeShow();
+        System.out.println();
     }
 }

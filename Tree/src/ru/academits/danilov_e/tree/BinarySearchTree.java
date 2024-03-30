@@ -136,7 +136,18 @@ public class BinarySearchTree<T> {
                     root = root.getLeftChild();
                     size--;
                 } else {
+                    TreeNode<T> lastLeftChild = getMostLeftNode(root);
 
+                    if(lastLeftChild.getRightChild() != null){
+                        root.getRightChild().setLeftChild(lastLeftChild.getRightChild());
+                    }else {
+                        root.getRightChild().setLeftChild(null);
+                    }
+
+                    lastLeftChild.setRightChild(root.getRightChild());
+                    lastLeftChild.setLeftChild(root.getLeftChild());
+
+                    root = lastLeftChild;
                 }
             } else if (current.getLeftChild() == null && current.getRightChild() == null) {
                 if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
@@ -168,7 +179,9 @@ public class BinarySearchTree<T> {
                 TreeNode<T> lastLeftChild = getMostLeftNode(current);
                 TreeNode<T> leftNodeParent = getParent(getMostLeftNode(current).data(), root);
 
-                leftNodeParent.setLeftChild(lastLeftChild.getRightChild());
+                if(leftNodeParent != null){
+                    leftNodeParent.setLeftChild(lastLeftChild.getRightChild());
+                }
 
                 lastLeftChild.setRightChild(current.getRightChild());
                 lastLeftChild.setLeftChild(current.getLeftChild());
