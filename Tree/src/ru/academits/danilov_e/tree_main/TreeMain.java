@@ -35,5 +35,9 @@ public class TreeMain {
         System.out.println("Поиск числа 5: " + tree.binarySearch(5));
         System.out.println("Поиск числа 10: " + tree.binarySearch(10));
         System.out.println();
+
+        tree.remove(5);
+        tree.deepTreeShow();
+
     }
 }

@@ -13,11 +13,11 @@ public class BinarySearchTree<T> {
         size = 1;
     }
 
-    public T getRoot(){
+    public T getRoot() {
         return root.data();
     }
 
-    public void setRoot(T root){
+    public void setRoot(T root) {
         this.root = new TreeNode<>(null, null, root);
     }
 
@@ -106,31 +106,75 @@ public class BinarySearchTree<T> {
     }
 
     public void remove(T data) {
+        TreeNode<T> current = getNode(data);
+
+        if (current != null) {
+            TreeNode<T> parent = getParent(data, root);
+
+            if (parent == null) {
+
+            } else if(current.getLeftChild() == null && current.getRightChild() == null){
+                if(Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())){
+                    parent.setLeftChild(null);
+                }else if(Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())){
+                    parent.setRightChild(null);
+                }
+            }else if(current.getLeftChild() == null || current.getRightChild() == null){
+
+            }else {
+
+            }
+        } else {
+            System.out.println("Данное значение отсутствует в дереве");
+        }
 
     }
 
-    public boolean binarySearch(T data) {
+    private TreeNode<T> getParent(T data, TreeNode<T> current) {
+        if (Math.abs(data.hashCode()) == Math.abs(current.data().hashCode())) {
+            return null;
+        }
+
+        if (Math.abs(current.getLeftChild().data().hashCode()) == Math.abs(data.hashCode())
+                || Math.abs(current.getRightChild().data().hashCode()) == Math.abs(data.hashCode())) {
+            return current;
+        }
+
+        if (Math.abs(current.data().hashCode()) > Math.abs(data.hashCode())) {
+            return getParent(data, current.getLeftChild());
+        }
+
+        return getParent(data, current.getRightChild());
+    }
+
+    private TreeNode<T> getNode(T data) {
         TreeNode<T> currentNode = root;
 
-        while (true){
-            if(Math.abs(data.hashCode()) == Math.abs(currentNode.data().hashCode())){
-                return true;
-            }else if(Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())){
+        while (true) {
+            if (Math.abs(data.hashCode()) == Math.abs(currentNode.data().hashCode())) {
+                return currentNode;
+            }
+
+            if (Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())) {
                 if (currentNode.getLeftChild() != null) {
                     currentNode = currentNode.getLeftChild();
-                }else {
+                } else {
                     break;
                 }
-            }else {
+            } else {
                 if (currentNode.getRightChild() != null) {
                     currentNode = currentNode.getRightChild();
-                }else {
+                } else {
                     break;
                 }
             }
         }
 
-        return false;
+        return null;
+    }
+
+    public boolean binarySearch(T data) {
+        return getNode(data) != null;
     }
 
     public int size() {
