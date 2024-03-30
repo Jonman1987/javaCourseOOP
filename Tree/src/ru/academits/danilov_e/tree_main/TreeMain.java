@@ -9,8 +9,12 @@ public class TreeMain {
         tree.add(4);
         tree.add(22);
         tree.add(3);
-
+        tree.add(6);
+        tree.add(5);
+        tree.add(15);
 
         tree.widthTreeShow();
+        System.out.println();
+        tree.deepTreeShow();
     }
 }

@@ -1,6 +1,7 @@
 package ru.academits.danilov_e.tree;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 
 public class BinarySearchTree<T> {
@@ -15,19 +16,34 @@ public class BinarySearchTree<T> {
     public void add(T data){
         TreeNode<T> currentNode = root;
 
-        if(Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())){
-            while (currentNode.getLeftChild() != null && Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())){
-                currentNode = currentNode.getLeftChild();
-            }
+        int level = 1; // Данные отладки
+        StringBuilder path = new StringBuilder(); // Данные отладки
 
-            currentNode.setLeftChild(new TreeNode<>(null, null, data));
-        }else if(Math.abs(data.hashCode()) > Math.abs(currentNode.data().hashCode())){
-            while (currentNode.getRightChild() != null && Math.abs(data.hashCode()) > Math.abs(currentNode.data().hashCode())){
-                currentNode = currentNode.getRightChild();
-            }
+        while (true){
+            if(Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())){
+                path.append("Лево"); // Данные отладки
 
-            currentNode.setRightChild(new TreeNode<>(null, null, data));
+                if(currentNode.getLeftChild() != null){
+                    currentNode = currentNode.getLeftChild();
+                    level++; // Данные отладки
+                }else{
+                    currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    break;
+                }
+            }else if(Math.abs(data.hashCode()) > Math.abs(currentNode.data().hashCode())){
+                path.append("Право"); // Данные отладки
+
+                if(currentNode.getRightChild() != null){
+                    currentNode = currentNode.getRightChild();
+                    level++; // Данные отладки
+                }else{
+                    currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    break;
+                }
+            }
         }
+
+        size++;
     }
 
     public void widthTreeShow(){
@@ -36,21 +52,45 @@ public class BinarySearchTree<T> {
         treeList.add(root);
 
         while (!treeList.isEmpty()){
-            System.out.println(treeList.getFirst());
+            System.out.println(treeList.getFirst() + " " + treeList.getFirst().getTurn() + " " + treeList.getFirst().getLevel());
 
             if(treeList.getFirst().getLeftChild() != null){
-                treeList.add(treeList.getFirst().getLeftChild());
+                treeList.addLast(treeList.getFirst().getLeftChild());
             }
 
             if(treeList.getFirst().getRightChild() != null){
-                treeList.add(treeList.getFirst().getRightChild());
+                treeList.addLast(treeList.getFirst().getRightChild());
             }
 
             treeList.removeFirst();
         }
     }
 
-    public void deeperTreeShow(){
+    public void widthTreeShowWithRecursion(){
+
+    }
+
+    public void deepTreeShow(){
+        Stack<TreeNode<T>> treeStack = new Stack<>();
+        TreeNode<T> elem;
+
+        treeStack.push(root);
+
+        while (!treeStack.isEmpty()){
+            elem = treeStack.pop();
+            System.out.println(elem);
+
+            if(elem.getRightChild() != null){
+                treeStack.push(elem.getRightChild());
+            }
+
+            if(elem.getLeftChild() != null){
+                treeStack.push(elem.getLeftChild());
+            }
+        }
+    }
+
+    public void deepTreeShowWithRecursion(){
 
     }
 
