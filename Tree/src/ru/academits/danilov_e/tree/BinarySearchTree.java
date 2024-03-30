@@ -21,7 +21,7 @@ public class BinarySearchTree<T> {
     }
 
     public void add(T data) {
-        if(binarySearch(data)){
+        if (binarySearch(data)) {
             throw new IllegalArgumentException("Данный элемент со значением " + data + " уже находится в дереве");
         }
 
@@ -39,7 +39,7 @@ public class BinarySearchTree<T> {
                     // level++; // Данные отладки
                 } else {
                     // path.deleteCharAt(path.length() - 1); // Данные отладки
-                    // currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    // currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level)); // Данные отладки
                     currentNode.setLeftChild(new TreeNode<>(null, null, data));
                     break;
                 }
@@ -51,7 +51,7 @@ public class BinarySearchTree<T> {
                     // level++; // Данные отладки
                 } else {
                     // path.deleteCharAt(path.length() - 1); // Данные отладки
-                    // currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    // currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level)); // Данные отладки
                     currentNode.setRightChild(new TreeNode<>(null, null, data));
                     break;
                 }
@@ -68,7 +68,7 @@ public class BinarySearchTree<T> {
 
         while (!treeList.isEmpty()) {
             // System.out.println("Значение узла: " + treeList.getFirst() + ". Проход по дереву при добавлении узла: "
-                    // + treeList.getFirst().getTurn() + ". Уровень расположения узла: " + treeList.getFirst().getLevel() + ".");
+            // + treeList.getFirst().getTurn() + ". Уровень расположения узла: " + treeList.getFirst().getLevel() + ".");
 
             System.out.println("Значение узла: " + treeList.getFirst() + ".");
 
@@ -112,10 +112,10 @@ public class BinarySearchTree<T> {
 
     }
 
-    private TreeNode<T> getMostLeftNode(TreeNode<T> deletedNode){
+    private TreeNode<T> getMostLeftNode(TreeNode<T> deletedNode) {
         TreeNode<T> foundNode = deletedNode.getRightChild();
 
-        while (foundNode.getLeftChild() != null){
+        while (foundNode.getLeftChild() != null) {
             foundNode = foundNode.getLeftChild();
         }
 
@@ -141,9 +141,9 @@ public class BinarySearchTree<T> {
                 } else {
                     TreeNode<T> lastLeftChild = getMostLeftNode(root);
 
-                    if(lastLeftChild.getRightChild() != null){
+                    if (lastLeftChild.getRightChild() != null) {
                         root.getRightChild().setLeftChild(lastLeftChild.getRightChild());
-                    }else {
+                    } else {
                         root.getRightChild().setLeftChild(null);
                     }
 
@@ -183,7 +183,7 @@ public class BinarySearchTree<T> {
                 TreeNode<T> lastLeftChild = getMostLeftNode(current);
                 TreeNode<T> leftNodeParent = getParent(getMostLeftNode(current).data(), root);
 
-                if(leftNodeParent != null){
+                if (leftNodeParent != null) {
                     leftNodeParent.setLeftChild(lastLeftChild.getRightChild());
                 }
 

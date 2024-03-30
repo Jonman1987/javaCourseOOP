@@ -17,12 +17,12 @@ class TreeNode<T> {
     }
 
     // public TreeNode(TreeNode<T> left, TreeNode<T> right, T data, String turn, int level) { // Отладочный конструктор
-        // this.left = left;
-        // this.right = right;
-        // this.data = data;
+    // this.left = left;
+    // this.right = right;
+    // this.data = data;
 
-        // this.turn = turn; // Отладочное поле
-        // this.level = level; // Отладочное поле
+    // this.turn = turn; // Отладочное поле
+    // this.level = level; // Отладочное поле
     // }
 
     public TreeNode<T> getLeftChild() {
@@ -55,18 +55,18 @@ class TreeNode<T> {
     }
 
     // public String getTurn() { // Отладочный метод
-        // return turn;
+    // return turn;
     // }
 
     // public void setTurn(String turn) { // Отладочный метод
-        // this.turn = turn;
+    // this.turn = turn;
     // }
 
     // public int getLevel() { // Отладочный метод
-        // return level;
+    // return level;
     // }
 
     // public void setLevel(int level) { // Отладочный метод
-        // this.level = level;
+    // this.level = level;
     // }
 }
