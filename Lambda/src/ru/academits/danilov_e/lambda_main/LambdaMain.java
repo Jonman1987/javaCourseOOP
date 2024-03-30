@@ -4,9 +4,11 @@ import ru.academits.danilov_e.lambda.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class LambdaMain {
-    public static void main(String[] args) {
+    public static <per> void main(String[] args) {
         Person person1 = new Person("Иван", 18);
         Person person2 = new Person("Анна", 23);
         Person person3 = new Person("Сергей", 44);
@@ -31,9 +33,10 @@ public class LambdaMain {
         Person[] personArray = {person1, person2, person3, person4, person5, person6, person7, person8, person9, person10,
                 person11, person12, person13, person14, person15, person16, person17, person18, person19, person20};
 
-        ArrayList<Person> personList = new ArrayList<>(List.of(personArray));
+        List<Person> personList = new ArrayList<>(List.of(personArray));
 
-        System.out.println(personList);
+        personList.forEach(person -> System.out.println(person.getName() + " " + person.getAge()));
+        System.out.println();
 
     }
 }

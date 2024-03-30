@@ -33,8 +33,21 @@ public class Person {
         this.age = age;
     }
 
-    @Override
+    /*@Override
     public String toString(){
         return name + " " + age;
+    }*/
+
+    @Override
+    public boolean equals(Object obj) {
+        System.out.println("Data equals method");
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        return this.age == ((Person) obj).age && this.name.equals(((Person) obj).name);
     }
 }
