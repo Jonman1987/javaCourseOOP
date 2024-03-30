@@ -85,7 +85,27 @@ public class BinarySearchTree<T> {
     }
 
     public void widthTreeShowWithRecursion() {
+        LinkedList<TreeNode<T>> list = new LinkedList<>();
+        list.add(root);
+        widthVisit(list);
+    }
 
+    private void widthVisit(LinkedList<TreeNode<T>> list) {
+        System.out.println(list.getFirst());
+
+        if (list.getFirst().getLeftChild() != null) {
+            list.addLast(list.getFirst().getLeftChild());
+        }
+
+        if (list.getFirst().getRightChild() != null) {
+            list.addLast(list.getFirst().getRightChild());
+        }
+
+        list.removeFirst();
+
+        if (!list.isEmpty()) {
+            widthVisit(list);
+        }
     }
 
     public void deepTreeShow() {
@@ -109,7 +129,26 @@ public class BinarySearchTree<T> {
     }
 
     public void deepTreeShowWithRecursion() {
+        deepVisit(root);
+    }
 
+    private LinkedList<TreeNode<T>> getChildren(TreeNode<T> node) {
+        LinkedList<TreeNode<T>> children = new LinkedList<>();
+
+        children.add(node.getLeftChild());
+        children.add(node.getRightChild());
+
+        return children;
+    }
+
+    private void deepVisit(TreeNode<T> node) {
+        System.out.println(node.data());
+
+        for (TreeNode<T> child : getChildren(node)) {
+            if (child != null) {
+                deepVisit(child);
+            }
+        }
     }
 
     private TreeNode<T> getMostLeftNode(TreeNode<T> deletedNode) {

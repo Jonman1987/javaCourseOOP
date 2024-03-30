@@ -24,6 +24,9 @@ public class TreeMain {
 
         System.out.println("Результат обход в глубину:");
         tree.deepTreeShow();
+        System.out.println();
+        System.out.println("Результат рекурсивный обход в глубину:");
+        tree.deepTreeShowWithRecursion();
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
@@ -31,11 +34,14 @@ public class TreeMain {
         tree.widthTreeShow();
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
+        System.out.println("Результат рекурсивный обход в ширину:");
+        tree.widthTreeShowWithRecursion();
+        System.out.println();
 
         System.out.println("3. Бинарный поиск:");
         System.out.println("Поиск числа 14: " + tree.binarySearch(14));
         System.out.println("Поиск числа 5: " + tree.binarySearch(5));
-        System.out.println("Поиск числа 10: " + tree.binarySearch(10));
+        System.out.println("Поиск числа 12: " + tree.binarySearch(12));
         System.out.println();
 
         System.out.println("4. Удаление отсутствующего узла:");
