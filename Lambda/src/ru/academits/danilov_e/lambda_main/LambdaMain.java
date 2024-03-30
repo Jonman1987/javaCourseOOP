@@ -4,11 +4,10 @@ import ru.academits.danilov_e.lambda.Person;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LambdaMain {
-    public static <per> void main(String[] args) {
+    public static void main(String[] args) {
         Person person1 = new Person("Иван", 18);
         Person person2 = new Person("Анна", 23);
         Person person3 = new Person("Сергей", 44);
@@ -37,6 +36,13 @@ public class LambdaMain {
 
         personList.forEach(person -> System.out.println(person.getName() + " " + person.getAge()));
         System.out.println();
+
+        System.out.println("Список людей младше 18:");
+        List<Person> sor = personList.stream().filter(person -> (person.getAge() < 18)).toList();
+        sor.forEach(person -> System.out.println(person.getName() + " " + person.getAge()));
+        System.out.println();
+
+        System.out.println("Их средний возраст:");
 
     }
 }
