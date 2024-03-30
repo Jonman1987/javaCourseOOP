@@ -3,7 +3,6 @@ package ru.academits.danilov_e.tree;
 import java.util.LinkedList;
 import java.util.Stack;
 
-
 public class BinarySearchTree<T> {
     private TreeNode<T> root;
     private int size;
@@ -28,30 +27,32 @@ public class BinarySearchTree<T> {
 
         TreeNode<T> currentNode = root;
 
-        int level = 1; // Данные отладки
-        StringBuilder path = new StringBuilder(); // Данные отладки
+        // int level = 1; // Данные отладки
+        // StringBuilder path = new StringBuilder(); // Данные отладки
 
         while (true) {
             if (Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())) {
-                path.append("Лево "); // Данные отладки
+                // path.append("Лево "); // Данные отладки
 
                 if (currentNode.getLeftChild() != null) {
                     currentNode = currentNode.getLeftChild();
-                    level++; // Данные отладки
+                    // level++; // Данные отладки
                 } else {
-                    path.deleteCharAt(path.length() - 1); // Данные отладки
-                    currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    // path.deleteCharAt(path.length() - 1); // Данные отладки
+                    // currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    currentNode.setLeftChild(new TreeNode<>(null, null, data));
                     break;
                 }
             } else if (Math.abs(data.hashCode()) > Math.abs(currentNode.data().hashCode())) {
-                path.append("Право "); // Данные отладки
+                // path.append("Право "); // Данные отладки
 
                 if (currentNode.getRightChild() != null) {
                     currentNode = currentNode.getRightChild();
-                    level++; // Данные отладки
+                    // level++; // Данные отладки
                 } else {
-                    path.deleteCharAt(path.length() - 1); // Данные отладки
-                    currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    // path.deleteCharAt(path.length() - 1); // Данные отладки
+                    // currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level));
+                    currentNode.setRightChild(new TreeNode<>(null, null, data));
                     break;
                 }
             }
@@ -66,8 +67,10 @@ public class BinarySearchTree<T> {
         treeList.add(root);
 
         while (!treeList.isEmpty()) {
-            System.out.println("Значение узла: " + treeList.getFirst() + ". Проход по дереву при добавлении узла: "
-                    + treeList.getFirst().getTurn() + ". Уровень расположения узла: " + treeList.getFirst().getLevel() + ".");
+            // System.out.println("Значение узла: " + treeList.getFirst() + ". Проход по дереву при добавлении узла: "
+                    // + treeList.getFirst().getTurn() + ". Уровень расположения узла: " + treeList.getFirst().getLevel() + ".");
+
+            System.out.println("Значение узла: " + treeList.getFirst() + ".");
 
             if (treeList.getFirst().getLeftChild() != null) {
                 treeList.addLast(treeList.getFirst().getLeftChild());
@@ -148,6 +151,7 @@ public class BinarySearchTree<T> {
                     lastLeftChild.setLeftChild(root.getLeftChild());
 
                     root = lastLeftChild;
+                    size--;
                 }
             } else if (current.getLeftChild() == null && current.getRightChild() == null) {
                 if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {

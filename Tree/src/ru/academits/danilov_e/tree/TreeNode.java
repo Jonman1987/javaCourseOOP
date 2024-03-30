@@ -4,26 +4,26 @@ class TreeNode<T> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
-    private String turn; // Отладочное поле. Используется для отслеживания прохождения по дереву при добавлении узла.
-    private int level; // Отладочное поле. Используется для отслеживания уровня, на котором расположен узел.
+    // private String turn; // Отладочное поле. Используется для отслеживания прохождения по дереву при добавлении узла.
+    // private int level; // Отладочное поле. Используется для отслеживания уровня, на котором расположен узел.
 
     public TreeNode(TreeNode<T> left, TreeNode<T> right, T data) {
         this.left = left;
         this.right = right;
         this.data = data;
 
-        turn = "Центр"; // Отладочное поле
-        level = 0; // Отладочное поле
+        // turn = "Центр"; // Отладочное поле
+        // level = 0; // Отладочное поле
     }
 
-    public TreeNode(TreeNode<T> left, TreeNode<T> right, T data, String turn, int level) { // Отладочный конструктор
-        this.left = left;
-        this.right = right;
-        this.data = data;
+    // public TreeNode(TreeNode<T> left, TreeNode<T> right, T data, String turn, int level) { // Отладочный конструктор
+        // this.left = left;
+        // this.right = right;
+        // this.data = data;
 
-        this.turn = turn; // Отладочное поле
-        this.level = level; // Отладочное поле
-    }
+        // this.turn = turn; // Отладочное поле
+        // this.level = level; // Отладочное поле
+    // }
 
     public TreeNode<T> getLeftChild() {
         return left;
@@ -54,19 +54,19 @@ class TreeNode<T> {
         return "" + data;
     }
 
-    public String getTurn() { // Отладочный метод
-        return turn;
-    }
+    // public String getTurn() { // Отладочный метод
+        // return turn;
+    // }
 
-    public void setTurn(String turn) { // Отладочный метод
-        this.turn = turn;
-    }
+    // public void setTurn(String turn) { // Отладочный метод
+        // this.turn = turn;
+    // }
 
-    public int getLevel() { // Отладочный метод
-        return level;
-    }
+    // public int getLevel() { // Отладочный метод
+        // return level;
+    // }
 
-    public void setLevel(int level) { // Отладочный метод
-        this.level = level;
-    }
+    // public void setLevel(int level) { // Отладочный метод
+        // this.level = level;
+    // }
 }

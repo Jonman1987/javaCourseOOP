@@ -9,6 +9,7 @@ public class TreeMain {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>(number1);
         System.out.println("Результат:");
         tree.deepTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("2. Наполняем дерево узлами:");
@@ -23,12 +24,12 @@ public class TreeMain {
 
         System.out.println("Результат обход в глубину:");
         tree.deepTreeShow();
-        System.out.println("Число элементов: " + tree.size());
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("Результат обход в ширину:");
         tree.widthTreeShow();
-        System.out.println("Число элементов: " + tree.size());
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("3. Бинарный поиск:");
@@ -40,26 +41,31 @@ public class TreeMain {
         System.out.println("4. Удаление отсутствующего узла:");
         tree.remove(6);
         tree.deepTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("5. Удаление узла с двумя потомками:");
         tree.remove(10);
         tree.widthTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("6. Удаление корневого узла:");
         tree.remove(14);
         tree.widthTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("7. Удаление узла с одним потомком:");
         tree.remove(13);
         tree.widthTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("8. Удаление узла без потомка:");
         tree.remove(22);
         tree.widthTreeShow();
+        System.out.println("Число узлов: " + tree.size());
         System.out.println();
     }
 }
