@@ -13,12 +13,13 @@ public class TreeMain {
 
         System.out.println("2. Наполняем дерево узлами:");
 
-        tree.add(4);
+        tree.add(10);
         tree.add(22);
         tree.add(3);
-        tree.add(6);
-        tree.add(5);
+        tree.add(13);
+        tree.add(11);
         tree.add(15);
+        tree.add(12);
 
         System.out.println("Результат обход в глубину:");
         tree.deepTreeShow();
@@ -36,8 +37,12 @@ public class TreeMain {
         System.out.println("Поиск числа 10: " + tree.binarySearch(10));
         System.out.println();
 
-        tree.remove(5);
+        tree.remove(6);
         tree.deepTreeShow();
+        System.out.println();
+
+        tree.remove(10);
+        tree.widthTreeShow();
 
     }
 }

@@ -22,6 +22,10 @@ public class BinarySearchTree<T> {
     }
 
     public void add(T data) {
+        if(binarySearch(data)){
+            throw new IllegalArgumentException("Данный элемент со значением " + data + " уже находится в дереве");
+        }
+
         TreeNode<T> currentNode = root;
 
         int level = 1; // Данные отладки
@@ -105,6 +109,16 @@ public class BinarySearchTree<T> {
 
     }
 
+    private TreeNode<T> getMostLeftNode(TreeNode<T> deletedNode){
+        TreeNode<T> foundNode = deletedNode.getRightChild();
+
+        while (foundNode.getLeftChild() != null){
+            foundNode = foundNode.getLeftChild();
+        }
+
+        return foundNode;
+    }
+
     public void remove(T data) {
         TreeNode<T> current = getNode(data);
 
@@ -112,22 +126,64 @@ public class BinarySearchTree<T> {
             TreeNode<T> parent = getParent(data, root);
 
             if (parent == null) {
+                if (root.getLeftChild() == null && root.getRightChild() == null) {
+                    root = null;
+                    size--;
+                } else if (root.getLeftChild() == null) {
+                    root = root.getRightChild();
+                    size--;
+                } else if (root.getRightChild() == null) {
+                    root = root.getLeftChild();
+                    size--;
+                } else {
 
-            } else if(current.getLeftChild() == null && current.getRightChild() == null){
-                if(Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())){
-                    parent.setLeftChild(null);
-                }else if(Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())){
-                    parent.setRightChild(null);
                 }
-            }else if(current.getLeftChild() == null || current.getRightChild() == null){
+            } else if (current.getLeftChild() == null && current.getRightChild() == null) {
+                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
+                    parent.setLeftChild(null);
+                    size--;
+                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
+                    parent.setRightChild(null);
+                    size--;
+                }
+            } else if (current.getLeftChild() == null || current.getRightChild() == null) {
+                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
+                    if (current.getLeftChild() == null) {
+                        parent.setLeftChild(current.getRightChild());
+                        size--;
+                    } else {
+                        parent.setLeftChild(current.getLeftChild());
+                        size--;
+                    }
+                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
+                    if (current.getLeftChild() == null) {
+                        parent.setRightChild(current.getRightChild());
+                        size--;
+                    } else {
+                        parent.setRightChild(current.getLeftChild());
+                        size--;
+                    }
+                }
+            } else {
+                TreeNode<T> lastLeftChild = getMostLeftNode(current);
+                TreeNode<T> leftNodeParent = getParent(getMostLeftNode(current).data(), root);
 
-            }else {
+                leftNodeParent.setLeftChild(lastLeftChild.getRightChild());
 
+                lastLeftChild.setRightChild(current.getRightChild());
+                lastLeftChild.setLeftChild(current.getLeftChild());
+
+                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
+                    parent.setLeftChild(lastLeftChild);
+                    size--;
+                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
+                    parent.setRightChild(lastLeftChild);
+                    size--;
+                }
             }
         } else {
             System.out.println("Данное значение отсутствует в дереве");
         }
-
     }
 
     private TreeNode<T> getParent(T data, TreeNode<T> current) {
