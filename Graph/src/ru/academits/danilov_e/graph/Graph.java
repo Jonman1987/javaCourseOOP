@@ -3,6 +3,8 @@ package ru.academits.danilov_e.graph;
 import java.util.Arrays;
 
 public class Graph {
+
+
     int[][] graph;
     boolean[] hasVisited;
 
