@@ -2,8 +2,6 @@ package ru.academits.danilov_e.graph_main;
 
 import ru.academits.danilov_e.graph.Graph;
 
-import java.util.TreeSet;
-
 public class GraphMain {
     public static void main(String[] args) {
         int[][] array = {
