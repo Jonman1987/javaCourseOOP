@@ -2,6 +2,8 @@ package ru.academits.danilov_e.matrix;
 
 import ru.academits.danilov_e.vector.Vector;
 
+import java.util.Arrays;
+
 public class Matrix {
     private Vector[] rows;
 
@@ -23,23 +25,19 @@ public class Matrix {
 
     public Matrix(Matrix matrix) {
         if (matrix == null) {
-            throw new NullPointerException("The passed object refers to null");
+            throw new NullPointerException("The passed matrix refers to null");
         }
 
-        rows = matrix.rows;
+        rows = Arrays.copyOf(matrix.rows, matrix.rows.length);
     }
 
     public Matrix(double[][] array) {
         if (array == null) {
-            throw new NullPointerException("The passed object refers to null");
+            throw new NullPointerException("The passed array refers to null");
         }
 
         if (array.length == 0) {
-            throw new IllegalArgumentException("Array rows count must be more than 0. Rows count is " + array.length + ".");
-        }
-
-        if (array[0].length == 0) {
-            throw new IllegalArgumentException("Array columns count must be more than 0. Columns count is " + array[0].length + ".");
+            throw new IllegalArgumentException("Array rows count must be more than 0.");
         }
 
         int columnsCount = array[0].length;
@@ -59,12 +57,11 @@ public class Matrix {
 
     public Matrix(Vector[] vectors) {
         if (vectors == null) {
-            throw new NullPointerException("The passed object refers to null");
+            throw new NullPointerException("The passed vector refers to null");
         }
 
         if (vectors.length == 0) {
-            throw new IllegalArgumentException("Vector array length must be more than 0. Vector array length count is "
-                    + vectors.length + ".");
+            throw new IllegalArgumentException("Vector array length must be more than 0.");
         }
 
         int maxVectorDimension = vectors[0].getDimension();
@@ -79,12 +76,11 @@ public class Matrix {
 
         for (int i = 0; i < vectors.length; i++) {
             rows[i] = new Vector(maxVectorDimension);
-            //rows[i].add(vectors[i]); решил, что вариант строкой ниже лучше
-            rows[i] = Vector.getSum(rows[i], vectors[i]);
+            rows[i].add(vectors[i]);
         }
     }
 
-    public int getColumnCount() {
+    public int getColumnsCount() {
         return rows[0].getDimension();
     }
 
@@ -103,11 +99,7 @@ public class Matrix {
 
     public void setRow(int index, Vector vector) {
         if (vector == null) {
-            throw new NullPointerException("The passed object refers to null");
-        }
-
-        if (vector.getDimension() == 0) {
-            throw new IllegalArgumentException("Vector size cannot be equal 0. Vector size is " + vector.getDimension() + ".");
+            throw new NullPointerException("The passed vector refers to null");
         }
 
         if (index < 0 || index >= rows.length) {
@@ -115,9 +107,9 @@ public class Matrix {
                     + "]. Row index is " + index + ".");
         }
 
-        if (getColumnCount() != vector.getDimension()) {
+        if (getColumnsCount() != vector.getDimension()) {
             throw new IllegalArgumentException("Matrix dimension and vector dimension are different. Both dimension "
-                    + "must be same. Matrix dimension is " + getColumnCount() + ". Vector dimension is "
+                    + "must be same. Matrix dimension is " + getColumnsCount() + ". Vector dimension is "
                     + vector.getDimension() + ".");
         }
 
@@ -125,22 +117,22 @@ public class Matrix {
     }
 
     public Vector getColumn(int index) {
-        if (index < 0 || index >= getColumnCount()) {
+        if (index < 0 || index >= getColumnsCount()) {
             throw new IndexOutOfBoundsException("The column index must belong to the range [0; "
-                    + (getColumnCount() - 1) + "]. Column index is " + index + ".");
+                    + (getColumnsCount() - 1) + "]. Column index is " + index + ".");
         }
 
-        double[] columnArray = new double[rows.length];
+        double[] columnsArray = new double[rows.length];
 
         for (int i = 0; i < rows.length; i++) {
-            columnArray[i] = rows[i].getComponent(index);
+            columnsArray[i] = rows[i].getComponent(index);
         }
 
-        return new Vector(columnArray);
+        return new Vector(columnsArray);
     }
 
     public void transpose() {
-        Vector[] newRows = new Vector[getColumnCount()];
+        Vector[] newRows = new Vector[getColumnsCount()];
 
         for (int i = 0; i < newRows.length; i++) {
             newRows[i] = getColumn(i);
@@ -156,9 +148,9 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        if (rows.length != getColumnCount()) {
-            throw new IllegalStateException("Matrix must have same dimension of rows and columns. Rows dimension "
-                    + "is " + rows.length + ". Columns dimension is " + getColumnCount() + ".");
+        if (rows.length != getColumnsCount()) {
+            throw new IllegalStateException("Matrix must have same count of rows and columns. Rows count "
+                    + "is " + rows.length + ". Columns count is " + getColumnsCount() + ".");
         }
 
         if (rows.length == 1) {
@@ -173,14 +165,14 @@ public class Matrix {
         double determinant = 0;
         int sign = 1;
 
-        for (int determinantColumn = 0; determinantColumn < getColumnCount(); ++determinantColumn) {
+        for (int determinantColumn = 0; determinantColumn < getColumnsCount(); ++determinantColumn) {
             double[][] minor = new double[rows.length - 1][rows.length - 1];
             int minorRow = 0;
 
             for (int row = 1; row < rows.length; ++row) {
                 int minorColumn = 0;
 
-                for (int column = 0; column < getColumnCount(); ++column) {
+                for (int column = 0; column < getColumnsCount(); ++column) {
                     if (column != determinantColumn) {
                         minor[minorRow][minorColumn] = rows[row].getComponent(column);
                         ++minorColumn;
@@ -212,16 +204,12 @@ public class Matrix {
 
     public Vector multiply(Vector vector) {
         if (vector == null) {
-            throw new NullPointerException("The passed object refers to null");
+            throw new NullPointerException("The passed vector refers to null");
         }
 
-        if (vector.getDimension() == 0) {
-            throw new IllegalArgumentException("Vector size cannot be equal 0. Vector size is " + vector.getDimension() + ".");
-        }
-
-        if (rows[0].getDimension() != vector.getDimension()) {
+        if (getColumnsCount() != vector.getDimension()) {
             throw new IllegalArgumentException("Matrix column dimension and vector dimension must have same dimension. "
-                    + "Matrix column dimension is " + rows[0].getDimension()
+                    + "Matrix column dimension is " + getColumnsCount()
                     + ". Vector dimension is " + vector.getDimension() + ".");
         }
 
@@ -234,24 +222,24 @@ public class Matrix {
         return resultingVector;
     }
 
-    private static void checkingMatricesSizeEquality(Matrix matrix1, Matrix matrix2) {
-        if (matrix1 == null || matrix2 == null) {
-            throw new NullPointerException("The passed object refers to null");
+    private static void checkMatricesSizesEquality(Matrix matrix1, Matrix matrix2) {
+        if (matrix1 == null) {
+            throw new NullPointerException("The passed matrix1 refers to null");
         }
 
-        if (matrix1.rows.length != matrix2.rows.length && matrix1.getColumnCount() != matrix2.getColumnCount()) {
+        if (matrix2 == null) {
+            throw new NullPointerException("The passed matrix2 refers to null");
+        }
+
+        if (matrix1.rows.length != matrix2.rows.length || matrix1.getColumnsCount() != matrix2.getColumnsCount()) {
             throw new IllegalArgumentException("Both matrix must be same dimension. Dimension of matrix1 is "
-                    + matrix1.rows.length + "x" + matrix1.getColumnCount() + ". Dimension of matrix2 is "
-                    + matrix2.rows.length + "x" + matrix2.getColumnCount() + ".");
+                    + matrix1.rows.length + "x" + matrix1.getColumnsCount() + ". Dimension of matrix2 is "
+                    + matrix2.rows.length + "x" + matrix2.getColumnsCount() + ".");
         }
     }
 
     public void add(Matrix matrix) {
-        if (matrix == null) {
-            throw new NullPointerException("The passed object refers to null");
-        }
-
-        checkingMatricesSizeEquality(this, matrix);
+        checkMatricesSizesEquality(this, matrix);
 
         for (int i = 0; i < rows.length; i++) {
             rows[i].add(matrix.rows[i]);
@@ -259,11 +247,7 @@ public class Matrix {
     }
 
     public void subtract(Matrix matrix) {
-        if (matrix == null) {
-            throw new NullPointerException("The passed object refers to null");
-        }
-
-        checkingMatricesSizeEquality(this, matrix);
+        checkMatricesSizesEquality(this, matrix);
 
         for (int i = 0; i < rows.length; i++) {
             rows[i].subtract(matrix.rows[i]);
@@ -271,11 +255,7 @@ public class Matrix {
     }
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
-        if (matrix1 == null || matrix2 == null) {
-            throw new NullPointerException("The passed object refers to null");
-        }
-
-        checkingMatricesSizeEquality(matrix1, matrix2);
+        checkMatricesSizesEquality(matrix1, matrix2);
 
         Matrix matrix3 = new Matrix(matrix1);
         matrix3.add(matrix2);
@@ -284,34 +264,34 @@ public class Matrix {
     }
 
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
-        if (matrix1 == null || matrix2 == null) {
-            throw new NullPointerException("The passed object refers to null");
-        }
+        checkMatricesSizesEquality(matrix1, matrix2);
 
-        checkingMatricesSizeEquality(matrix1, matrix2);
+        Matrix result = new Matrix(matrix1);
+        result.subtract(matrix2);
 
-        Matrix matrix3 = new Matrix(matrix1);
-        matrix3.subtract(matrix2);
-
-        return new Matrix(matrix3);
+        return new Matrix(result);
     }
 
     public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
-        if (matrix1 == null || matrix2 == null) {
-            throw new NullPointerException("The passed object refers to null");
+        if (matrix1 == null) {
+            throw new NullPointerException("The passed matrix1 refers to null");
         }
 
-        if (matrix1.getColumnCount() != matrix2.rows.length) {
-            throw new IllegalArgumentException("Matrix1 columns count and matrix2 rows count must be same dimension. "
-                    + "Columns dimension of matrix1 is " + matrix1.getColumnCount()
-                    + ". Rows dimension of matrix2 is " + matrix2.rows.length + ".");
+        if (matrix2 == null) {
+            throw new NullPointerException("The passed matrix2 refers to null");
         }
 
-        double[][] array = new double[matrix1.rows.length][matrix2.getColumnCount()];
+        if (matrix1.getColumnsCount() != matrix2.rows.length) {
+            throw new IllegalArgumentException("Matrix1 columns count and matrix2 rows count must be same. "
+                    + "Columns count of matrix1 is " + matrix1.getColumnsCount()
+                    + ". Rows count of matrix2 is " + matrix2.rows.length + ".");
+        }
+
+        double[][] array = new double[matrix1.rows.length][matrix2.getColumnsCount()];
 
         for (int i = 0; i < matrix1.rows.length; i++) {
-            for (int j = 0; j < matrix2.getColumnCount(); j++) {
-                array[i][j] += Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j));
+            for (int j = 0; j < matrix2.getColumnsCount(); j++) {
+                array[i][j] = Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j));
             }
         }
 

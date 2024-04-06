@@ -55,7 +55,7 @@ public class MatrixMain {
         System.out.println();
 
         System.out.println("6. Получение ширины матрицы из пункта 4:");
-        System.out.println("Ширина: " + matrix3.getColumnCount());
+        System.out.println("Ширина: " + matrix3.getColumnsCount());
         System.out.println();
 
         System.out.println("7. Получение вектора строки из пункта 4 по индексу 1:");
