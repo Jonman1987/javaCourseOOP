@@ -8,36 +8,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArrayListHome {
-    public static ArrayList<?> getListWithoutRepeats(ArrayList<?> objectsList) {
-        ArrayList<Object> objectsListWithoutRepeats = new ArrayList<>(objectsList.size());
+    public static ArrayList<Integer> getListWithoutRepeats(ArrayList<Integer> list) {
+        // В пункте 2 замечаний у меня возникло непонимание. Если я хочу сделать обобщенный метод с использованием <E>, то
+        // я должен сделать метод не статичным. А не статичный метод, я потом не могу использовать в main. Я вышел из
+        // положения использовав wild card. Но вы сказали, что так делать нельзя. В итоге что-то я запутался, могу я ли
+        // я сделать этот метод универсальным или же для этого нужно писать отдельный класс. Я сделал жесткую привязку
+        // к Integer как в методе removeEvenNumbers, но мне интересно как можно сделать этот метод универсальным для
+        // других типов.
+        ArrayList<Integer> listWithoutRepeats = new ArrayList<>(list.size());
 
-        for (Object object : objectsList) {
-            if (!objectsListWithoutRepeats.contains(object)) {
-                objectsListWithoutRepeats.add(object);
+        for (Integer numbers : list) {
+            if (!listWithoutRepeats.contains(numbers)) {
+                listWithoutRepeats.add(numbers);
             }
         }
 
-        return objectsListWithoutRepeats;
+        return listWithoutRepeats;
     }
 
     public static ArrayList<String> getFileLines(String filePath) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            ArrayList<String> fileLinesList = new ArrayList<>();
+
             String line;
-            ArrayList<String> fileLinesArrayList = new ArrayList<>();
 
             while ((line = reader.readLine()) != null) {
-                fileLinesArrayList.add(line);
+                fileLinesList.add(line);
             }
 
-            return fileLinesArrayList;
+            return fileLinesList;
         }
     }
 
     public static void removeEvenNumbers(ArrayList<Integer> numbers) {
-        for (int i = 0; i < numbers.size(); i++) {
+        for (int i = numbers.size() - 1; i > 0; i--) {
             if (numbers.get(i) % 2 == 0) {
                 numbers.remove(i);
-                i--;
             }
         }
     }
@@ -54,6 +60,7 @@ public class ArrayListHome {
             System.out.println("Файл " + filePath + " не найден");
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            System.out.println("Ошибка считывания данных из файла " + filePath + ".");
         }
 
         System.out.println();
