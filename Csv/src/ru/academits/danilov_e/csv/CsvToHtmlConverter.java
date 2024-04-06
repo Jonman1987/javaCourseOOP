@@ -20,7 +20,7 @@ public class CsvToHtmlConverter {
         writer.println("\t<title>Задача CSV</title>");
         writer.println("</head>");
         writer.println("<body>");
-        writer.println("\t<table border = \"1\">");
+        writer.println("\t<table border=\"1\">");
     }
 
     private static void printTable(PrintWriter writer, BufferedReader reader) throws IOException {
@@ -54,6 +54,11 @@ public class CsvToHtmlConverter {
                             continue;
                         }
                     } else {
+                        if(i == (line.length() - 1) && line.charAt(i) == '"' && !isQuotesOpen){
+                            isQuotesOpen = true;
+                            continue;
+                        }
+
                         isQuotesOpen = false;
                         continue;
                     }
