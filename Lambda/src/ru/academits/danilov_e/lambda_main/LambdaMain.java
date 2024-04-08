@@ -4,7 +4,6 @@ import ru.academits.danilov_e.lambda.Person;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class LambdaMain {
     public static void main(String[] args) {
@@ -39,7 +38,12 @@ public class LambdaMain {
 
         System.out.println("Список людей младше 18:");
         List<Person> sor = personList.stream().filter(person -> (person.getAge() < 18)).toList();
-        sor.forEach(person -> System.out.println(person.getName() + " " + person.getAge()));
+        int age;
+
+        sor.forEach(person -> {
+            System.out.println(person.getName() + " " + person.getAge());
+        });
+
         System.out.println();
 
         System.out.println("Их средний возраст:");
