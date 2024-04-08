@@ -20,10 +20,14 @@ public class Graph {
     }
 
     public void startHamiltonCycle(){
-
+        for(int i = 0; i < hasVisited.length; i++){
+            if(!hasVisited[i]){
+                hamiltonCycle(i);
+            }
+        }
     }
 
-    private void hamiltonCycle(){
+    private void hamiltonCycle(int node){
 
     }
 
