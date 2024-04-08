@@ -1,5 +1,7 @@
 package ru.academits.danilov_e.list;
 
+import java.util.NoSuchElementException;
+
 public class SinglyLinkedList<E> {
     private Node<E> head;
     private int count;
@@ -12,6 +14,10 @@ public class SinglyLinkedList<E> {
     public SinglyLinkedList(E[] dataArray) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
         // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
         // что я могу указать через запятую разные типы объектов?
+        if(dataArray == null){
+            throw new NullPointerException("Array is null");
+        }
+
         if (dataArray.length == 0) {
             head = null;
             count = 0;
@@ -33,18 +39,6 @@ public class SinglyLinkedList<E> {
                 node = node.getNext();
             }
         }
-        /*head = nodes[0];
-        head.setNext(nodes[1]);
-        count = 2;
-
-        Node<E> node;
-        int i;
-
-        for (node = head.getNext(), i = 2; i < nodes.length; i++) {
-            node.setNext(nodes[i]);
-            count++;
-            node = node.getNext();
-        }*/
     }
 
     public int getCount() {
@@ -52,6 +46,10 @@ public class SinglyLinkedList<E> {
     }
 
     public E getFirst() {
+        if(count == 0){
+            throw new NoSuchElementException("There are no items in the list.");
+        }
+
         return head.get();
     }
 
@@ -112,8 +110,7 @@ public class SinglyLinkedList<E> {
         Node<E> node;
 
         for (node = head; node != null; node = node.getNext()) {
-            stringBuilder.append(node.get());
-            stringBuilder.append(", ");
+            stringBuilder.append(node.get()).append(", ");
         }
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append(']');
@@ -122,34 +119,32 @@ public class SinglyLinkedList<E> {
     }
 
     public E delete(int index) {
-        if (count == 1) {
-            throw new IllegalArgumentException("You try to delete last node");
-        }
-
         checkingBounds(index, count);
 
-        E deleteData;
+        if (getSearchedNode(head, index) == null) {
+            return null;
+        }
+
+        E deletedData;
         Node<E> node;
 
         if (index == 0) {
+            node = getSearchedNode(head, index);
             deleteFirst();
+            return node.get();
         }
 
-        if (index == count) {
-            if (getSearchedNode(head, index) == null) {
-                return null;
-            }
-
+        if (index == count - 1) {
             node = getSearchedNode(head, count - 1);
             node.setNext(null);
         }
 
         node = getSearchedNode(head, index - 1);
-        deleteData = node.getNext().get();
+        deletedData = node.getNext().get();
         node.setNext(node.getNext().getNext());
         count--;
 
-        return deleteData;
+        return deletedData;
     }
 
     public void addFirst(E data) {
@@ -165,16 +160,16 @@ public class SinglyLinkedList<E> {
                     + index + ".");
         }
 
-        Node<E> newNode;
+        Node<E> currentNode;
         int i = 0;
 
         if (index == 0) {
             addFirst(data);
         } else if (index == count) {
-            for (newNode = head; newNode != null; newNode = newNode.getNext()) { // заменить
+            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) { // заменить
                 if (i == count - 1) {
                     Node<E> node = new Node<>(data, null);
-                    newNode.setNext(node);
+                    currentNode.setNext(node);
                     break;
                 }
 
@@ -183,14 +178,12 @@ public class SinglyLinkedList<E> {
 
             count++;
         } else {
-            Node<E> oldNode;
-
-            for (newNode = head; newNode != null; newNode = newNode.getNext()) { // заменить
+            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) { // заменить
                 if (i == index - 1) {
-                    oldNode = newNode.getNext();
+                    Node<E> previousNode = currentNode.getNext();
                     Node<E> node = new Node<>(data, null);
-                    newNode.setNext(node);
-                    node.setNext(oldNode);
+                    currentNode.setNext(node);
+                    node.setNext(previousNode);
                 }
 
                 i++;
@@ -218,6 +211,10 @@ public class SinglyLinkedList<E> {
     }
 
     public E deleteFirst() {
+        if(count == 0){
+            throw new NoSuchElementException("There are no items in the list.");
+        }
+
         Node<E> deletedNode = head;
         head = head.getNext();
         count--;

@@ -176,5 +176,11 @@ public class ListMain {
         SinglyLinkedList<String> colorsList4 = colorsList1.copy();
         System.out.println("Новый список: " + colorsList4);
         System.out.println("Размер списка: " + colorsList4.getCount());
+        System.out.println();
+
+        SinglyLinkedList<String> colorsList5 = new SinglyLinkedList<>(new String[]{"Фиолетовый", "Желтый","Зеленый", "Черный"});
+        System.out.println(colorsList5);
+        System.out.println(colorsList5.delete(3));
+        System.out.println(colorsList5);
     }
 }
