@@ -30,7 +30,7 @@ public class Matrix {
 
         rows = new Vector[matrix.rows.length];
 
-        for(int i = 0; i < matrix.rows.length; i++){
+        for (int i = 0; i < matrix.rows.length; i++) {
             rows[i] = new Vector(matrix.rows[i]);
         }
     }
@@ -52,7 +52,7 @@ public class Matrix {
             }
         }
 
-        if(columnsCount == 0){
+        if (columnsCount == 0) {
             throw new NoSuchElementException("Matrix column count is 0");
         }
 
