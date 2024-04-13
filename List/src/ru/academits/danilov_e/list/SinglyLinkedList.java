@@ -11,9 +11,7 @@ public class SinglyLinkedList<E> {
         count = 1;
     }
 
-    public SinglyLinkedList(E[] dataArray) { // Почему если я делаю public SinglyLinkedList(Node<T>... nodes),
-        // то вылазит warning: Possible heap pollution from parameterized vararg type? Это из-за того,
-        // что я могу указать через запятую разные типы объектов?
+    public SinglyLinkedList(E[] dataArray) {
         if(dataArray == null){
             throw new NullPointerException("Array is null");
         }
@@ -161,34 +159,20 @@ public class SinglyLinkedList<E> {
         }
 
         Node<E> currentNode;
-        int i = 0;
 
         if (index == 0) {
             addFirst(data);
         } else if (index == count) {
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) { // заменить
-                if (i == count - 1) {
-                    Node<E> node = new Node<>(data, null);
-                    currentNode.setNext(node);
-                    break;
-                }
-
-                i++;
-            }
-
+            currentNode = getSearchedNode(head, count - 1);
+            Node<E> node = new Node<>(data, null);
+            currentNode.setNext(node);
             count++;
         } else {
-            for (currentNode = head; currentNode != null; currentNode = currentNode.getNext()) { // заменить
-                if (i == index - 1) {
-                    Node<E> previousNode = currentNode.getNext();
-                    Node<E> node = new Node<>(data, null);
-                    currentNode.setNext(node);
-                    node.setNext(previousNode);
-                }
-
-                i++;
-            }
-
+            currentNode = getSearchedNode(head, index - 1);
+            Node<E> previousNode = currentNode.getNext();
+            Node<E> node = new Node<>(data, null);
+            currentNode.setNext(node);
+            node.setNext(previousNode);
             count++;
         }
     }
