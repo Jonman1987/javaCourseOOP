@@ -179,9 +179,8 @@ public class ListMain {
         System.out.println("Размер списка: " + colorsList4.getCount());
         System.out.println();
 
-        SinglyLinkedList<String> colorsList5 = new SinglyLinkedList<>(new String[]{"Фиолетовый", "Желтый","Зеленый", "Черный"});
-        System.out.println(colorsList5);
-        System.out.println(colorsList5.delete(3));
+        SinglyLinkedList<String> colorsList5 = new SinglyLinkedList<>(new String[]{"Фиолетовый"});
+        colorsList5.deleteByData(null);
         System.out.println(colorsList5);
     }
 }

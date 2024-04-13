@@ -105,9 +105,8 @@ public class SinglyLinkedList<E> {
         }
 
         StringBuilder stringBuilder = new StringBuilder("[");
-        Node<E> node;
 
-        for (node = head; node != null; node = node.getNext()) {
+        for (Node<E> node = head; node != null; node = node.getNext()) {
             stringBuilder.append(node.get()).append(", ");
         }
 
@@ -158,7 +157,7 @@ public class SinglyLinkedList<E> {
                     + index + ".");
         }
 
-        Node<E> previousNode; // TODO: Корректно переименовать
+        Node<E> previousNode;
 
         if (index == 0) {
             addFirst(data);
@@ -169,7 +168,7 @@ public class SinglyLinkedList<E> {
             count++;
         } else {
             previousNode = getSearchedNode(head, index - 1);
-            Node<E> currentNode = previousNode.getNext(); // TODO: Корректно переименовать
+            Node<E> currentNode = previousNode.getNext();
             Node<E> node = new Node<>(data, null);
             previousNode.setNext(node);
             node.setNext(currentNode);
@@ -178,13 +177,17 @@ public class SinglyLinkedList<E> {
     }
 
     public boolean deleteByData(E data) {
-        Node<E> node;
         boolean isDeleted = false;
+        Node<E> node;
         int i;
 
-        for (i = 0, node = head; node != null; node = node.getNext(), i++) {
-            if (node.get().equals(data)) {
-                delete(i);
+        while (head.get().equals(data)){
+            deleteFirst();
+        }
+
+        for (i = 0, node = head; node.getNext() != null; node = node.getNext(), i++) {
+            if (node.getNext().get().equals(data)) {
+                node.setNext(node.getNext().getNext());
                 isDeleted = true;
                 i--;
             }
@@ -220,15 +223,22 @@ public class SinglyLinkedList<E> {
     }
 
     public SinglyLinkedList<E> copy() {
-        Node<E> node;
-
-        SinglyLinkedList<E> newSinglyLinkedList = new SinglyLinkedList<>(head.get());
-        int i;
-
-        for (i = 1, node = head.getNext(); node != null; node = node.getNext(), i++) {
-            newSinglyLinkedList.add(i, node.get());
+        if(count == 0){
+            throw new NoSuchElementException("You try copy empty list");
         }
 
-        return newSinglyLinkedList;
+        SinglyLinkedList<E> singlyLinkedListCopy = new SinglyLinkedList<>(head.get());
+
+        Node<E> node;
+        Node<E> currentNode;
+        int i;
+
+        for (i = 1, node = head.getNext(), currentNode = singlyLinkedListCopy.head; node != null;
+            node = node.getNext(), i++, currentNode = currentNode.getNext()) {
+            currentNode.setNext(new Node<>(node.get()));
+            singlyLinkedListCopy.count++;
+        }
+
+        return singlyLinkedListCopy;
     }
 }
