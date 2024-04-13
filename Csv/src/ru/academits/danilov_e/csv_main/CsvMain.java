@@ -46,8 +46,8 @@ public class CsvMain {
         } catch (FileNotFoundException e) {
             System.out.println("Файл " + inputFileName + " не найден");
         } catch (IOException e) {
+            System.out.println("Ошибка ввода/вывода данных в/из файла:");
             System.out.printf(e.getMessage());
-            System.out.println("Ошибка ввода/вывода данных в/из файла.");
         }
     }
 }

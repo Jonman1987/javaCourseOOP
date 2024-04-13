@@ -48,19 +48,6 @@ public class CsvToHtmlConverter {
                             i++;
                             continue;
                         }
-
-                        if (line.charAt(i + 1) != '"') {
-                            isQuotesOpen = !isQuotesOpen;
-                            continue;
-                        }
-                    } else {
-                        if(i == (line.length() - 1) && line.charAt(i) == '"' && !isQuotesOpen){
-                            isQuotesOpen = true;
-                            continue;
-                        }
-
-                        isQuotesOpen = false;
-                        continue;
                     }
 
                     isQuotesOpen = !isQuotesOpen;
@@ -74,6 +61,7 @@ public class CsvToHtmlConverter {
                     if (i == line.length() - 1) {
                         writer.print("\t\t\t<td>");
                     }
+
                     continue;
                 }
 
