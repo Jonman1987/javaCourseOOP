@@ -143,6 +143,7 @@ public class ListMain {
 
         System.out.println("9. Удаление узла по значению:");
         String string1 = "Синий";
+        colorsList1.addFirst("Синий");
         System.out.println("Изначальный список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println("Искомое удаляемое значение: " + string1);

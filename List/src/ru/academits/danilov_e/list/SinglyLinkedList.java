@@ -158,21 +158,21 @@ public class SinglyLinkedList<E> {
                     + index + ".");
         }
 
-        Node<E> currentNode;
+        Node<E> previousNode; // TODO: Корректно переименовать
 
         if (index == 0) {
             addFirst(data);
         } else if (index == count) {
-            currentNode = getSearchedNode(head, count - 1);
+            previousNode = getSearchedNode(head, count - 1);
             Node<E> node = new Node<>(data, null);
-            currentNode.setNext(node);
+            previousNode.setNext(node);
             count++;
         } else {
-            currentNode = getSearchedNode(head, index - 1);
-            Node<E> previousNode = currentNode.getNext();
+            previousNode = getSearchedNode(head, index - 1);
+            Node<E> currentNode = previousNode.getNext(); // TODO: Корректно переименовать
             Node<E> node = new Node<>(data, null);
-            currentNode.setNext(node);
-            node.setNext(previousNode);
+            previousNode.setNext(node);
+            node.setNext(currentNode);
             count++;
         }
     }
@@ -186,6 +186,7 @@ public class SinglyLinkedList<E> {
             if (node.get().equals(data)) {
                 delete(i);
                 isDeleted = true;
+                continue;
             }
 
             i++;
