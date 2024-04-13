@@ -12,7 +12,7 @@ public class SinglyLinkedList<E> {
     }
 
     public SinglyLinkedList(E[] dataArray) {
-        if(dataArray == null){
+        if (dataArray == null) {
             throw new NullPointerException("Array is null");
         }
 
@@ -44,7 +44,7 @@ public class SinglyLinkedList<E> {
     }
 
     public E getFirst() {
-        if(count == 0){
+        if (count == 0) {
             throw new NoSuchElementException("There are no items in the list.");
         }
 
@@ -181,7 +181,7 @@ public class SinglyLinkedList<E> {
         Node<E> node;
         int i;
 
-        while (head.get().equals(data)){
+        while (head.get().equals(data)) {
             deleteFirst();
         }
 
@@ -197,7 +197,7 @@ public class SinglyLinkedList<E> {
     }
 
     public E deleteFirst() {
-        if(count == 0){
+        if (count == 0) {
             throw new NoSuchElementException("There are no items in the list.");
         }
 
@@ -223,7 +223,7 @@ public class SinglyLinkedList<E> {
     }
 
     public SinglyLinkedList<E> copy() {
-        if(count == 0){
+        if (count == 0) {
             throw new NoSuchElementException("You try copy empty list");
         }
 
@@ -234,7 +234,7 @@ public class SinglyLinkedList<E> {
         int i;
 
         for (i = 1, node = head.getNext(), currentNode = singlyLinkedListCopy.head; node != null;
-            node = node.getNext(), i++, currentNode = currentNode.getNext()) {
+             node = node.getNext(), i++, currentNode = currentNode.getNext()) {
             currentNode.setNext(new Node<>(node.get()));
             singlyLinkedListCopy.count++;
         }

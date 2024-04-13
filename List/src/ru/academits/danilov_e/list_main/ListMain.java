@@ -161,7 +161,7 @@ public class ListMain {
         System.out.println();
 
         System.out.println("11. Разворот List:");
-        SinglyLinkedList<String> colorsList3 = new SinglyLinkedList<>(new String[]{"Фиолетовый", "Желтый","Зеленый"});
+        SinglyLinkedList<String> colorsList3 = new SinglyLinkedList<>(new String[]{"Фиолетовый", "Желтый", "Зеленый"});
         System.out.println("Изначальный список: " + colorsList3);
         System.out.println("Размер списка: " + colorsList3.getCount());
         colorsList3.reverse();
@@ -178,9 +178,5 @@ public class ListMain {
         System.out.println("Новый список: " + colorsList4);
         System.out.println("Размер списка: " + colorsList4.getCount());
         System.out.println();
-
-        SinglyLinkedList<String> colorsList5 = new SinglyLinkedList<>(new String[]{"Фиолетовый"});
-        colorsList5.deleteByData(null);
-        System.out.println(colorsList5);
     }
 }
