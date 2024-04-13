@@ -180,16 +180,14 @@ public class SinglyLinkedList<E> {
     public boolean deleteByData(E data) {
         Node<E> node;
         boolean isDeleted = false;
-        int i = 0;
+        int i;
 
-        for (node = head; node != null; node = node.getNext()) {
+        for (i = 0, node = head; node != null; node = node.getNext(), i++) {
             if (node.get().equals(data)) {
                 delete(i);
                 isDeleted = true;
-                continue;
+                i--;
             }
-
-            i++;
         }
 
         return isDeleted;
@@ -225,12 +223,10 @@ public class SinglyLinkedList<E> {
         Node<E> node;
 
         SinglyLinkedList<E> newSinglyLinkedList = new SinglyLinkedList<>(head.get());
-        int i = 1;
+        int i;
 
-        for (node = head.getNext(); node != null; node = node.getNext()) {
+        for (i = 1, node = head.getNext(); node != null; node = node.getNext(), i++) {
             newSinglyLinkedList.add(i, node.get());
-
-            i++;
         }
 
         return newSinglyLinkedList;
