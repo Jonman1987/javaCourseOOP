@@ -3,6 +3,7 @@ package ru.academits.danilov_e.matrix;
 import ru.academits.danilov_e.vector.Vector;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public class Matrix {
     private Vector[] rows;
@@ -28,7 +29,11 @@ public class Matrix {
             throw new NullPointerException("The passed matrix refers to null");
         }
 
-        rows = Arrays.copyOf(matrix.rows, matrix.rows.length);
+        rows = new Vector[matrix.rows.length];
+
+        for(int i = 0; i < matrix.rows.length; i++){
+            rows[i] = new Vector(matrix.rows[i]);
+        }
     }
 
     public Matrix(double[][] array) {
@@ -48,6 +53,10 @@ public class Matrix {
             }
         }
 
+        if(columnsCount == 0){
+            throw new NoSuchElementException("Matrix column count is 0");
+        }
+
         rows = new Vector[array.length];
 
         for (int i = 0; i < array.length; i++) {
@@ -57,11 +66,11 @@ public class Matrix {
 
     public Matrix(Vector[] vectors) {
         if (vectors == null) {
-            throw new NullPointerException("The passed vector refers to null");
+            throw new NullPointerException("The passed vectors array refers to null");
         }
 
         if (vectors.length == 0) {
-            throw new IllegalArgumentException("Vector array length must be more than 0.");
+            throw new IllegalArgumentException("Vectors array length must be greater than 0.");
         }
 
         int maxVectorDimension = vectors[0].getDimension();
@@ -108,9 +117,9 @@ public class Matrix {
         }
 
         if (getColumnsCount() != vector.getDimension()) {
-            throw new IllegalArgumentException("Matrix dimension and vector dimension are different. Both dimension "
-                    + "must be same. Matrix dimension is " + getColumnsCount() + ". Vector dimension is "
-                    + vector.getDimension() + ".");
+            throw new IllegalArgumentException("Matrix columns count and vector dimension are different. Matrix columns "
+                    + "count and vector dimension must be same. Matrix columns count is " + getColumnsCount()
+                    + ". Vector dimension is " + vector.getDimension() + ".");
         }
 
         rows[index] = new Vector(vector);
@@ -122,13 +131,13 @@ public class Matrix {
                     + (getColumnsCount() - 1) + "]. Column index is " + index + ".");
         }
 
-        double[] columnsArray = new double[rows.length];
+        double[] columnComponentArray = new double[rows.length];
 
         for (int i = 0; i < rows.length; i++) {
-            columnsArray[i] = rows[i].getComponent(index);
+            columnComponentArray[i] = rows[i].getComponent(index);
         }
 
-        return new Vector(columnsArray);
+        return new Vector(columnComponentArray);
     }
 
     public void transpose() {
@@ -208,18 +217,18 @@ public class Matrix {
         }
 
         if (getColumnsCount() != vector.getDimension()) {
-            throw new IllegalArgumentException("Matrix column dimension and vector dimension must have same dimension. "
-                    + "Matrix column dimension is " + getColumnsCount()
+            throw new IllegalArgumentException("Matrix columns count and vector dimension must be same. "
+                    + "Matrix columns count is " + getColumnsCount()
                     + ". Vector dimension is " + vector.getDimension() + ".");
         }
 
-        Vector resultingVector = new Vector(rows.length);
+        Vector resultVector = new Vector(rows.length);
 
         for (int i = 0; i < rows.length; i++) {
-            resultingVector.setComponent(i, Vector.getScalarProduct(rows[i], vector));
+            resultVector.setComponent(i, Vector.getScalarProduct(rows[i], vector));
         }
 
-        return resultingVector;
+        return resultVector;
     }
 
     private static void checkMatricesSizesEquality(Matrix matrix1, Matrix matrix2) {
@@ -257,10 +266,10 @@ public class Matrix {
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         checkMatricesSizesEquality(matrix1, matrix2);
 
-        Matrix matrix3 = new Matrix(matrix1);
-        matrix3.add(matrix2);
+        Matrix result = new Matrix(matrix1);
+        result.add(matrix2);
 
-        return matrix3;
+        return result;
     }
 
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
