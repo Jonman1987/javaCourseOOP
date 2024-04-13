@@ -2,7 +2,6 @@ package ru.academits.danilov_e.matrix;
 
 import ru.academits.danilov_e.vector.Vector;
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Matrix {
