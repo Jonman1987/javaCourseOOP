@@ -5,15 +5,15 @@ public class ArrayList<E> implements List<E> {
     private E[] items;
     private int size;
     private int modificationsCount;
+    private static final int capacity = 10;
 
     public ArrayList() {
-        items = (E[]) new Object[10];
-        size = 0;
+        items = (E[]) new Object[capacity];
     }
 
-    public ArrayList(ArrayList<E> arrayList) {
-        items = arrayList.items;
-        size = arrayList.size;
+    public ArrayList(Collection<E> list) {
+        items = (E[]) Arrays.copyOf(list.toArray(), list.size());
+        size = list.size();
     }
 
     public ArrayList(int capacity) {
@@ -23,7 +23,6 @@ public class ArrayList<E> implements List<E> {
         }
 
         items = (E[]) new Object[capacity];
-        size = 0;
     }
 
     private void ensureCapacity(int capacity) {
@@ -45,7 +44,7 @@ public class ArrayList<E> implements List<E> {
         }
     }
 
-    public int getArrayLength() { // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
+    public int getCapacity() { // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
         // размер массива. В дальнейшем его можно удалить.
         return items.length;
     }
@@ -61,14 +60,8 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean contains(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (items[i].equals(o)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean contains(Object o) { // TODO: Не разобрался с "упадет на элементе списка со значением null".
+        return indexOf(o) != -1;
     }
 
     private class ArrayListIterator implements Iterator<E> {
@@ -83,11 +76,11 @@ public class ArrayList<E> implements List<E> {
         @Override
         public E next() {
             if (expectedModificationsCount != modificationsCount) {
-                throw new ConcurrentModificationException("Array list has been changed");
+                throw new ConcurrentModificationException("List has been changed");
             }
 
             if (!hasNext()) {
-                throw new NoSuchElementException("There is no next element");
+                throw new NoSuchElementException("There is no next item");
             }
 
             ++currentIndex;
@@ -102,11 +95,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] objects = new Object[size];
-
-        System.arraycopy(items, 0, objects, 0, size);
-
-        return objects;
+        return Arrays.copyOf(items, size);
     }
 
     @Override
@@ -147,17 +136,17 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(E element) {
+    public boolean add(E item) {
         if (items.length - 1 == size) {
             ensureCapacity(items.length * 2);
         }
 
-        items[size] = element;
+        items[size] = item;
         int oldSize = size;
         size++;
         modificationsCount++;
 
-        return items[size] == element && size - oldSize == 1;
+        return items[size] == item && size - oldSize == 1;
     }
 
     @Override
@@ -212,15 +201,15 @@ public class ArrayList<E> implements List<E> {
 
         int matchesCount = 0;
 
-        E elem1 = iterator.next();
+        E item1 = iterator.next(); // Бывший elem1
 
         while (iterator.hasNext()) {
             Iterator<?> collectionIterator = c.iterator();
-            Object elem2 = collectionIterator.next();
+            Object item2 = collectionIterator.next(); // Бывший elem2
             iterator.next();
 
             while (collectionIterator.hasNext()){
-                if(elem1.equals(elem2)){
+                if(item1.equals(item2)){
                     matchesCount++;
                     break;
                 }
@@ -287,10 +276,10 @@ public class ArrayList<E> implements List<E> {
         ArrayList<E> arrayList = new ArrayList<>();
 
         do {
-            E element = iterator.next();
+            E item = iterator.next();
 
-            if (contains(element)) {
-                arrayList.add(element);
+            if (contains(item)) {
+                arrayList.add(item);
                 isHasRemoved = true;
             }
         } while (iterator.hasNext());
@@ -305,7 +294,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-        items = (E[]) new Object[10];
+        items = (E[]) new Object[capacity];
         size = 0;
         modificationsCount++;
     }
@@ -321,21 +310,21 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public E set(int index, E element) {
+    public E set(int index, E item) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
                     + "]. Index is " + index + ".");
         }
 
-        E oldElement = items[index];
-        items[index] = element;
+        E oldItem = items[index]; // Бывший oldElement
+        items[index] = item;
         modificationsCount++;
 
-        return oldElement;
+        return oldItem;
     }
 
     @Override
-    public void add(int index, E element) {
+    public void add(int index, E item) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index must belong to the range [0; " + size
                     + "]. Index is " + index + ".");
@@ -350,17 +339,17 @@ public class ArrayList<E> implements List<E> {
         System.arraycopy(items, 0, array, 0, size);
 
         if (index == 0) {
-            items[0] = element;
+            items[0] = item;
 
             System.arraycopy(array, 0, items, 1, size);
         } else if (index == size) {
             System.arraycopy(array, 0, items, 0, index);
 
-            items[index] = element;
+            items[index] = item;
         } else {
             System.arraycopy(array, 0, items, 0, index);
 
-            items[index] = element;
+            items[index] = item;
 
             System.arraycopy(array, index, items, index + 1, size - index);
         }
@@ -376,10 +365,10 @@ public class ArrayList<E> implements List<E> {
                     + "]. Index is " + index + ".");
         }
 
-        E element;
+        E item;
         E[] array = (E[]) new Object[size];
         System.arraycopy(items, 0, array, 0, size);
-        element = items[index];
+        item = items[index];
 
         if (index == 0) {
             System.arraycopy(array, 1, items, 0, size - 1);
@@ -401,7 +390,7 @@ public class ArrayList<E> implements List<E> {
             modificationsCount++;
         }
 
-        return element;
+        return item;
     }
 
     @Override
