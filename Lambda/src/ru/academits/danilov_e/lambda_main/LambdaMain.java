@@ -53,11 +53,12 @@ public class LambdaMain {
             System.out.println(person.getName() + " " + person.getAge());
         });
         System.out.println();
+
+        // Я не смог понять как мне избавиться от OptionalDouble[] буду благодарен, если подскажете.
         System.out.println("Их средний возраст:");
         System.out.println(personList.stream().filter(person -> (person.getAge() < 18)).mapToInt(Person::getAge).average());
         System.out.println();
 
-        // Я не смог понять как мне избавиться от OptionalDouble[] буду благодарен, если подскажете.
         System.out.println("4. При помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст:");
         personList.stream().collect(Collectors.groupingBy(Person::getName))
                 .forEach((p, a) -> System.out.printf("Имя: %s, Возраст: %s%n", p, a.stream().mapToInt(Person::getAge).average()));
