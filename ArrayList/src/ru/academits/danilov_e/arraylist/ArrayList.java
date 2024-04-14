@@ -1,4 +1,5 @@
 package ru.academits.danilov_e.arraylist;
+
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
@@ -208,8 +209,8 @@ public class ArrayList<E> implements List<E> {
             Object item2 = collectionIterator.next(); // Бывший elem2
             iterator.next();
 
-            while (collectionIterator.hasNext()){
-                if(item1.equals(item2)){
+            while (collectionIterator.hasNext()) {
+                if (item1.equals(item2)) {
                     matchesCount++;
                     break;
                 }
@@ -223,23 +224,34 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
+        Iterator<?> iterator = c.iterator();
         int addCount = 0;
 
         for (int i = 0; i < c.size(); i++) {
-            add(i, iterator.next());
+            add(i, (E) iterator.next());
             addCount++;
         }
 
         return size - addCount == c.size();
     }
 
+    private static void checkingBounds(int index, int maxBound, boolean hasIncludeMaxBound) {
+        if (hasIncludeMaxBound) {
+            if (index < 0 || index >= maxBound) {
+                throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (maxBound - 1) + "]. Index is "
+                        + index + ".");
+            }
+        } else {
+            if (index < 0 || index > maxBound) {
+                throw new IndexOutOfBoundsException("Index must belong to the range [0; " + maxBound + "]. Index is "
+                        + index + ".");
+            }
+        }
+    }
+
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + size
-                    + "]. Index is " + index + ".");
-        }
+        checkingBounds(index, size, false);
 
         ArrayListIterator iterator = (ArrayListIterator) c.iterator();
         int addCount = 0;
@@ -294,27 +306,26 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-        items = (E[]) new Object[capacity];
-        size = 0;
-        modificationsCount++;
+        if(size != 0){
+            for (E item : items) {
+                item = null;
+            }
+
+            size = 0;
+            modificationsCount++;
+        }
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
-                    + "]. Index is " + index + ".");
-        }
+        checkingBounds(index, size, true);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E item) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
-                    + "]. Index is " + index + ".");
-        }
+        checkingBounds(index, size, true);
 
         E oldItem = items[index]; // Бывший oldElement
         items[index] = item;
@@ -324,19 +335,14 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public void add(int index, E item) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + size
-                    + "]. Index is " + index + ".");
-        }
+    public void add(int index, E item) { // TODO: Не исправлена часть с логикой пункт 17.
+        checkingBounds(index, size, false);
 
         if (items.length - 1 == size) {
             ensureCapacity(items.length * 2);
         }
 
-        E[] array = (E[]) new Object[size];
-
-        System.arraycopy(items, 0, array, 0, size);
+        E[] array = Arrays.copyOf(items, size);
 
         if (index == 0) {
             items[0] = item;
@@ -360,10 +366,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (size - 1)
-                    + "]. Index is " + index + ".");
-        }
+        checkingBounds(index, size, true);
 
         E item;
         E[] array = (E[]) new Object[size];
@@ -394,30 +397,45 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        int index = -1;
-
+    public int indexOf(Object o) { // TODO: не доделан пункт 28 часть по null
         for (int i = 0; i < size; i++) {
             if (items[i].equals(o)) {
-                index = i;
-                break;
+                return i;
             }
         }
 
-        return index;
+        return -1;
     }
 
     @Override
-    public int lastIndexOf(Object o) {
-        int index = -1;
-
-        for (int i = 0; i < size; i++) {
+    public int lastIndexOf(Object o) { // TODO: не доделан пункт 28 часть по null
+        for (int i = size - 1; i >= 0; i--) {
             if (items[i].equals(o)) {
-                index = i;
+                return i;
             }
         }
 
-        return index;
+        return -1;
+    }
+
+    @Override
+    public String toString(){
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        for (int i = 0; i < size; i++) {
+            if (items[i] != null) {
+                stringBuilder.append(items[i]).append(", ");
+            }else {
+                stringBuilder.append("null").append(", ");
+            }
+        }
+
+        return stringBuilder.deleteCharAt(stringBuilder.length() - 1).deleteCharAt(stringBuilder.length() - 1)
+                .append(']').toString();
     }
 
     @Override
