@@ -2,36 +2,9 @@ package ru.academits.danilov_e.arraylist;
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
-    public class ArrayListIterator implements Iterator<E> {
-        private int currentIndex = -1;
-        int countChanger = size;
-
-        @Override
-        public boolean hasNext() {
-            return currentIndex + 1 < size;
-        }
-
-        @Override
-        public E next() {
-            if (size != countChanger) {
-                throw new ConcurrentModificationException("Array has been changed");
-            }
-
-            if (!hasNext()) {
-                throw new NoSuchElementException("The next element is null");
-            }
-
-            ++currentIndex;
-            return items[currentIndex];
-        }
-
-        public E current() { // Я так понимаю можно обойтись без этого метода, я написал его, чтобы отслеживать перемещение итератора
-            return items[currentIndex];
-        }
-    }
-
     private E[] items;
     private int size;
+    private int modificationsCount;
 
     public ArrayList() {
         items = (E[]) new Object[10];
@@ -98,6 +71,30 @@ public class ArrayList<E> implements List<E> {
         return false;
     }
 
+    private class ArrayListIterator implements Iterator<E> {
+        private int currentIndex = -1;
+        private final int expectedModificationsCount = modificationsCount;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex + 1 < size;
+        }
+
+        @Override
+        public E next() {
+            if (expectedModificationsCount != modificationsCount) {
+                throw new ConcurrentModificationException("Array list has been changed");
+            }
+
+            if (!hasNext()) {
+                throw new NoSuchElementException("There is no next element");
+            }
+
+            ++currentIndex;
+            return items[currentIndex];
+        }
+    }
+
     @Override
     public ArrayListIterator iterator() {
         return new ArrayListIterator();
@@ -158,6 +155,7 @@ public class ArrayList<E> implements List<E> {
         items[size] = element;
         int oldSize = size;
         size++;
+        modificationsCount++;
 
         return items[size] == element && size - oldSize == 1;
     }
@@ -179,10 +177,12 @@ public class ArrayList<E> implements List<E> {
                 items[size - 1] = null;
                 isChanged = true;
                 size--;
+                modificationsCount++;
             } else if (index == size - 1) {
                 items[size - 1] = null;
                 isChanged = true;
                 size--;
+                modificationsCount++;
             } else if (index != -1) {
                 System.arraycopy(array, 0, items, 0, index);
 
@@ -191,6 +191,7 @@ public class ArrayList<E> implements List<E> {
                 items[size - 1] = null;
                 isChanged = true;
                 size--;
+                modificationsCount++;
             }
 
             if (index == -1 && isChanged) {
@@ -306,6 +307,7 @@ public class ArrayList<E> implements List<E> {
     public void clear() {
         items = (E[]) new Object[10];
         size = 0;
+        modificationsCount++;
     }
 
     @Override
@@ -327,6 +329,7 @@ public class ArrayList<E> implements List<E> {
 
         E oldElement = items[index];
         items[index] = element;
+        modificationsCount++;
 
         return oldElement;
     }
@@ -363,6 +366,7 @@ public class ArrayList<E> implements List<E> {
         }
 
         size++;
+        modificationsCount++;
     }
 
     @Override
@@ -382,9 +386,11 @@ public class ArrayList<E> implements List<E> {
 
             items[size - 1] = null;
             size--;
+            modificationsCount++;
         } else if (index == size - 1) {
             items[size - 1] = null;
             size--;
+            modificationsCount++;
         } else {
             System.arraycopy(array, 0, items, 0, index);
 
@@ -392,6 +398,7 @@ public class ArrayList<E> implements List<E> {
 
             items[size - 1] = null;
             size--;
+            modificationsCount++;
         }
 
         return element;

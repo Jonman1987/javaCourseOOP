@@ -3,6 +3,7 @@ package ru.academits.danilov_e.arraylist_main;
 import ru.academits.danilov_e.arraylist.ArrayList;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ArrayListMain {
     public static String toString(ArrayList<?> arrayList) {
@@ -157,7 +158,7 @@ public class ArrayListMain {
         System.out.println();
 
         System.out.println("12. Перемещение итератора по ArrayList:");
-        ArrayList<String>.ArrayListIterator iterator = colorList2.iterator();
+        Iterator<String> iterator = colorList2.iterator();
         System.out.println("ArrayList:");
         System.out.println(toString(colorList3));
         System.out.println("Первый элемент:");
@@ -166,8 +167,6 @@ public class ArrayListMain {
         System.out.println(iterator.next());
         System.out.println("Третий элемент:");
         System.out.println(iterator.next());
-        System.out.println("Повторное обращение к третьему элементу:");
-        System.out.println(iterator.current());
         System.out.println();
 
         System.out.println("13. Очистка ArrayList:");
