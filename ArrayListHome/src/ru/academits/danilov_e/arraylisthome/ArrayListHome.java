@@ -53,8 +53,8 @@ public class ArrayListHome {
         } catch (FileNotFoundException e) {
             System.out.println("Файл " + filePath + " не найден");
         } catch (IOException e) {
+            System.out.println("Ошибка считывания данных из файла " + filePath + ":");
             System.out.println(e.getMessage());
-            System.out.println("Ошибка считывания данных из файла " + filePath + ".");
         }
 
         System.out.println();
