@@ -33,10 +33,15 @@ public class Person {
         this.age = age;
     }
 
-    /*@Override
-    public String toString(){
-        return name + " " + age;
-    }*/
+    public int compare(Integer age) {
+        if(getAge() < age){
+            return -1;
+        }else if(getAge() > age){
+            return 1;
+        }
+
+        return 0;
+    }
 
     @Override
     public boolean equals(Object obj) {

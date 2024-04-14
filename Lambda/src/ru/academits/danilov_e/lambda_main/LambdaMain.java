@@ -4,6 +4,7 @@ import ru.academits.danilov_e.lambda.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LambdaMain {
     public static void main(String[] args) {
@@ -33,20 +34,38 @@ public class LambdaMain {
 
         List<Person> personList = new ArrayList<>(List.of(personArray));
 
+        System.out.println("Исходный список имен:");
         personList.forEach(person -> System.out.println(person.getName() + " " + person.getAge()));
         System.out.println();
 
-        System.out.println("Список людей младше 18:");
-        List<Person> sor = personList.stream().filter(person -> (person.getAge() < 18)).toList();
-        int age;
-
-        sor.forEach(person -> {
-            System.out.println(person.getName() + " " + person.getAge());
-        });
-
+        System.out.println("1. Получить список уникальных имен:");
+        System.out.println(personList.stream().map(Person::getName).distinct().toList());
         System.out.println();
 
-        System.out.println("Их средний возраст:");
+        System.out.println("2. Получить список уникальных имен в формате Имена: Иван, Сергей, Петр:");
+        System.out.println(personList.stream().map(Person::getName).distinct()
+                .collect(Collectors.joining(", ", "Имена: ", ".")));
+        System.out.println();
 
+        System.out.println("3. Получить список людей младше 18:");
+        System.out.println("Список людей:");
+        personList.stream().filter(person -> (person.getAge() < 18)).toList().forEach(person -> {
+            System.out.println(person.getName() + " " + person.getAge());
+        });
+        System.out.println();
+        System.out.println("Их средний возраст:");
+        System.out.println(personList.stream().filter(person -> (person.getAge() < 18)).mapToInt(Person::getAge).average());
+        System.out.println();
+
+        System.out.println("4. При помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст:");
+        personList.stream().collect(Collectors.groupingBy(Person::getName))
+                .forEach((p, a) -> System.out.printf("Имя: %s, Возраст: %s%n", p, a.stream().mapToInt(Person::getAge).average()));
+        System.out.println();
+
+        System.out.println("5. Получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста:");
+        personList.stream().filter(person -> person.getAge() >= 20).filter(person -> person.getAge() <= 45)
+                .sorted((s1, s2) -> s2.compare(s1.getAge())).forEach(person -> {
+                    System.out.println(person.getName() + " " + person.getAge());
+                });
     }
 }
