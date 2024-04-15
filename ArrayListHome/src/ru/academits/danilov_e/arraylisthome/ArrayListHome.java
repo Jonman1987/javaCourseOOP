@@ -11,9 +11,9 @@ public class ArrayListHome {
     public static <E> ArrayList<E> getListWithoutRepeats(ArrayList<E> list) {
         ArrayList<E> listWithoutRepeats = new ArrayList<>(list.size());
 
-        for (E number : list) {
-            if (!listWithoutRepeats.contains(number)) {
-                listWithoutRepeats.add(number);
+        for (E item : list) {
+            if (!listWithoutRepeats.contains(item)) {
+                listWithoutRepeats.add(item);
             }
         }
 
