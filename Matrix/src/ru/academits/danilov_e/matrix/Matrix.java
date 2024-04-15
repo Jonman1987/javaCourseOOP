@@ -53,7 +53,7 @@ public class Matrix {
         }
 
         if (columnsCount == 0) {
-            throw new NoSuchElementException("Matrix column count is 0");
+            throw new IllegalArgumentException("Matrix columns count is 0"); // Я пытался подобрать более правильное исключение
         }
 
         rows = new Vector[array.length];
@@ -130,13 +130,13 @@ public class Matrix {
                     + (getColumnsCount() - 1) + "]. Column index is " + index + ".");
         }
 
-        double[] columnComponentArray = new double[rows.length];
+        double[] columnComponentsArray = new double[rows.length];
 
         for (int i = 0; i < rows.length; i++) {
-            columnComponentArray[i] = rows[i].getComponent(index);
+            columnComponentsArray[i] = rows[i].getComponent(index);
         }
 
-        return new Vector(columnComponentArray);
+        return new Vector(columnComponentsArray);
     }
 
     public void transpose() {
