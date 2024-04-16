@@ -28,7 +28,9 @@ public class TemperatureDesktopView implements TemperatureView{
 
             JTextField celsiusTemperatureField = new JTextField(30);
             JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem();
+
             String[] temperaturesType = {"Градусы Цельсия", "Градусы Кельвина", "Градусы Фаренгейта"};
+
             JComboBox<String> comboBox1 = new JComboBox<>(temperaturesType);
             JComboBox<String> comboBox2 = new JComboBox<>(temperaturesType);
 
