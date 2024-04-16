@@ -11,7 +11,7 @@ public class TemperatureMain {
     public static void main(String[] args) {
         TemperatureModel temperatureModel = new TemperatureConverter();
         TemperatureView view1 = new TemperatureDesktopView();
-        TemperatureView view2 = new TemperatureConsoleView();
+        // TemperatureView view2 = new TemperatureConsoleView();
 
         TemperatureController temperatureController = new TemperatureController(temperatureModel, view1);
         view1.setController(temperatureController);

@@ -35,13 +35,11 @@ public class TemperatureDesktopView implements TemperatureView{
             JButton convertTemperatureButton = new JButton("Конвертировать");
             convertTemperatureButton.addActionListener(e -> {
                 try {
-                    double celsiusTemperature = Double.parseDouble(celsiusTemperatureField.getText());
-                    int scaleTypeFrom = comboBox1.getSelectedIndex();
-                    int scaleTypeTo = comboBox2.getSelectedIndex();
-                    System.out.println(scaleTypeFrom);
-                    System.out.println(scaleTypeTo);
+                    double inputTemperature = Double.parseDouble(celsiusTemperatureField.getText());
+                    int temperatureTypeFrom = comboBox1.getSelectedIndex();
+                    int temperatureTypeTo = comboBox2.getSelectedIndex();
 
-                    temperatureController.convertCelsiusToKelvin(celsiusTemperature);
+                    temperatureController.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
                 }catch (NumberFormatException ex){
                     JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка", JOptionPane.ERROR_MESSAGE );
                 }
@@ -71,5 +69,6 @@ public class TemperatureDesktopView implements TemperatureView{
     @Override
     public void showKelvinTemperature(double kelvinTemperature) {
         resultLabel.setText("Температура в градусах Кельвинах: " + kelvinTemperature);
+        System.out.println();
     }
 }

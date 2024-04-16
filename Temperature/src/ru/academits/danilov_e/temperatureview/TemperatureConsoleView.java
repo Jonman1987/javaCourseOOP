@@ -15,7 +15,23 @@ public class TemperatureConsoleView implements TemperatureView{
             try {
                 System.out.println("Введите температуру в градусах цельсия:");
                 double celsiusTemperature = scanner.nextDouble();
-                temperatureController.convertCelsiusToKelvin(celsiusTemperature);
+                System.out.println();
+
+                System.out.println("Введите шкалу введенного значения:");
+                System.out.println("0 - градусы Цельсия");
+                System.out.println("1 - градусы Кельвина");
+                System.out.println("2 - градусы Фаренгейта");
+                System.out.println();
+                int temperatureTypeFrom = scanner.nextInt();
+
+                System.out.println("Введите шкалу в которое переводим значения:");
+                System.out.println("0 - градусы Цельсия");
+                System.out.println("1 - градусы Кельвина");
+                System.out.println("2 - градусы Фаренгейта");
+                System.out.println();
+                int temperatureTypeTo = scanner.nextInt();
+
+                temperatureController.convertTemperature(celsiusTemperature, temperatureTypeFrom, temperatureTypeTo);
             }catch (InputMismatchException e){
                 System.out.println("Температура должна быть числом");
                 break;
@@ -31,5 +47,6 @@ public class TemperatureConsoleView implements TemperatureView{
     @Override
     public void showKelvinTemperature(double kelvinTemperature) {
         System.out.println("Температура в градусах Кельвинах: " + kelvinTemperature);
+        System.out.println();
     }
 }
