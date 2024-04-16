@@ -3,7 +3,6 @@ package ru.academits.danilov_e.temperatureview;
 import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class TemperatureDesktopView implements TemperatureView{
     private TemperatureController temperatureController;
