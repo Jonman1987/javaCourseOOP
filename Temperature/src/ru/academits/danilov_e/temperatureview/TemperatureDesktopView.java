@@ -3,6 +3,7 @@ package ru.academits.danilov_e.temperatureview;
 import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TemperatureDesktopView implements TemperatureView{
     private TemperatureController temperatureController;
@@ -27,7 +28,6 @@ public class TemperatureDesktopView implements TemperatureView{
             JLabel celsiusTemperatureLabel = new JLabel("Введите значение температуры");
 
             JTextField celsiusTemperatureField = new JTextField(30);
-            JCheckBoxMenuItem checkBoxMenuItem = new JCheckBoxMenuItem();
 
             String[] temperaturesType = {"Градусы Цельсия", "Градусы Кельвина", "Градусы Фаренгейта"};
 
@@ -50,13 +50,13 @@ public class TemperatureDesktopView implements TemperatureView{
 
             resultLabel = new JLabel();
 
+
             panel.add(celsiusTemperatureLabel);
             panel.add(celsiusTemperatureField);
             panel.add(comboBox1);
             panel.add(comboBox2);
             panel.add(convertTemperatureButton);
             panel.add(resultLabel);
-            panel.add(checkBoxMenuItem);
 
             frame.add(panel);
             frame.setVisible(true);
