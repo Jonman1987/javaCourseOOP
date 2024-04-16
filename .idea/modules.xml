@@ -17,6 +17,7 @@
       <module fileurl="file://$PROJECT_DIR$/Stock/RangePartTwo/RangePartTwo.iml" filepath="$PROJECT_DIR$/Stock/RangePartTwo/RangePartTwo.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/Stock/Stock.iml" filepath="$PROJECT_DIR$/Stock/Stock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Temperature/Temperature.iml" filepath="$PROJECT_DIR$/Temperature/Temperature.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tree/Tree.iml" filepath="$PROJECT_DIR$/Tree/Tree.iml" />
       <module fileurl="file://$PROJECT_DIR$/Vector/Vector.iml" filepath="$PROJECT_DIR$/Vector/Vector.iml" />
     </modules>
