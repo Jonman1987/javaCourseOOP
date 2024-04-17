@@ -3,6 +3,7 @@ package ru.academits.danilov_e.temperatureview;
 import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TemperatureDesktopView implements TemperatureView {
     private TemperatureController temperatureController;
@@ -19,15 +20,11 @@ public class TemperatureDesktopView implements TemperatureView {
 
             JFrame frame = new JFrame("Конвертер температур");
 
-            frame.setSize(400, 300);
+            frame.setSize(600, 300);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            JPanel panel = new JPanel();
-
-            JLabel celsiusTemperatureLabel = new JLabel("Введите значение температуры");
-
-            JTextField celsiusTemperatureField = new JTextField(30);
+            JTextField temperatureInputField = new JTextField(10);
 
             String[] temperaturesType = {"Градусы Цельсия", "Градусы Кельвина", "Градусы Фаренгейта"};
 
@@ -37,25 +34,37 @@ public class TemperatureDesktopView implements TemperatureView {
             JButton convertTemperatureButton = new JButton("Конвертировать");
             convertTemperatureButton.addActionListener(e -> {
                 try {
-                    double inputTemperature = Double.parseDouble(celsiusTemperatureField.getText());
+                    double inputTemperature = Double.parseDouble(temperatureInputField.getText());
                     int temperatureTypeFrom = comboBox1.getSelectedIndex();
                     int temperatureTypeTo = comboBox2.getSelectedIndex();
 
                     temperatureController.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка"
+                            , JOptionPane.ERROR_MESSAGE);
                 }
 
             });
 
-            resultLabel = new JLabel();
+            JLabel celsiusTemperatureLabel = new JLabel("Введите значение температуры");
+            JLabel inputTemperatureText = new JLabel("Выберите шкалу начальной температуры");
+            JLabel outputTemperatureText = new JLabel("Выберите шкалу преобразованной температуры");
 
+            JPanel panel = new JPanel();
+
+            GridLayout layout = new GridLayout(4,2);
+
+            panel.setLayout(layout);
 
             panel.add(celsiusTemperatureLabel);
-            panel.add(celsiusTemperatureField);
+            panel.add(temperatureInputField);
+            panel.add(inputTemperatureText);
             panel.add(comboBox1);
+            panel.add(outputTemperatureText);
             panel.add(comboBox2);
             panel.add(convertTemperatureButton);
+            resultLabel = new JLabel();
+
             panel.add(resultLabel);
 
             frame.add(panel);
