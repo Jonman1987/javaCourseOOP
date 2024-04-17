@@ -4,15 +4,16 @@ import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
 
 import javax.swing.*;
 
-public class TemperatureDesktopView implements TemperatureView{
+public class TemperatureDesktopView implements TemperatureView {
     private TemperatureController temperatureController;
     private JLabel resultLabel;
+
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }catch (Exception ignore){
+            } catch (Exception ignore) {
 
             }
 
@@ -41,8 +42,8 @@ public class TemperatureDesktopView implements TemperatureView{
                     int temperatureTypeTo = comboBox2.getSelectedIndex();
 
                     temperatureController.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
-                }catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка", JOptionPane.ERROR_MESSAGE );
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
 
             });
@@ -68,8 +69,8 @@ public class TemperatureDesktopView implements TemperatureView{
     }
 
     @Override
-    public void showKelvinTemperature(double kelvinTemperature) {
-        resultLabel.setText("Температура в градусах Кельвинах: " + kelvinTemperature);
+    public void showTemperatureResult(double temperature) {
+        resultLabel.setText("Температура: " + temperature);
         System.out.println();
     }
 }

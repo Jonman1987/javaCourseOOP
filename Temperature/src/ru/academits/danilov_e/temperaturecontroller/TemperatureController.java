@@ -12,25 +12,25 @@ public class TemperatureController {
         this.view = view;
     }
 
-    public void convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo){
+    public void convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
         double temperatureResult = 0;
 
-        if(temperatureTypeFrom == 0 && temperatureTypeTo == 1){
+        if (temperatureTypeFrom == 0 && temperatureTypeTo == 1) {
             temperatureResult = model.convertCelsiusToKelvin(temperature);
-        }else if(temperatureTypeFrom == 1 && temperatureTypeTo == 0){
+        } else if (temperatureTypeFrom == 1 && temperatureTypeTo == 0) {
             temperatureResult = model.convertKelvinToCelsius(temperature);
-        }else if(temperatureTypeFrom == 0 && temperatureTypeTo == 2){
+        } else if (temperatureTypeFrom == 0 && temperatureTypeTo == 2) {
             temperatureResult = model.convertCelsiusToFahrenheit(temperature);
-        }else if(temperatureTypeFrom == 2 && temperatureTypeTo == 0){
+        } else if (temperatureTypeFrom == 2 && temperatureTypeTo == 0) {
             temperatureResult = model.convertFahrenheitToCelsius(temperature);
-        }else if(temperatureTypeFrom == 2 && temperatureTypeTo == 1){
+        } else if (temperatureTypeFrom == 2 && temperatureTypeTo == 1) {
             temperatureResult = model.convertFahrenheitToKelvin(temperature);
-        }else if(temperatureTypeFrom == 1 && temperatureTypeTo == 2){
+        } else if (temperatureTypeFrom == 1 && temperatureTypeTo == 2) {
             temperatureResult = model.convertKelvinToFahrenheit(temperature);
-        }else if(temperatureTypeFrom == temperatureTypeTo){
+        } else if (temperatureTypeFrom == temperatureTypeTo) {
             temperatureResult = temperature;
         }
 
-        view.showKelvinTemperature(temperatureResult);
+        view.showTemperatureResult(temperatureResult);
     }
 }

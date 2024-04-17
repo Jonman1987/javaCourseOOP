@@ -5,13 +5,14 @@ import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TemperatureConsoleView implements TemperatureView{
+public class TemperatureConsoleView implements TemperatureView {
     private TemperatureController temperatureController;
+
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true){
+        while (true) {
             try {
                 System.out.println("Введите температуру в градусах цельсия:");
                 double celsiusTemperature = scanner.nextDouble();
@@ -32,7 +33,7 @@ public class TemperatureConsoleView implements TemperatureView{
                 int temperatureTypeTo = scanner.nextInt();
 
                 temperatureController.convertTemperature(celsiusTemperature, temperatureTypeFrom, temperatureTypeTo);
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Температура должна быть числом");
                 break;
             }
@@ -45,8 +46,8 @@ public class TemperatureConsoleView implements TemperatureView{
     }
 
     @Override
-    public void showKelvinTemperature(double kelvinTemperature) {
-        System.out.println("Температура в градусах Кельвинах: " + kelvinTemperature);
+    public void showTemperatureResult(double temperature) {
+        System.out.println("Температура в градусах Кельвинах: " + temperature);
         System.out.println();
     }
 }

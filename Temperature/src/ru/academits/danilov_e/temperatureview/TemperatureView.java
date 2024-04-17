@@ -7,5 +7,5 @@ public interface TemperatureView {
 
     void setController(TemperatureController temperatureController);
 
-    void showKelvinTemperature(double kelvinTemperature);
+    void showTemperatureResult(double temperature);
 }
