@@ -30,17 +30,17 @@ public class Graph {
         return -1;
     }
 
-    public void startVisit(int startNode, String algorithmType, int[][] array) { // TODO: array взять из graph
+    public void startVisit(int startNode, String algorithmType) {
         switch (algorithmType) {
             case "Width":
 
                 while (checkVisitedNodes() != -1){
-                    visitInWidth(checkVisitedNodes(), array);
+                    visitInWidth(checkVisitedNodes());
                 }
 
                 break;
             case "Deep":
-                visitInDepth(startNode, array);
+                visitInDepth(startNode);
                 break;
             default:
                 throw new IllegalArgumentException("Выбран не верный вид обхода графа. Возможные варианты Width " +
@@ -48,10 +48,10 @@ public class Graph {
         }
     }
 
-    private LinkedList<Integer> getNearestNodesList(int nodes, int[][] array){ // TODO: array взять из graph
+    private LinkedList<Integer> getNearestNodesList(int nodes){
         LinkedList<Integer> nodesList = new LinkedList<>();
 
-        int[] nodesLine = array[nodes];
+        int[] nodesLine = graph[nodes];
 
         for(int i = 0; i< nodesLine.length; i++){
             if(nodesLine[i] != 0 && i != nodes && !hasVisited[i]){
@@ -62,21 +62,21 @@ public class Graph {
         return nodesList;
     }
 
-    private void visitInWidth(int startNode, int[][] array) { // TODO: array взять из graph
+    private void visitInWidth(int startNode) {
         System.out.println(startNode);
         hasVisited[startNode] = true;
-        LinkedList<Integer> nodesList = new LinkedList<>(getNearestNodesList(startNode, array));
+        LinkedList<Integer> nodesList = new LinkedList<>(getNearestNodesList(startNode));
 
         while (!nodesList.isEmpty()){
             int node = nodesList.getFirst();
             System.out.println(node);
             hasVisited[node] = true;
             nodesList.removeFirst();
-            nodesList.addAll(getNearestNodesList(node, array));
+            nodesList.addAll(getNearestNodesList(node));
         }
     }
 
-    private void visitInDepth(int startNode, int[][] array) { // TODO: array взять из graph
+    private void visitInDepth(int startNode) {
 
     }
 }

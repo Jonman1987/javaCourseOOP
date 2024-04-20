@@ -18,7 +18,7 @@ public class GraphMain {
 
         graph.showVisitedNodes();
 
-        graph.startVisit(graph.checkVisitedNodes(), "Width", array);
+        graph.startVisit(graph.checkVisitedNodes(), "Width");
 
         graph.showVisitedNodes();
     }
