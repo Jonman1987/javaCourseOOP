@@ -79,4 +79,7 @@ public class Graph {
     private void visitInDepth(int startNode) {
 
     }
+
+    // TODO Сверить алгоритмы в ширину, глубину.
+    // TODO Убрать startNode.
 }
