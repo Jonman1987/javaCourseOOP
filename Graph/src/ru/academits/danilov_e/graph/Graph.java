@@ -30,7 +30,7 @@ public class Graph {
         return -1;
     }
 
-    public void startVisit(int startNode, String algorithmType, int[][] array) {
+    public void startVisit(int startNode, String algorithmType, int[][] array) { // TODO: array взять из graph
         switch (algorithmType) {
             case "Width":
 
@@ -48,7 +48,7 @@ public class Graph {
         }
     }
 
-    private LinkedList<Integer> getNearestNodesList(int nodes, int[][] array){
+    private LinkedList<Integer> getNearestNodesList(int nodes, int[][] array){ // TODO: array взять из graph
         LinkedList<Integer> nodesList = new LinkedList<>();
 
         int[] nodesLine = array[nodes];
@@ -62,7 +62,7 @@ public class Graph {
         return nodesList;
     }
 
-    private void visitInWidth(int startNode, int[][] array) {
+    private void visitInWidth(int startNode, int[][] array) { // TODO: array взять из graph
         System.out.println(startNode);
         hasVisited[startNode] = true;
         LinkedList<Integer> nodesList = new LinkedList<>(getNearestNodesList(startNode, array));
@@ -76,7 +76,7 @@ public class Graph {
         }
     }
 
-    private void visitInDepth(int startNode, int[][] array) {
+    private void visitInDepth(int startNode, int[][] array) { // TODO: array взять из graph
 
     }
 }
