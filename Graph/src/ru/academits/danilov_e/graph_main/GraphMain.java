@@ -17,5 +17,9 @@ public class GraphMain {
         Graph graph = new Graph(array);
 
         graph.showVisitedNodes();
+
+        graph.startVisit(graph.checkVisitedNodes(), "Width", array);
+
+        graph.showVisitedNodes();
     }
 }
