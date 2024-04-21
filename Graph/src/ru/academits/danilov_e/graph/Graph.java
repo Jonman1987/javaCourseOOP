@@ -83,9 +83,9 @@ public class Graph {
     private void visitInDepth(int startNode) {
         System.out.println(startNode);
         hasVisited[startNode] = true;
-        LinkedList<Integer> temp = getNearestNodesList(startNode);
-        temp.reversed();
-        LinkedList<Integer> nodesList = new LinkedList<>(temp);
+        LinkedList<Integer> childList = getNearestNodesList(startNode);
+        childList.reversed();
+        LinkedList<Integer> nodesList = new LinkedList<>(childList);
 
         while (!nodesList.isEmpty()) {
             int node = nodesList.getFirst();
