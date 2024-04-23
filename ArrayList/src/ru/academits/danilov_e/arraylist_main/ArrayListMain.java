@@ -147,7 +147,7 @@ public class ArrayListMain {
         colorsList2.add(index4, color6);
         printResult(colorsList2, true);
 
-        String color7 = "Бирюзовый";
+        String color7 = "Голубой";
         System.out.println("16. Добавление элемента " + color7 + " в середину ArrayIndex по индексу:");
         printResult(colorsList2, false);
         int index5 = colorsList2.size() / 2;
