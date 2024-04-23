@@ -203,19 +203,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        if (isEmpty()) {
-            return false;
-        }
-
-        Iterator<?> iterator = c.iterator();
-        int addCount = 0;
-
-        for (int i = 0; i < c.size(); i++) {
-            add(i, (E) iterator.next());
-            addCount++;
-        }
-
-        return size - addCount == c.size();
+        return addAll(size, c);
     }
 
     private static void checkingBounds(int index, int maxBound, boolean hasIncludeMaxBound) {
@@ -240,17 +228,15 @@ public class ArrayList<E> implements List<E> {
 
         checkingBounds(index, size, false);
 
-        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
-        int addCount = 0;
-        int position = index;
+        System.arraycopy(items, index, items, index + c.size(), size - index);
 
-        for (int i = 0; i < c.size(); i++) {
-            add(position, iterator.next());
-            addCount++;
-            position++;
+        for(int i = index, j = 0; j < c.size(); i++, j ++){
+            items[i] = (E) c.toArray()[j];
+            ensureCapacityTwice();
+            size++;
         }
 
-        return size - addCount == c.size();
+        return true;
     }
 
     @Override
