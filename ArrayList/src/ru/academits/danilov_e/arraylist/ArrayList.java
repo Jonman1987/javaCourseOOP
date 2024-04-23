@@ -104,39 +104,17 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        int arraySize = 0;
-
-        for (T t : a) {
-            if (t != null) {
-                arraySize++;
-            }
-        }
-
-        if (size + arraySize <= a.length) {
-            T[] items = (T[]) toArray();
-
-            for (int i = 0; i < items.length; i++) {
-                a[arraySize + i] = items[i];
-            }
-
+        if (isEmpty()) {
             return a;
         }
 
-        T[] array = (T[]) new Object[size + arraySize];
-        int j = 0;
-
-        for (int i = 0; i < size + arraySize; i++) {
-            if (i < arraySize) {
-                array[i] = a[i];
-
-                continue;
-            }
-
-            array[i] = (T) items[j];
-            j++;
+        if (size <= a.length) {
+            a = Arrays.copyOf((T[]) items, a.length);
+        } else {
+            a = ((T[]) Arrays.copyOf((T[]) items, size, a.getClass()));
         }
 
-        return array;
+        return a;
     }
 
     private void ensureCapacityTwice() {
@@ -284,7 +262,7 @@ public class ArrayList<E> implements List<E> {
     public E set(int index, E item) {
         checkingBounds(index, size, true);
 
-        E oldItem = items[index]; // Бывший oldElement
+        E oldItem = items[index];
         items[index] = item;
         modificationsCount++;
 

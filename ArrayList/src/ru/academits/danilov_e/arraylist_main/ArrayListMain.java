@@ -317,10 +317,16 @@ public class ArrayListMain {
         printResult(colorsList2, true);
 
         System.out.println("33. Функция public <T> T[] toArray(T[] a):");
+        colorsList2.add("Красный");
+        colorsList2.add("Зеленый");
+        colorsList2.add("Желтый");
+        colorsList2.add("Оранжевый");
+        colorsList2.add("Голубой");
         System.out.println("Исходный ArrayList: " + toString(colorsList2));
-        String[] colorsArray1 = {"Мятный", "Чайный", "Стальной"};
+
+        String[] colorsArray1 = new String[3];
         System.out.println("Случай с созданием нового массива: " + Arrays.toString(colorsList2.toArray(colorsArray1)));
-        String[] colorsArray2 = {"Горчичный", "Смородиновый", "Угольный", null, null, null, null, null};
+        String[] colorsArray2 = new String[10];
         System.out.println("Случай с использованием старого массива: " + Arrays.toString(colorsList2.toArray(colorsArray2)));
         System.out.println();
 
