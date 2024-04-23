@@ -177,24 +177,11 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        ArrayListIterator iterator = iterator();
-
         int matchesCount = 0;
 
-        E item1 = iterator.next(); // Бывший elem1
-
-        while (iterator.hasNext()) {
-            Iterator<?> collectionIterator = c.iterator();
-            Object item2 = collectionIterator.next(); // Бывший elem2
-            iterator.next();
-
-            while (collectionIterator.hasNext()) {
-                if (item1.equals(item2)) {
-                    matchesCount++;
-                    break;
-                }
-
-                collectionIterator.next();
+        for (int i = 0; i < c.size(); i++) {
+            if (contains(c.toArray()[i])) {
+                matchesCount++;
             }
         }
 
@@ -230,7 +217,7 @@ public class ArrayList<E> implements List<E> {
 
         System.arraycopy(items, index, items, index + c.size(), size - index);
 
-        for(int i = index, j = 0; j < c.size(); i++, j ++){
+        for (int i = index, j = 0; j < c.size(); i++, j++) {
             items[i] = (E) c.toArray()[j];
             ensureCapacityTwice();
             size++;
@@ -245,17 +232,14 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        ArrayListIterator iterator = (ArrayListIterator) c.iterator();
-        boolean isRemoved = false;
+        boolean hasDeleted = false;
 
-        do {
-            if (remove(iterator.next())) {
-                isRemoved = true;
-            }
+        for (Object object : c) {
+            remove(object);
+            hasDeleted = true;
+        }
 
-        } while (iterator.hasNext());
-
-        return isRemoved;
+        return hasDeleted;
     }
 
     @Override
@@ -266,19 +250,11 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        for (E item : items) {
-            boolean isNeedRemove = false;
-
-            for (Object object : c) {
-                if (item != null && item.equals(object)) {
-                    isRemoved = true;
-                    isNeedRemove = true;
-                    break;
-                }
-            }
-
-            if (!isNeedRemove) {
-                remove(item);
+        for (int i = 0; i < size; i++) {
+            if (!c.contains(items[i])) {
+                remove(items[i]);
+                isRemoved = true;
+                i--;
             }
         }
 

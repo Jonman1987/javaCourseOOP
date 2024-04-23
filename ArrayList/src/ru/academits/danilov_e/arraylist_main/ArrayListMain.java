@@ -279,6 +279,7 @@ public class ArrayListMain {
         printResult(colorsList2, true);
 
         System.out.println("30. Удаление коллекции в ArrayList с индекса при полном совпадении:");
+        colorsList2.add("Серебряный");
         printResult(colorsList2, false);
 
         ArrayList<String> colorsList10 = new ArrayList<>();
@@ -323,6 +324,7 @@ public class ArrayListMain {
         System.out.println("Случай с использованием старого массива: " + Arrays.toString(colorsList2.toArray(colorsArray2)));
         System.out.println();
 
+        System.out.println("34. Нулевая размерность");
         ArrayList<String> colorsList13 = new ArrayList<>(0);
         printResult(colorsList13, false);
         colorsList13.add("Сизый");
