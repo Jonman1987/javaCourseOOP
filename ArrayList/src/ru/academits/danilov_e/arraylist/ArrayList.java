@@ -28,8 +28,8 @@ public class ArrayList<E> implements List<E> {
 
     public void ensureCapacity(int capacity) {
         if(capacity <= size){
-            throw new IllegalArgumentException("New capacity less or equal then current size. New capacity is " + capacity
-                    + ". Size is " + size + ".");
+            throw new IllegalArgumentException("New capacity must be less or equal then current size. New capacity is "
+                    + capacity + ". Size is " + size + ".");
         }
 
         // E[] newItems = (E[]) new Object[capacity];
@@ -43,15 +43,19 @@ public class ArrayList<E> implements List<E> {
         items = Arrays.copyOf(items, capacity);
     }
 
-    private void trimToSize(int capacity) { // Я не стал делать исключения для capacity так как пользователь напрямую
+    private void trimToSize() { // Я не стал делать исключения для capacity так как пользователь напрямую
         // не работает со значением capacity
-        if (items.length / size >= 2 && items.length != 10) {
-            E[] array = (E[]) new Object[capacity];
-
-            if (size >= 0) System.arraycopy(items, 0, array, 0, size);
-
-            items = array;
+        if (items.length == size) {
+            throw new IllegalArgumentException("New capacity must be greater then current size. New capacity is " + capacity
+                    + ". Size is " + size + ".");
         }
+            // E[] array = (E[]) new Object[capacity];
+
+            // if (size >= 0) System.arraycopy(items, 0, array, 0, size);
+
+            // items = array;
+
+        items = Arrays.copyOf(items, size);
     }
 
     public int getCapacity() { // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
@@ -70,7 +74,11 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean contains(Object o) { // TODO: Не разобрался с "упадет на элементе списка со значением null".
+    public boolean contains(Object o) {
+        if(isEmpty()){
+            return false;
+        }
+
         return indexOf(o) != -1;
     }
 
@@ -147,25 +155,25 @@ public class ArrayList<E> implements List<E> {
 
     private void ensureCapacityTwice(){
         if(items.length == 0){
-            ensureCapacity(1);
+            ensureCapacity(capacity);
             return;
         }
 
-        if (items.length - 1 == size) {
+        if (items.length == size) {
             ensureCapacity(items.length * 2);
         }
     }
 
     @Override
     public boolean add(E item) {
-        ensureCapacityTwice();
-
-        items[size] = item;
+        add(size, item);
+        return true;
+        /*items[size] = item;
         int oldSize = size;
         size++;
         modificationsCount++;
-
-        return items[size] == item && size - oldSize == 1;
+        ensureCapacityTwice();
+        return items[size] == item && size - oldSize == 1;*/
     }
 
     @Override
@@ -202,8 +210,8 @@ public class ArrayList<E> implements List<E> {
                 modificationsCount++;
             }
 
-            if (index == -1 && isChanged) {
-                trimToSize(items.length / 2);
+            if (index == -1 && isChanged && (items.length / size) * 100 > 130) {
+                trimToSize();
 
                 return true;
             } else if (index == -1) {
@@ -382,8 +390,6 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) { // TODO: Не исправлена часть с логикой пункт 17.
         checkingBounds(index, size, false);
 
-        ensureCapacityTwice();
-
         E[] array = Arrays.copyOf(items, size);
 
         if (index == 0) {
@@ -404,6 +410,7 @@ public class ArrayList<E> implements List<E> {
 
         size++;
         modificationsCount++;
+        ensureCapacityTwice();
     }
 
     @Override
