@@ -322,5 +322,12 @@ public class ArrayListMain {
         String[] colorsArray2 = {"Горчичный", "Смородиновый", "Угольный", null, null, null, null, null};
         System.out.println("Случай с использованием старого массива: " + Arrays.toString(colorsList2.toArray(colorsArray2)));
         System.out.println();
+
+        ArrayList<String> colorsList13 = new ArrayList<>(0);
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        colorsList13.trimToSize();
+        printResult(colorsList13, false);
     }
 }

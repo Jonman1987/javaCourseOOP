@@ -17,7 +17,7 @@ public class ArrayList<E> implements List<E> {
         size = list.size();
     }
 
-    public ArrayList(int capacity) { // TODO: предусмотреть нулевую вместимость
+    public ArrayList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("Capacity must be greater than 0. Capacity is "
                     + capacity + ".");
@@ -27,33 +27,19 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void ensureCapacity(int capacity) {
-        if(capacity <= size){
+        if (capacity <= size) {
             throw new IllegalArgumentException("New capacity must be less or equal then current size. New capacity is "
                     + capacity + ". Size is " + size + ".");
         }
 
-        // E[] newItems = (E[]) new Object[capacity];
-
-        // newItems = Arrays.copyOf(items, capacity);
-
-        // System.arraycopy(items, 0, newItems, 0, items.length);
-
-        // items = newItems;
-
         items = Arrays.copyOf(items, capacity);
     }
 
-    private void trimToSize() { // Я не стал делать исключения для capacity так как пользователь напрямую
-        // не работает со значением capacity
+    public void trimToSize() {
         if (items.length == size) {
             throw new IllegalArgumentException("New capacity must be greater then current size. New capacity is " + capacity
                     + ". Size is " + size + ".");
         }
-            // E[] array = (E[]) new Object[capacity];
-
-            // if (size >= 0) System.arraycopy(items, 0, array, 0, size);
-
-            // items = array;
 
         items = Arrays.copyOf(items, size);
     }
@@ -75,7 +61,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        if(isEmpty()){
+        if (isEmpty()) {
             return false;
         }
 
@@ -153,8 +139,8 @@ public class ArrayList<E> implements List<E> {
         return array;
     }
 
-    private void ensureCapacityTwice(){
-        if(items.length == 0){
+    private void ensureCapacityTwice() {
+        if (items.length == 0) {
             ensureCapacity(capacity);
             return;
         }
@@ -168,58 +154,25 @@ public class ArrayList<E> implements List<E> {
     public boolean add(E item) {
         add(size, item);
         return true;
-        /*items[size] = item;
-        int oldSize = size;
-        size++;
-        modificationsCount++;
-        ensureCapacityTwice();
-        return items[size] == item && size - oldSize == 1;*/
     }
 
     @Override
     public boolean remove(Object o) {
-        E[] array = (E[]) new Object[size];
-
-        boolean isChanged = false;
+        boolean result = false;
 
         while (true) {
-            System.arraycopy(items, 0, array, 0, size);
+            int index = indexOf(o);
 
-            int index = this.indexOf(o);
-
-            if (index == 0) {
-                if (size - 1 >= 0) System.arraycopy(array, 1, items, 0, size - 1);
-
-                items[size - 1] = null;
-                isChanged = true;
-                size--;
-                modificationsCount++;
-            } else if (index == size - 1) {
-                items[size - 1] = null;
-                isChanged = true;
-                size--;
-                modificationsCount++;
-            } else if (index != -1) {
-                System.arraycopy(array, 0, items, 0, index);
-
-                if (size - 1 - index >= 0) System.arraycopy(array, index + 1, items, index, size - 1 - index);
-
-                items[size - 1] = null;
-                isChanged = true;
-                size--;
-                modificationsCount++;
-            }
-
-            if (index == -1 && isChanged && (items.length / size) * 100 > 130) {
-                trimToSize();
-
-                return true;
-            } else if (index == -1) {
+            if (index == -1) {
                 break;
+            } else {
+                result = true;
             }
+
+            remove(index);
         }
 
-        return false;
+        return result;
     }
 
     @Override
@@ -250,6 +203,10 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        if (isEmpty()) {
+            return false;
+        }
+
         Iterator<?> iterator = c.iterator();
         int addCount = 0;
 
@@ -277,6 +234,10 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        if (isEmpty()) {
+            return false;
+        }
+
         checkingBounds(index, size, false);
 
         ArrayListIterator iterator = (ArrayListIterator) c.iterator();
@@ -330,28 +291,10 @@ public class ArrayList<E> implements List<E> {
                 }
             }
 
-            if(!isNeedRemove){
+            if (!isNeedRemove) {
                 remove(item);
             }
         }
-
-
-        /*ArrayListIterator iterator = (ArrayListIterator) c.iterator();
-        ArrayList<E> arrayList = new ArrayList<>();
-
-        do {
-            E item = iterator.next();
-
-            if (contains(item)) {
-                arrayList.add(item);
-                isRemoved = true;
-            }
-        } while (iterator.hasNext());
-
-        if (isRemoved) {
-            items = arrayList.items;
-            size = arrayList.size;
-        }*/
 
         return isRemoved;
     }
@@ -387,27 +330,18 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public void add(int index, E item) { // TODO: Не исправлена часть с логикой пункт 17.
+    public void add(int index, E item) {
         checkingBounds(index, size, false);
 
-        E[] array = Arrays.copyOf(items, size);
-
-        if (index == 0) {
-            items[0] = item;
-
-            System.arraycopy(array, 0, items, 1, size);
-        } else if (index == size) {
-            System.arraycopy(array, 0, items, 0, index);
-
-            items[index] = item;
-        } else {
-            System.arraycopy(array, 0, items, 0, index);
-
-            items[index] = item;
-
-            System.arraycopy(array, index, items, index + 1, size - index);
+        if (items.length == 0) {
+            ensureCapacityTwice();
         }
 
+        if (index != size) {
+            System.arraycopy(items, index, items, index + 1, size - index);
+        }
+
+        items[index] = item;
         size++;
         modificationsCount++;
         ensureCapacityTwice();
