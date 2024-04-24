@@ -3,52 +3,36 @@ package ru.academits.danilov_e.hashtable;
 import java.util.*;
 
 public class HashTable<E> implements Collection<E> {
-    private LinkedList<E>[] items;
+    private LinkedList<E>[] lists;
     private int size;
-    private int modificationsCount = 0;
+    private int modificationsCount;
 
-    public HashTable(E object) {
-        if (object == null) {
-            throw new NullPointerException("Added element is null");
-        }
-
-        items = (LinkedList<E>[]) new LinkedList[100];
-        size = 0;
-
-        add(object);
+    public HashTable() {
+        lists = (LinkedList<E>[]) new LinkedList[100];
     }
 
-    public HashTable(E object, int capacity) {
+    public HashTable(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be greater than 0. Capacity is "
                     + capacity + ".");
         }
 
-        if (object == null) {
-            throw new NullPointerException("Added element is null");
-        }
-
-        items = (LinkedList<E>[]) new LinkedList[capacity];
-        size = 0;
-
-        add(object);
+        lists = (LinkedList<E>[]) new LinkedList[capacity];
     }
 
-    public int tableLength() { // Метод отладки используется для контроля размера массива. В дальнейшем можно удалить
-        return items.length;
+    public int getTableCapacity() { // Метод отладки используется для контроля размера массива. В дальнейшем можно удалить
+        return lists.length;
     }
 
-    public int tableIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
+    public int getElementIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
         // размера таблицы. В дальнейшем можно удалить
-        int index = -1;
-
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].contains(element)) {
-                index = i;
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null && lists[i].contains(element)) { // TODO: пересечение с пунктом 2
+                return i;
             }
         }
 
-        return index;
+        return -1;
     }
 
     @Override
@@ -63,18 +47,14 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean contains(Object o) {
-        if (o == null) {
-            throw new NullPointerException("Searched element is null");
-        }
+        int index = Math.abs(o.hashCode() % lists.length);
 
-        int index = Math.abs(o.hashCode() % items.length);
-
-        if (items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)) {
+        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) { // TODO: пересечение с пунктом 2
             return true;
         }
 
-        if (items[index] != null && items[index].size() > 1) {
-            for (E e : items[index]) {
+        if (lists[index] != null && lists[index].size() > 1) { // TODO: пересечение с пунктом 2
+            for (E e : lists[index]) {
                 if (e.equals(o)) {
                     return true;
                 }
@@ -91,19 +71,19 @@ public class HashTable<E> implements Collection<E> {
 
         @Override
         public boolean hasNext() {
-            if(currentListIndex != -1){
-                if(currentListIndex + 1 < items[currentIndex].size()){
+            if (currentListIndex != -1) {
+                if (currentListIndex + 1 < lists[currentIndex].size()) {
                     return true;
-                }else {
-                    currentListIndex = -1;
                 }
+
+                currentListIndex = -1;
             }
 
             int index = currentIndex + 1;
 
-            if(index < items.length && items[index] == null){
-                while (index < items.length){
-                    if(items[index] != null){
+            if (index < lists.length && lists[index] == null) { // TODO: пересечение с пунктом 2
+                while (index < lists.length) {
+                    if (lists[index] != null) { // TODO: пересечение с пунктом 2
                         return true;
                     }
 
@@ -124,26 +104,26 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            if(currentListIndex != -1){
-                if(currentListIndex + 1 < items[currentIndex].size()){
+            if (currentListIndex != -1) {
+                if (currentListIndex + 1 < lists[currentIndex].size()) {
                     currentListIndex++;
-                    return items[currentIndex].get(currentListIndex);
-                }else {
-                    currentListIndex = -1;
+                    return lists[currentIndex].get(currentListIndex);
                 }
+
+                currentListIndex = -1;
             }
 
             currentIndex++;
 
-            if(items[currentIndex] == null){
-                while (currentIndex < items.length){
-                    if(items[currentIndex] != null){
-                        if(items[currentIndex].size() > 1){
+            if (lists[currentIndex] == null) {
+                while (currentIndex < lists.length) {
+                    if (lists[currentIndex] != null) {
+                        if (lists[currentIndex].size() > 1) {
                             currentListIndex++;
-                            return items[currentIndex].get(currentListIndex);
+                            return lists[currentIndex].get(currentListIndex);
                         }
 
-                        return items[currentIndex].getFirst();
+                        return lists[currentIndex].getFirst();
                     }
 
                     currentIndex++;
@@ -163,8 +143,8 @@ public class HashTable<E> implements Collection<E> {
     public Object[] toArray() {
         int elementsCount = 0;
 
-        for (LinkedList<E> item : items) {
-            if (item != null) {
+        for (LinkedList<E> item : lists) {
+            if (item != null) { // TODO: пересечение с пунктом 2
                 elementsCount++;
             }
         }
@@ -172,8 +152,8 @@ public class HashTable<E> implements Collection<E> {
         Object[] objects = new Object[elementsCount];
         int j = 0;
 
-        for (LinkedList<E> item : items) {
-            if (item != null) {
+        for (LinkedList<E> item : lists) {
+            if (item != null) { // TODO: пересечение с пунктом 2
                 objects[j] = item;
                 j++;
             }
@@ -185,9 +165,10 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public <T1> T1[] toArray(T1[] a) {
         T1[] array = (T1[]) toArray();
-        if(a.length < size){
+
+        if (a.length < size) {
             a = (T1[]) Arrays.copyOf(array, size, array.getClass());
-        }else {
+        } else {
             a = Arrays.copyOf(array, a.length);
         }
 
@@ -196,33 +177,27 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean add(E e) {
-        if (e == null) {
-            throw new NullPointerException("Added element is null");
-        }
+        if (size == lists.length) {
+            LinkedList<E>[] itemsArray = (LinkedList<E>[]) new LinkedList[lists.length * 2];
 
-        if (size == items.length) {
-            LinkedList<E>[] itemsArray = (LinkedList<E>[]) new LinkedList[items.length * 2];
-
-            for (LinkedList<E> item : items) {
-                if (item != null) {
+            for (LinkedList<E> item : lists) {
+                if (item != null) { // TODO: пересечение с пунктом 2
                     int index;
 
                     if (item.size() > 1) {
                         for (E element : item) {
                             index = Math.abs(element.hashCode() % itemsArray.length);
 
-                            if (itemsArray[index] != null) {
-                                itemsArray[index].add(element);
-                            } else {
-                                LinkedList<E> list = new LinkedList<>();
-                                itemsArray[index] = list;
-                                itemsArray[index].add(element);
+                            if (itemsArray[index] == null) { // TODO: пересечение с пунктом 2
+                                itemsArray[index] = new LinkedList<>();
                             }
+
+                            itemsArray[index].add(element);
                         }
                     } else {
                         index = Math.abs(item.getFirst().hashCode() % itemsArray.length);
 
-                        if (itemsArray[index] != null) {
+                        if (itemsArray[index] != null) { // TODO: пересечение с пунктом 2
                             itemsArray[index].add(item.getFirst());
                         } else {
                             itemsArray[index] = item;
@@ -231,45 +206,43 @@ public class HashTable<E> implements Collection<E> {
                 }
             }
 
-            items = itemsArray;
+            lists = itemsArray;
         }
 
-        int index = Math.abs(e.hashCode() % items.length);
-        int oldSize = size;
+        int index = Math.abs(e.hashCode() % lists.length);
 
-        if (items[index] == null) {
-            LinkedList<E> element = new LinkedList<>();
-            element.add(e);
-            items[index] = element;
-            size++;
-            modificationsCount++;
+        if (lists[index] == null) {
+            LinkedList<E> list = new LinkedList<>(); // Это бывшая переменная element
+            list.add(e);
+            lists[index] = list;
         } else {
-            items[index].add(e);
-            size++;
-            modificationsCount++;
+            lists[index].add(e);
         }
 
-        return size != oldSize;
+        size++;
+        modificationsCount++;
+
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        int index = Math.abs(o.hashCode() % items.length);
+        int index = Math.abs(o.hashCode() % lists.length);
 
-        if (items[index] != null && items[index].size() == 1 && items[index].getFirst().equals(o)) {
-            items[index] = null;
+        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) { // TODO: пересечение с пунктом 2
+            lists[index] = null;
             size--;
             modificationsCount++;
 
             return true;
         }
 
-        if (items[index] != null && items[index].size() > 1) {
+        if (lists[index] != null && lists[index].size() > 1) { // TODO: пересечение с пунктом 2
             int iteratorIndex = 0;
 
-            for (E e : items[index]) {
+            for (E e : lists[index]) {
                 if (e.equals(o)) {
-                    items[index].remove(iteratorIndex);
+                    lists[index].remove(iteratorIndex);
                     size--;
                     modificationsCount++;
 
@@ -307,13 +280,12 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        int oldSize = size;
-
         for (E t : c) {
             add(t);
+            return true;
         }
 
-        return size - oldSize == c.size();
+        return false;
     }
 
     @Override
@@ -348,22 +320,24 @@ public class HashTable<E> implements Collection<E> {
 
         clear();
 
-        this.addAll(array);
+        addAll(array);
 
         return matchesCount == c.size();
     }
 
     @Override
     public void clear() {
-        if(size != 0){
-            for(int i = 0; i < items.length; i++){
-                if(items[i] != null){
-                    items[i] = null;
-                }
-            }
-
-            size = 0;
-            modificationsCount++;
+        if (size == 0) {
+            return;
         }
+
+        for (LinkedList<E> item : lists) {
+            if(item != null){
+                item.clear();
+            }
+        }
+
+        size = 0;
+        modificationsCount++;
     }
 }
