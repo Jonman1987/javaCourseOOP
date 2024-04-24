@@ -217,10 +217,11 @@ public class HashTableMain {
         stringsLinkedList4.add("Малиновый");
         stringsLinkedList4.add("Синий");
         stringsLinkedList4.add("Оранжевый");
-        System.out.println(stringsLinkedList4);
+        System.out.println(Arrays.toString(stringsLinkedList4.toArray()));
         System.out.println("Результат: " + colorsTable3.retainAll(stringsLinkedList4));
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
+        System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println();
 
         System.out.println("12. Использование метода toArray(T1[] a):");

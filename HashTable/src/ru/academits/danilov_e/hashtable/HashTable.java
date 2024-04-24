@@ -49,16 +49,8 @@ public class HashTable<E> implements Collection<E> {
     public boolean contains(Object o) {
         int index = Math.abs(o.hashCode() % lists.length);
 
-        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) { // TODO: пересечение с пунктом 2
-            return true;
-        }
-
-        if (lists[index] != null && lists[index].size() > 1) { // TODO: пересечение с пунктом 2
-            for (E e : lists[index]) {
-                if (e.equals(o)) {
-                    return true;
-                }
-            }
+        if (lists[index] != null && !lists[index].isEmpty()) { // TODO: пересечение с пунктом 2
+            return lists[index].contains(o);
         }
 
         return false;
@@ -143,8 +135,8 @@ public class HashTable<E> implements Collection<E> {
     public Object[] toArray() {
         int elementsCount = 0;
 
-        for (LinkedList<E> item : lists) {
-            if (item != null) { // TODO: пересечение с пунктом 2
+        for (LinkedList<E> list : lists) {
+            if (list != null) { // TODO: пересечение с пунктом 2
                 elementsCount++;
             }
         }
@@ -152,9 +144,9 @@ public class HashTable<E> implements Collection<E> {
         Object[] objects = new Object[elementsCount];
         int j = 0;
 
-        for (LinkedList<E> item : lists) {
-            if (item != null) { // TODO: пересечение с пунктом 2
-                objects[j] = item;
+        for (LinkedList<E> list : lists) {
+            if (list != null) { // TODO: пересечение с пунктом 2
+                objects[j] = list;
                 j++;
             }
         }
@@ -178,35 +170,35 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean add(E e) {
         if (size == lists.length) {
-            LinkedList<E>[] itemsArray = (LinkedList<E>[]) new LinkedList[lists.length * 2];
+            LinkedList<E>[] listsArray = (LinkedList<E>[]) new LinkedList[lists.length * 2];
 
-            for (LinkedList<E> item : lists) {
-                if (item != null) { // TODO: пересечение с пунктом 2
+            for (LinkedList<E> list : lists) {
+                if (list != null) { // TODO: пересечение с пунктом 2
                     int index;
 
-                    if (item.size() > 1) {
-                        for (E element : item) {
-                            index = Math.abs(element.hashCode() % itemsArray.length);
+                    if (list.size() > 1) {
+                        for (E element : list) {
+                            index = Math.abs(element.hashCode() % listsArray.length);
 
-                            if (itemsArray[index] == null) { // TODO: пересечение с пунктом 2
-                                itemsArray[index] = new LinkedList<>();
+                            if (listsArray[index] == null) { // TODO: пересечение с пунктом 2
+                                listsArray[index] = new LinkedList<>();
                             }
 
-                            itemsArray[index].add(element);
+                            listsArray[index].add(element);
                         }
                     } else {
-                        index = Math.abs(item.getFirst().hashCode() % itemsArray.length);
+                        index = Math.abs(list.getFirst().hashCode() % listsArray.length);
 
-                        if (itemsArray[index] != null) { // TODO: пересечение с пунктом 2
-                            itemsArray[index].add(item.getFirst());
+                        if (listsArray[index] != null) { // TODO: пересечение с пунктом 2
+                            listsArray[index].add(list.getFirst());
                         } else {
-                            itemsArray[index] = item;
+                            listsArray[index] = list;
                         }
                     }
                 }
             }
 
-            lists = itemsArray;
+            lists = listsArray;
         }
 
         int index = Math.abs(e.hashCode() % lists.length);
@@ -331,9 +323,9 @@ public class HashTable<E> implements Collection<E> {
             return;
         }
 
-        for (LinkedList<E> item : lists) {
-            if(item != null){
-                item.clear();
+        for (LinkedList<E> list : lists) {
+            if(list != null){
+                list.clear();
             }
         }
 
