@@ -3,7 +3,7 @@ package ru.academits.danilov_e.hashtable;
 import java.util.*;
 
 public class HashTable<E> implements Collection<E> {
-    private LinkedList<E>[] lists;
+    private final LinkedList<E>[] lists;
     private int size;
     private int modificationsCount;
 
@@ -22,6 +22,10 @@ public class HashTable<E> implements Collection<E> {
 
     public int getTableCapacity() { // Метод отладки используется для контроля размера массива. В дальнейшем можно удалить
         return lists.length;
+    }
+
+    private int getArrayIndex(Object o, LinkedList<E>[] listsArray) {
+        return Math.abs(o.hashCode() % listsArray.length);
     }
 
     public int getElementIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
@@ -47,7 +51,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean contains(Object o) {
-        int index = Math.abs(o.hashCode() % lists.length);
+        int index = getArrayIndex(o, lists);
 
         if (lists[index] != null && !lists[index].isEmpty()) { // TODO: пересечение с пунктом 2
             return lists[index].contains(o);
@@ -133,21 +137,19 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Object[] toArray() {
-        int elementsCount = 0;
-
-        for (LinkedList<E> list : lists) {
-            if (list != null) { // TODO: пересечение с пунктом 2
-                elementsCount++;
-            }
-        }
-
-        Object[] objects = new Object[elementsCount];
+        Object[] objects = new Object[size];
+        int i = 0;
         int j = 0;
 
         for (LinkedList<E> list : lists) {
             if (list != null) { // TODO: пересечение с пунктом 2
-                objects[j] = list;
-                j++;
+                while (i < list.size()){
+                    objects[j] = list.get(i);
+                    i++;
+                    j++;
+                }
+
+                i = 0;
             }
         }
 
@@ -155,11 +157,11 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
-        T1[] array = (T1[]) toArray();
+    public <T> T[] toArray(T[] a) {
+        T[] array = (T[]) toArray();
 
-        if (a.length < size) {
-            a = (T1[]) Arrays.copyOf(array, size, array.getClass());
+        if (a.length <= size) {
+            a = (T[]) Arrays.copyOf(array, size, array.getClass());
         } else {
             a = Arrays.copyOf(array, a.length);
         }
@@ -169,39 +171,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean add(E e) {
-        if (size == lists.length) {
-            LinkedList<E>[] listsArray = (LinkedList<E>[]) new LinkedList[lists.length * 2];
-
-            for (LinkedList<E> list : lists) {
-                if (list != null) { // TODO: пересечение с пунктом 2
-                    int index;
-
-                    if (list.size() > 1) {
-                        for (E element : list) {
-                            index = Math.abs(element.hashCode() % listsArray.length);
-
-                            if (listsArray[index] == null) { // TODO: пересечение с пунктом 2
-                                listsArray[index] = new LinkedList<>();
-                            }
-
-                            listsArray[index].add(element);
-                        }
-                    } else {
-                        index = Math.abs(list.getFirst().hashCode() % listsArray.length);
-
-                        if (listsArray[index] != null) { // TODO: пересечение с пунктом 2
-                            listsArray[index].add(list.getFirst());
-                        } else {
-                            listsArray[index] = list;
-                        }
-                    }
-                }
-            }
-
-            lists = listsArray;
-        }
-
-        int index = Math.abs(e.hashCode() % lists.length);
+        int index = getArrayIndex(e, lists);
 
         if (lists[index] == null) {
             LinkedList<E> list = new LinkedList<>(); // Это бывшая переменная element
@@ -219,51 +189,34 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean remove(Object o) {
-        int index = Math.abs(o.hashCode() % lists.length);
+        int index = getArrayIndex(o, lists);
 
         if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) { // TODO: пересечение с пунктом 2
-            lists[index] = null;
+            lists[index].clear();
             size--;
             modificationsCount++;
 
             return true;
         }
 
-        if (lists[index] != null && lists[index].size() > 1) { // TODO: пересечение с пунктом 2
-            int iteratorIndex = 0;
+        if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) { // TODO: пересечение с пунктом 2
+            lists[index].remove(o);
+            size--;
+            modificationsCount++;
 
-            for (E e : lists[index]) {
-                if (e.equals(o)) {
-                    lists[index].remove(iteratorIndex);
-                    size--;
-                    modificationsCount++;
-
-                    return true;
-                }
-
-                iteratorIndex++;
-            }
+            return true;
         }
 
         return false;
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) { // По идее, наверное более правильно искать коллекцию в таблице, а
-        // не наоборот. Но мне тогда не понятно для чего нужен итератор таблицы, если мы будем использовать итератор
-        // коллекции. Я реализовал поиск таблицы в коллекции. Могу переделать в обратный вариант.
+    public boolean containsAll(Collection<?> c) {
         int matchesCount = 0;
-        HashTableIterator hashTableIterator = (HashTableIterator) iterator();
 
-        while (true) {
-            if (hashTableIterator.hasNext()) {
-                E element = hashTableIterator.next();
-
-                if (c.contains(element)) {
-                    matchesCount++;
-                }
-            } else {
-                break;
+        for (Object object : c) {
+            if (contains(object)) {
+                matchesCount++;
             }
         }
 
@@ -272,49 +225,53 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        boolean hasChanged = false;
+
         for (E t : c) {
             add(t);
-            return true;
+            hasChanged = true;
         }
 
-        return false;
+        return hasChanged;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        int oldSize = size;
+        boolean hasChanged = false;
 
         for (Object object : c) {
             remove(object);
+            hasChanged = true;
         }
 
-        return oldSize - size == c.size();
+        return hasChanged;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        HashTableIterator hashTableIterator = (HashTableIterator) iterator();
-        LinkedList<E> array = new LinkedList<>();
-        int matchesCount = 0;
+        boolean hasChanged = false;
 
-        while (true) {
-            if (hashTableIterator.hasNext()) {
-                E element = hashTableIterator.next();
+        for (int i = 0, j = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                while (lists[i] != null && j < lists[i].size()) {
+                    if (!c.contains(lists[i].get(j))) {
+                        remove(lists[i].get(j));
 
-                if (c.contains(element)) {
-                    array.add(element);
-                    matchesCount++;
+                        if (lists[i] != null && lists[i].size() > 1) {
+                            j--;
+                        }
+
+                        hasChanged = true;
+                    }
+
+                    j++;
                 }
-            } else {
-                break;
+
+                j = 0;
             }
         }
 
-        clear();
-
-        addAll(array);
-
-        return matchesCount == c.size();
+        return hasChanged;
     }
 
     @Override
@@ -324,12 +281,18 @@ public class HashTable<E> implements Collection<E> {
         }
 
         for (LinkedList<E> list : lists) {
-            if(list != null){
+            if (list != null) {
                 list.clear();
             }
         }
 
         size = 0;
         modificationsCount++;
+    }
+
+    @Override
+    public String toString(){
+
+        return "";
     }
 }
