@@ -31,7 +31,7 @@ public class HashTable<E> implements Collection<E> {
     public int getElementIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
         // размера таблицы. В дальнейшем можно удалить
         for (int i = 0; i < lists.length; i++) {
-            if (lists[i] != null && lists[i].contains(element)) { // TODO: пересечение с пунктом 2
+            if (lists[i] != null && lists[i].contains(element)) {
                 return i;
             }
         }
@@ -64,16 +64,10 @@ public class HashTable<E> implements Collection<E> {
         private int currentTableIndex = -1;
         private int currentListIndex = -1;
         private final int expectedModificationsCount = modificationsCount;
-        private int listPosition = -1;
 
         @Override
         public boolean hasNext() {
-            if (currentTableIndex < size) {
-                return true;
-            }
-
-            return false;
-            /*if (currentListIndex != -1) {
+            if (currentListIndex != -1) {
                 if (currentListIndex + 1 < lists[currentTableIndex].size()) {
                     return true;
                 }
@@ -83,9 +77,9 @@ public class HashTable<E> implements Collection<E> {
 
             int index = currentTableIndex + 1;
 
-            if (index < lists.length && lists[index] == null) { // TODO: пересечение с пунктом 2
+            if (index < lists.length && lists[index] == null) {
                 while (index < lists.length) {
-                    if (lists[index] != null) { // TODO: пересечение с пунктом 2
+                    if (lists[index] != null) {
                         return true;
                     }
 
@@ -93,7 +87,7 @@ public class HashTable<E> implements Collection<E> {
                 }
             }
 
-            return false;*/
+            return false;
         }
 
         @Override
@@ -106,28 +100,7 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            while ((lists[currentTableIndex + 1] == null && currentTableIndex + 1 < lists.length)
-                    || (lists[currentTableIndex + 1].isEmpty() && currentTableIndex + 1 < lists.length)) {
-                currentTableIndex++;
-            }
-
-            if(currentListIndex != -1 && currentListIndex + 1 < lists[currentTableIndex].size()){
-                currentListIndex++;
-                return lists[currentTableIndex + 1].get(currentListIndex + 1);
-            }else if(currentListIndex + 1 < lists[currentTableIndex].size()){
-                currentTableIndex++;
-                currentListIndex = -1;
-            }
-
-            if(currentListIndex == -1){
-                currentListIndex++;
-            }
-
-
-
-            return lists[currentTableIndex + 1].get(currentListIndex);
-
-            /*if (currentListIndex != -1) {
+            if (currentListIndex != -1) {
                 if (currentListIndex + 1 < lists[currentTableIndex].size()) {
                     currentListIndex++;
                     return lists[currentTableIndex].get(currentListIndex);
@@ -153,7 +126,7 @@ public class HashTable<E> implements Collection<E> {
                 }
             }
 
-            return null;*/
+            return null;
         }
     }
 
@@ -169,7 +142,7 @@ public class HashTable<E> implements Collection<E> {
         int j = 0;
 
         for (LinkedList<E> list : lists) {
-            if (list != null) { // TODO: пересечение с пунктом 2
+            if (list != null) {
                 while (i < list.size()) {
                     objects[j] = list.get(i);
                     i++;
@@ -218,7 +191,7 @@ public class HashTable<E> implements Collection<E> {
     public boolean remove(Object o) {
         int index = getArrayIndex(o, lists);
 
-        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) { // TODO: пересечение с пунктом 2
+        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) {
             lists[index].clear();
             size--;
             modificationsCount++;
@@ -226,7 +199,7 @@ public class HashTable<E> implements Collection<E> {
             return true;
         }
 
-        if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) { // TODO: пересечение с пунктом 2
+        if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) {
             while (getElementIndex((E) o) != -1) {
                 lists[index].remove(o);
                 size--;
@@ -317,11 +290,5 @@ public class HashTable<E> implements Collection<E> {
 
         size = 0;
         modificationsCount++;
-    }
-
-    @Override
-    public String toString() {
-
-        return "";
     }
 }
