@@ -11,7 +11,8 @@ public class ListMain {
         System.out.println("Размер списка: " + colorsList1.getCount());
         System.out.println();
         System.out.println("Одиночный конструктор:");
-        SinglyLinkedList<String> colorsList2 = new SinglyLinkedList<>("Бирюзовый");
+        SinglyLinkedList<String> colorsList2 = new SinglyLinkedList<>();
+        colorsList2.addFirst("Бирюзовый"); // TODO: сделать автоматическое добавление первого элемент;
         System.out.println(colorsList2);
         System.out.println("Размер списка: " + colorsList2.getCount());
         System.out.println();

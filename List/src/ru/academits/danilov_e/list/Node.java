@@ -6,7 +6,6 @@ class Node<E> {
 
     public Node(E data) {
         this.data = data;
-        this.next = null;
     }
 
     public Node(E data, Node<E> next) {
@@ -14,11 +13,11 @@ class Node<E> {
         this.next = next;
     }
 
-    public E get() {
+    public E getData() {
         return data;
     }
 
-    public void set(E data) {
+    public void setData(E data) {
         this.data = data;
     }
 
