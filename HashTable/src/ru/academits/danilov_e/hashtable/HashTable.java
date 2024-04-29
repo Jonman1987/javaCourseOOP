@@ -68,12 +68,11 @@ public class HashTable<E> implements Collection<E> {
 
         @Override
         public boolean hasNext() {
-            if(lists[currentTableIndex + 1] == null){
-                currentTableIndex++;
+            if (currentTableIndex < size) {
+                return true;
             }
 
-            return currentTableIndex + 1 < lists.length & currentListIndex < lists[currentTableIndex + 1].size();
-
+            return false;
             /*if (currentListIndex != -1) {
                 if (currentListIndex + 1 < lists[currentTableIndex].size()) {
                     return true;
@@ -107,20 +106,24 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            while (hasNext() && lists[currentTableIndex + 1].isEmpty()){
-                ++currentTableIndex;
+            while ((lists[currentTableIndex + 1] == null && currentTableIndex + 1 < lists.length)
+                    || (lists[currentTableIndex + 1].isEmpty() && currentTableIndex + 1 < lists.length)) {
+                currentTableIndex++;
+            }
+
+            if(currentListIndex != -1 && currentListIndex + 1 < lists[currentTableIndex].size()){
+                currentListIndex++;
+                return lists[currentTableIndex + 1].get(currentListIndex + 1);
+            }else if(currentListIndex + 1 < lists[currentTableIndex].size()){
+                currentTableIndex++;
                 currentListIndex = -1;
             }
 
-            if(currentListIndex + 1 < lists[currentTableIndex + 1].size()){
-                ++currentListIndex;
-            }else{
-                while (hasNext() && lists[currentTableIndex + 2].isEmpty()) { // TODO: Ошибка
-                    currentTableIndex++;
-                }
-
-                currentListIndex = 0;
+            if(currentListIndex == -1){
+                currentListIndex++;
             }
+
+
 
             return lists[currentTableIndex + 1].get(currentListIndex);
 
@@ -167,7 +170,7 @@ public class HashTable<E> implements Collection<E> {
 
         for (LinkedList<E> list : lists) {
             if (list != null) { // TODO: пересечение с пунктом 2
-                while (i < list.size()){
+                while (i < list.size()) {
                     objects[j] = list.get(i);
                     i++;
                     j++;
@@ -224,7 +227,7 @@ public class HashTable<E> implements Collection<E> {
         }
 
         if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) { // TODO: пересечение с пунктом 2
-            while (getElementIndex((E) o) != -1){
+            while (getElementIndex((E) o) != -1) {
                 lists[index].remove(o);
                 size--;
                 modificationsCount++;
@@ -317,7 +320,7 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
 
         return "";
     }
