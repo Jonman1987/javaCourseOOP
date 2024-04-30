@@ -12,7 +12,7 @@ public class ListMain {
         System.out.println();
         System.out.println("Одиночный конструктор:");
         SinglyLinkedList<String> colorsList2 = new SinglyLinkedList<>();
-        colorsList2.addFirst("Бирюзовый"); // TODO: сделать автоматическое добавление первого элемент;
+        colorsList2.addFirst("Бирюзовый");
         System.out.println(colorsList2);
         System.out.println("Размер списка: " + colorsList2.getCount());
         System.out.println();
@@ -143,7 +143,7 @@ public class ListMain {
         System.out.println();
 
         System.out.println("9. Удаление узла по значению:");
-        String string1 = "Синий";
+        String string1 = "Бордовый";
         colorsList1.addFirst("Синий");
         System.out.println("Изначальный список: " + colorsList1);
         System.out.println("Размер списка: " + colorsList1.getCount());

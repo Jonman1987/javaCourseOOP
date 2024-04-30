@@ -16,26 +16,19 @@ public class SinglyLinkedList<E> {
         }
 
         if (dataArray.length == 0) {
-            head = null;
-            count = 0;
-        } else if (dataArray.length == 1) {
-            head = new Node<>(dataArray[0], null);
-            head.setNext(null);
-            count = 1;
-        } else {
-            head = new Node<>(dataArray[0], null);
-            head.setNext(new Node<>(dataArray[1], null));
-            count = 2;
-
-            Node<E> node;
-            int i;
-
-            for (node = head.getNext(), i = 2; i < dataArray.length; i++) {
-                node.setNext(new Node<>(dataArray[i], null));
-                count++;
-                node = node.getNext();
-            }
+            return;
         }
+
+        head = new Node<>(dataArray[0]);
+
+        int i = 1;
+
+        for (Node<E> node = head; i < dataArray.length; i++) {
+            node.setNext(new Node<>(dataArray[i]));
+            node = node.getNext();
+        }
+
+        count = dataArray.length;
     }
 
     public int getCount() {
@@ -57,40 +50,28 @@ public class SinglyLinkedList<E> {
         }
     }
 
-    private Node<E> getSearchedNode(Node<E> head, int index) {
-        Node<E> node;
-        Node<E> searchedNode = null;
+    private Node<E> getNode(int index) {
+        int i = 0;
 
-        int i;
-
-        for (i = 0, node = head; node != null; node = node.getNext(), i++) {
+        for (Node<E> node = head; index < count; node = node.getNext(), i++) {
             if (i == index) {
-                searchedNode = node;
-                break;
+                return node;
             }
         }
 
-        return searchedNode;
+        return null;
     }
 
     public E get(int index) {
         checkIndex(index, count);
 
-        /*if (getSearchedNode(head, index) == null) {
-            return null;
-        }*/
-
-        return getSearchedNode(head, index).getData();
+        return getNode(index).getData();
     }
 
     public E set(int index, E data) {
         checkIndex(index, count);
 
-        /*if (getSearchedNode(head, index) == null) {
-            return null;
-        }*/
-
-        Node<E> node = getSearchedNode(head, index);
+        Node<E> node = getNode(index);
         E oldData = node.getData();
         node.setData(data);
 
@@ -117,26 +98,12 @@ public class SinglyLinkedList<E> {
     public E delete(int index) {
         checkIndex(index, count);
 
-        /*if (getSearchedNode(head, index) == null) {
-            return null;
-        }*/
-
-        E deletedData;
-        Node<E> node;
-
         if (index == 0) {
-            node = getSearchedNode(head, index);
-            deleteFirst();
-            return node.getData();
+            return deleteFirst();
         }
 
-        if (index == count - 1) {
-            node = getSearchedNode(head, count - 1);
-            node.setNext(null);
-        }
-
-        node = getSearchedNode(head, index - 1);
-        deletedData = node.getNext().getData();
+        Node<E> node = getNode(index - 1);
+        E deletedData = node.getNext().getData();
         node.setNext(node.getNext().getNext());
         count--;
 
@@ -145,9 +112,6 @@ public class SinglyLinkedList<E> {
 
     public void addFirst(E data) {
         head = new Node<>(data, head);
-        /*Node<E> node = new Node<>(data, null);
-        node.setNext(head);
-        head = node;*/
         count++;
     }
 
@@ -164,45 +128,34 @@ public class SinglyLinkedList<E> {
             return;
         }
 
-        /*if (index == count) {
-            previousNode = getSearchedNode(head, count - 1);
-            Node<E> node = new Node<>(data, null);
-            previousNode.setNext(node);
-            count++;
-        } else {*/
-            /*previousNode = getSearchedNode(head, index - 1);
-            Node<E> currentNode = previousNode.getNext();
-            Node<E> node = new Node<>(data, null);
-            previousNode.setNext(node);
-            node.setNext(currentNode);
-            count++;*/
-        //}
-
-        previousNode = getSearchedNode(head, index - 1);
+        previousNode = getNode(index - 1);
         Node<E> currentNode = previousNode.getNext();
         previousNode.setNext(new Node<>(data, currentNode));
         count++;
     }
 
     public boolean deleteByData(E data) {
-        boolean isDeleted = false;
-        Node<E> node;
-        int i;
-
-        while (head.getData().equals(data)) {
-            deleteFirst();
+        if (count == 0) {
+            return false;
         }
 
-        for (i = 0, node = head; node.getNext() != null; node = node.getNext(), i++) {
-            if (node.getNext().getData().equals(data)) {
-                node.setNext(node.getNext().getNext());
-                isDeleted = true;
-                i--;
+        if (head.getData().equals(data)) {
+            deleteFirst();
+            return true;
+        }
+
+        // Если честно не совсем понял замечание "здесь в цикле лучше иметь ссылки на текущий и предыдущий узлы
+        // и упростить код"
+        for (Node<E> previousNode = head, nextNode = previousNode.getNext().getNext(); previousNode.getNext() != null;
+             previousNode = previousNode.getNext(), nextNode = nextNode.getNext()) {
+            if (previousNode.getNext().getData().equals(data)) {
+                previousNode.setNext(nextNode);
                 count--;
+                return true;
             }
         }
 
-        return isDeleted;
+        return false;
     }
 
     public E deleteFirst() {
@@ -218,17 +171,17 @@ public class SinglyLinkedList<E> {
     }
 
     public void reverse() {
-        Node<E> reversedNode = null;
+        Node<E> newNode = null;
         Node<E> node = head;
 
         while (node != null) {
             Node<E> nextNode = node.getNext();
-            node.setNext(reversedNode);
-            reversedNode = node;
+            node.setNext(newNode);
+            newNode = node;
             node = nextNode;
         }
 
-        head = reversedNode;
+        head = newNode;
     }
 
     public SinglyLinkedList<E> copy() {
@@ -238,10 +191,7 @@ public class SinglyLinkedList<E> {
             return listCopy;
         }
 
-        listCopy.addFirst(head.getData()); // TODO: сделать автоматическое добавление первого элемент;
-
-        //Node<E> node;
-       // Node<E> currentNode;
+        listCopy.addFirst(head.getData());
 
         for (Node<E> currentNode = head.getNext(), currentCopyNode = listCopy.head; currentNode != null;
              currentNode = currentNode.getNext(), currentCopyNode = currentCopyNode.getNext()) {
