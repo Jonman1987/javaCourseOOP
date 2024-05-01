@@ -2,6 +2,7 @@ package ru.academits.danilov_e.tree_main;
 
 import ru.academits.danilov_e.tree.BinarySearchTree;
 
+import java.util.TreeSet;
 import java.util.function.Consumer;
 
 public class TreeMain {
@@ -81,5 +82,14 @@ public class TreeMain {
         System.out.println("Число узлов: " + tree2.size());
         tree2.add(13);
         System.out.println("Число узлов: " + tree2.size());*/
+
+        TreeSet<Integer> df = new TreeSet<>();
+        df.add(34);
+        df.add(22);
+        System.out.println(df.getFirst().compareTo(11));
+
+        BinarySearchTree<Integer> tree2 = new BinarySearchTree<>(6);
+        tree2.add(34);
+        tree2.add(32);
     }
 }

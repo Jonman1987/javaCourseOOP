@@ -1,5 +1,6 @@
 package ru.academits.danilov_e.tree;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -7,6 +8,7 @@ import java.util.function.Consumer;
 public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
+
 
     public BinarySearchTree(E data) {
         root = new TreeNode<>(data);
@@ -38,7 +40,7 @@ public class BinarySearchTree<E> {
     }
 
     public void widthVisit(Consumer<E> consumer) {
-        if(size == 0){
+        if (size == 0) {
             return;
         }
 
@@ -63,7 +65,7 @@ public class BinarySearchTree<E> {
     }
 
     public void depthVisit(Consumer<E> consumer) {
-        if(size == 0){
+        if (size == 0) {
             return;
         }
 
@@ -87,29 +89,22 @@ public class BinarySearchTree<E> {
     }
 
     public void recursivelyDepthVisit(Consumer<E> consumer) {
-        if(size == 0){
+        if (size == 0) {
             return;
         }
 
         depthVisit(root, consumer);
     }
 
-    private LinkedList<TreeNode<E>> getChildren(TreeNode<E> node) {
-        LinkedList<TreeNode<E>> children = new LinkedList<>();
-
-        children.add(node.getLeft());
-        children.add(node.getRight());
-
-        return children;
-    }
-
     private void depthVisit(TreeNode<E> node, Consumer<E> consumer) {
         consumer.accept(node.getData());
 
-        for (TreeNode<E> child : getChildren(node)) {
-            if (child != null) {
-                depthVisit(child, consumer);
-            }
+        if(node.getLeft() != null){
+            depthVisit(node.getLeft(), consumer);
+        }
+
+        if(node.getRight() != null){
+            depthVisit(node.getRight(), consumer);
         }
     }
 
