@@ -1,58 +1,34 @@
 package ru.academits.danilov_e.tree;
 
 import java.util.LinkedList;
-import java.util.Stack;
+import java.util.Queue;
+import java.util.function.Consumer;
 
-public class BinarySearchTree<T> {
-    private TreeNode<T> root;
+public class BinarySearchTree<E> {
+    private TreeNode<E> root;
     private int size;
 
-    public BinarySearchTree(T data) {
-        root = new TreeNode<>(null, null, data);
+    public BinarySearchTree(E data) {
+        root = new TreeNode<>(data);
         size = 1;
     }
 
-    public T getRoot() {
-        return root.data();
-    }
-
-    public void setRoot(T root) {
-        this.root = new TreeNode<>(null, null, root);
-    }
-
-    public void add(T data) {
-        if (binarySearch(data)) {
-            throw new IllegalArgumentException("Данный элемент со значением " + data + " уже находится в дереве");
-        }
-
-        TreeNode<T> currentNode = root;
-
-        // int level = 1; // Данные отладки
-        // StringBuilder path = new StringBuilder(); // Данные отладки
+    public void add(E data) {
+        TreeNode<E> currentNode = root;
 
         while (true) {
-            if (Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())) {
-                // path.append("Лево "); // Данные отладки
-
-                if (currentNode.getLeftChild() != null) {
-                    currentNode = currentNode.getLeftChild();
-                    // level++; // Данные отладки
+            if (Math.abs(data.hashCode()) < Math.abs(currentNode.getData().hashCode())) {
+                if (currentNode.getLeft() != null) {
+                    currentNode = currentNode.getLeft();
                 } else {
-                    // path.deleteCharAt(path.length() - 1); // Данные отладки
-                    // currentNode.setLeftChild(new TreeNode<>(null, null, data, path.toString(), level)); // Данные отладки
-                    currentNode.setLeftChild(new TreeNode<>(null, null, data));
+                    currentNode.setLeft(new TreeNode<>(data));
                     break;
                 }
-            } else if (Math.abs(data.hashCode()) > Math.abs(currentNode.data().hashCode())) {
-                // path.append("Право "); // Данные отладки
-
-                if (currentNode.getRightChild() != null) {
-                    currentNode = currentNode.getRightChild();
-                    // level++; // Данные отладки
+            } else if (Math.abs(data.hashCode()) > Math.abs(currentNode.getData().hashCode())) {
+                if (currentNode.getRight() != null) {
+                    currentNode = currentNode.getRight();
                 } else {
-                    // path.deleteCharAt(path.length() - 1); // Данные отладки
-                    // currentNode.setRightChild(new TreeNode<>(null, null, data, path.toString(), level)); // Данные отладки
-                    currentNode.setRightChild(new TreeNode<>(null, null, data));
+                    currentNode.setRight(new TreeNode<>(data));
                     break;
                 }
             }
@@ -61,221 +37,201 @@ public class BinarySearchTree<T> {
         size++;
     }
 
-    public void widthTreeShow() {
-        LinkedList<TreeNode<T>> treeList = new LinkedList<>();
+    public void widthVisit(Consumer<E> consumer) {
+        if(size == 0){
+            return;
+        }
+
+        Queue<TreeNode<E>> treeList = new LinkedList<>(); // Правильно ли я использовал интерфейс очереди?
 
         treeList.add(root);
+        TreeNode<E> node;
 
         while (!treeList.isEmpty()) {
-            // System.out.println("Значение узла: " + treeList.getFirst() + ". Проход по дереву при добавлении узла: "
-            // + treeList.getFirst().getTurn() + ". Уровень расположения узла: " + treeList.getFirst().getLevel() + ".");
+            node = treeList.remove();
 
-            System.out.println("Значение узла: " + treeList.getFirst() + ".");
+            consumer.accept(node.getData());
 
-            if (treeList.getFirst().getLeftChild() != null) {
-                treeList.addLast(treeList.getFirst().getLeftChild());
+            if (node.getLeft() != null) {
+                treeList.add(node.getLeft());
             }
 
-            if (treeList.getFirst().getRightChild() != null) {
-                treeList.addLast(treeList.getFirst().getRightChild());
-            }
-
-            treeList.removeFirst();
-        }
-    }
-
-    public void widthTreeShowWithRecursion() {
-        LinkedList<TreeNode<T>> list = new LinkedList<>();
-        list.add(root);
-        widthVisit(list);
-    }
-
-    private void widthVisit(LinkedList<TreeNode<T>> list) {
-        System.out.println(list.getFirst());
-
-        if (list.getFirst().getLeftChild() != null) {
-            list.addLast(list.getFirst().getLeftChild());
-        }
-
-        if (list.getFirst().getRightChild() != null) {
-            list.addLast(list.getFirst().getRightChild());
-        }
-
-        list.removeFirst();
-
-        if (!list.isEmpty()) {
-            widthVisit(list);
-        }
-    }
-
-    public void deepTreeShow() {
-        Stack<TreeNode<T>> treeStack = new Stack<>();
-        TreeNode<T> elem;
-
-        treeStack.push(root);
-
-        while (!treeStack.isEmpty()) {
-            elem = treeStack.pop();
-            System.out.println(elem);
-
-            if (elem.getRightChild() != null) {
-                treeStack.push(elem.getRightChild());
-            }
-
-            if (elem.getLeftChild() != null) {
-                treeStack.push(elem.getLeftChild());
+            if (node.getRight() != null) {
+                treeList.add(node.getRight());
             }
         }
     }
 
-    public void deepTreeShowWithRecursion() {
-        deepVisit(root);
+    public void depthVisit(Consumer<E> consumer) {
+        if(size == 0){
+            return;
+        }
+
+        LinkedList<TreeNode<E>> list = new LinkedList<>();
+
+        list.addFirst(root);
+        TreeNode<E> node;
+
+        while (!list.isEmpty()) {
+            node = list.removeFirst(); // Возвращает и удаляет
+            consumer.accept(node.getData());
+
+            if (node.getRight() != null) {
+                list.addFirst(node.getRight());
+            }
+
+            if (node.getLeft() != null) {
+                list.addFirst(node.getLeft());
+            }
+        }
     }
 
-    private LinkedList<TreeNode<T>> getChildren(TreeNode<T> node) {
-        LinkedList<TreeNode<T>> children = new LinkedList<>();
+    public void recursivelyDepthVisit(Consumer<E> consumer) {
+        if(size == 0){
+            return;
+        }
 
-        children.add(node.getLeftChild());
-        children.add(node.getRightChild());
+        depthVisit(root, consumer);
+    }
+
+    private LinkedList<TreeNode<E>> getChildren(TreeNode<E> node) {
+        LinkedList<TreeNode<E>> children = new LinkedList<>();
+
+        children.add(node.getLeft());
+        children.add(node.getRight());
 
         return children;
     }
 
-    private void deepVisit(TreeNode<T> node) {
-        System.out.println(node.data());
+    private void depthVisit(TreeNode<E> node, Consumer<E> consumer) {
+        consumer.accept(node.getData());
 
-        for (TreeNode<T> child : getChildren(node)) {
+        for (TreeNode<E> child : getChildren(node)) {
             if (child != null) {
-                deepVisit(child);
+                depthVisit(child, consumer);
             }
         }
     }
 
-    private TreeNode<T> getMostLeftNode(TreeNode<T> deletedNode) {
-        TreeNode<T> foundNode = deletedNode.getRightChild();
+    private TreeNode<E> getMostLeftNode(TreeNode<E> deletedNode) {
+        TreeNode<E> foundNode = deletedNode.getRight();
 
-        while (foundNode.getLeftChild() != null) {
-            foundNode = foundNode.getLeftChild();
+        while (foundNode.getLeft() != null) {
+            foundNode = foundNode.getLeft();
         }
 
         return foundNode;
     }
 
-    public void remove(T data) {
-        TreeNode<T> current = getNode(data);
+    public boolean remove(E data) { //TODO: в if-else лучше короткую ветку ставить первой, это читается лучше
+        //TODO: сейчас код сильно дублируется для удаления из корня и не из корня.
+        //TODO: Лучше сделать без дублирования.
+        //TODO: Лучше сначала найти узел на замену удаляемому узлу, а потом присвоить его в корень или не в корень
+        TreeNode<E> current = getNode(data);
 
         if (current != null) {
-            TreeNode<T> parent = getParent(data, root);
+            TreeNode<E> parent = getParent(data, root);
 
             if (parent == null) {
-                if (root.getLeftChild() == null && root.getRightChild() == null) {
+                if (root.getLeft() == null && root.getRight() == null) {
                     root = null;
-                    size--;
-                } else if (root.getLeftChild() == null) {
-                    root = root.getRightChild();
-                    size--;
-                } else if (root.getRightChild() == null) {
-                    root = root.getLeftChild();
-                    size--;
+                } else if (root.getLeft() == null) {
+                    root = root.getRight();
+                } else if (root.getRight() == null) {
+                    root = root.getLeft();
                 } else {
-                    TreeNode<T> lastLeftChild = getMostLeftNode(root);
+                    TreeNode<E> lastLeftChild = getMostLeftNode(root);
 
-                    if (lastLeftChild.getRightChild() != null) {
-                        root.getRightChild().setLeftChild(lastLeftChild.getRightChild());
+                    if (lastLeftChild.getRight() != null) {
+                        root.getRight().setLeft(lastLeftChild.getRight());
                     } else {
-                        root.getRightChild().setLeftChild(null);
+                        root.getRight().setLeft(null);
                     }
 
-                    lastLeftChild.setRightChild(root.getRightChild());
-                    lastLeftChild.setLeftChild(root.getLeftChild());
+                    lastLeftChild.setRight(root.getRight());
+                    lastLeftChild.setLeft(root.getLeft());
 
                     root = lastLeftChild;
-                    size--;
                 }
-            } else if (current.getLeftChild() == null && current.getRightChild() == null) {
-                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
-                    parent.setLeftChild(null);
-                    size--;
-                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
-                    parent.setRightChild(null);
-                    size--;
+            } else if (current.getLeft() == null && current.getRight() == null) {
+                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) {
+                    parent.setLeft(null);
+                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) {
+                    parent.setRight(null);
                 }
-            } else if (current.getLeftChild() == null || current.getRightChild() == null) {
-                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
-                    if (current.getLeftChild() == null) {
-                        parent.setLeftChild(current.getRightChild());
-                        size--;
+            } else if (current.getLeft() == null || current.getRight() == null) {
+                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) {
+                    if (current.getLeft() == null) {
+                        parent.setLeft(current.getRight());
                     } else {
-                        parent.setLeftChild(current.getLeftChild());
-                        size--;
+                        parent.setLeft(current.getLeft());
                     }
-                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
-                    if (current.getLeftChild() == null) {
-                        parent.setRightChild(current.getRightChild());
-                        size--;
+                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) {
+                    if (current.getLeft() == null) {
+                        parent.setRight(current.getRight());
                     } else {
-                        parent.setRightChild(current.getLeftChild());
-                        size--;
+                        parent.setRight(current.getLeft());
                     }
                 }
             } else {
-                TreeNode<T> lastLeftChild = getMostLeftNode(current);
-                TreeNode<T> leftNodeParent = getParent(getMostLeftNode(current).data(), root);
+                TreeNode<E> lastLeftChild = getMostLeftNode(current);
+                TreeNode<E> leftNodeParent = getParent(getMostLeftNode(current).getData(), root);
 
                 if (leftNodeParent != null) {
-                    leftNodeParent.setLeftChild(lastLeftChild.getRightChild());
+                    leftNodeParent.setLeft(lastLeftChild.getRight());
                 }
 
-                lastLeftChild.setRightChild(current.getRightChild());
-                lastLeftChild.setLeftChild(current.getLeftChild());
+                lastLeftChild.setRight(current.getRight());
+                lastLeftChild.setLeft(current.getLeft());
 
-                if (Math.abs(parent.data().hashCode()) > Math.abs(data.hashCode())) {
-                    parent.setLeftChild(lastLeftChild);
-                    size--;
-                } else if (Math.abs(parent.data().hashCode()) < Math.abs(data.hashCode())) {
-                    parent.setRightChild(lastLeftChild);
-                    size--;
+                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) {
+                    parent.setLeft(lastLeftChild);
+                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) {
+                    parent.setRight(lastLeftChild);
                 }
             }
-        } else {
-            System.out.println("Данное значение отсутствует в дереве");
+
+            size--;
+            return true;
         }
+
+        return false;
     }
 
-    private TreeNode<T> getParent(T data, TreeNode<T> current) {
-        if (Math.abs(data.hashCode()) == Math.abs(current.data().hashCode())) {
+    private TreeNode<E> getParent(E data, TreeNode<E> currentNode) {
+        if (Math.abs(data.hashCode()) == Math.abs(currentNode.getData().hashCode())) {
             return null;
         }
 
-        if (Math.abs(current.getLeftChild().data().hashCode()) == Math.abs(data.hashCode())
-                || Math.abs(current.getRightChild().data().hashCode()) == Math.abs(data.hashCode())) {
-            return current;
+        if (Math.abs(currentNode.getLeft().getData().hashCode()) == Math.abs(data.hashCode())
+                || Math.abs(currentNode.getRight().getData().hashCode()) == Math.abs(data.hashCode())) {
+            return currentNode;
         }
 
-        if (Math.abs(current.data().hashCode()) > Math.abs(data.hashCode())) {
-            return getParent(data, current.getLeftChild());
+        if (Math.abs(currentNode.getData().hashCode()) > Math.abs(data.hashCode())) {
+            return getParent(data, currentNode.getLeft());
         }
 
-        return getParent(data, current.getRightChild());
+        return getParent(data, currentNode.getRight());
     }
 
-    private TreeNode<T> getNode(T data) {
-        TreeNode<T> currentNode = root;
+    private TreeNode<E> getNode(E data) {
+        TreeNode<E> currentNode = root;
 
         while (true) {
-            if (Math.abs(data.hashCode()) == Math.abs(currentNode.data().hashCode())) {
+            if (Math.abs(data.hashCode()) == Math.abs(currentNode.getData().hashCode())) {
                 return currentNode;
             }
 
-            if (Math.abs(data.hashCode()) < Math.abs(currentNode.data().hashCode())) {
-                if (currentNode.getLeftChild() != null) {
-                    currentNode = currentNode.getLeftChild();
+            if (Math.abs(data.hashCode()) < Math.abs(currentNode.getData().hashCode())) {
+                if (currentNode.getLeft() != null) {
+                    currentNode = currentNode.getLeft();
                 } else {
                     break;
                 }
             } else {
-                if (currentNode.getRightChild() != null) {
-                    currentNode = currentNode.getRightChild();
+                if (currentNode.getRight() != null) {
+                    currentNode = currentNode.getRight();
                 } else {
                     break;
                 }
@@ -285,7 +241,7 @@ public class BinarySearchTree<T> {
         return null;
     }
 
-    public boolean binarySearch(T data) {
+    public boolean contains(E data) {
         return getNode(data) != null;
     }
 
