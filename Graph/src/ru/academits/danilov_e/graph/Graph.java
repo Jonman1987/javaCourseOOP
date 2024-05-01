@@ -99,4 +99,28 @@ public class Graph {
     public void clearVisitedNodes() {
         Arrays.fill(hasVisited, false);
     }
+
+    /*public void widthTreeShowWithRecursion() {
+        LinkedList<TreeNode<E>> list = new LinkedList<>();
+        list.add(root);
+        widthVisit(list);
+    }
+
+    private void widthVisit(LinkedList<TreeNode<E>> list) {
+        System.out.println(list.getFirst());
+
+        if (list.getFirst().getLeftChild() != null) {
+            list.addLast(list.getFirst().getLeftChild());
+        }
+
+        if (list.getFirst().getRightChild() != null) {
+            list.addLast(list.getFirst().getRightChild());
+        }
+
+        list.removeFirst();
+
+        if (!list.isEmpty()) {
+            widthVisit(list);
+        }
+    }*/
 }
