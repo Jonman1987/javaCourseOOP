@@ -76,20 +76,13 @@ public class TreeMain {
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
-        /*BinarySearchTree<Integer> tree2 = new BinarySearchTree<>(6);
-        System.out.println("Число узлов: " + tree2.size());
-        tree2.add(10);
-        System.out.println("Число узлов: " + tree2.size());
-        tree2.add(13);
-        System.out.println("Число узлов: " + tree2.size());*/
-
-        TreeSet<Integer> df = new TreeSet<>();
+        /*TreeSet<Integer> df = new TreeSet<>();
         df.add(34);
         df.add(22);
         System.out.println(df.getFirst().compareTo(11));
 
         BinarySearchTree<Integer> tree2 = new BinarySearchTree<>(6);
         tree2.add(34);
-        tree2.add(32);
+        tree2.add(32);*/
     }
 }
