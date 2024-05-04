@@ -6,27 +6,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class ArrayListMain {
-    public static String toString(ArrayList<?> arrayList) {
-        if (arrayList.isEmpty()) {
-            return "[]";
-        }
-
-        StringBuilder stringBuilder = new StringBuilder("[");
-
-        for (Object item : arrayList) {
-            if (item != null) {
-                stringBuilder.append(item).append(", ");
-            } else {
-                stringBuilder.append("null").append(", ");
-            }
-        }
-
-        return stringBuilder.deleteCharAt(stringBuilder.length() - 1).deleteCharAt(stringBuilder.length() - 1)
-                .append(']').toString();
-    }
-
     public static <E> void printResult(ArrayList<E> list, boolean isPrintResult) {
-        System.out.println(((isPrintResult) ? "Результат: " : "Исходный list: ") + toString(list));
+        System.out.println((isPrintResult ? "Результат: " : "Исходный list: ") + list);
         System.out.println("Размер: " + list.size() + ". Вместимость: " + list.getCapacity());
         System.out.println();
     }
@@ -70,9 +51,9 @@ public class ArrayListMain {
 
         System.out.println("6. Проверка метода isEmpty():");
         ArrayList<String> colorsList4 = new ArrayList<>();
-        System.out.println("ArrayList: " + toString(colorsList4));
+        System.out.println("ArrayList: " + colorsList4);
         System.out.println("Результат для пустого ArrayList = " + colorsList4.isEmpty());
-        System.out.println("ArrayList: " + toString(colorsList3));
+        System.out.println("ArrayList: " + colorsList3);
         System.out.println("Результат для не пустого ArrayList = " + colorsList3.isEmpty());
         System.out.println();
 
@@ -80,29 +61,29 @@ public class ArrayListMain {
         String color2 = "Красный";
         String color3 = "Розовый";
 
-        System.out.println("ArrayList: " + toString(colorsList2));
+        System.out.println("ArrayList: " + colorsList2);
         System.out.println("Результат для цвета " + color2 + ": " + colorsList2.contains(color2));
         System.out.println("Результат для цвета " + color3 + ": " + colorsList2.contains(color3));
         System.out.println();
 
         System.out.println("8. Получение элемента ArrayList по индексу:");
-        System.out.println("ArrayList: " + toString(colorsList3));
+        System.out.println("ArrayList: " + colorsList3);
         int index1 = 1;
 
         System.out.println("Второй элемент: " + colorsList2.get(index1));
         System.out.println();
 
         System.out.println("9. Замена элемента ArrayList по индексу:");
-        System.out.println("ArrayList: " + toString(colorsList3));
+        System.out.println("ArrayList: " + colorsList3);
         int index2 = 1;
         String color4 = "Малиновый";
 
         System.out.println("Заменяемый элемент: " + colorsList3.set(index2, color4));
-        System.out.println("Результат: " + toString(colorsList3));
+        System.out.println("Результат: " + colorsList3);
         System.out.println();
 
         System.out.println("10. Получение индекса по элементу ArrayList:");
-        System.out.println("ArrayList: " + toString(colorsList3));
+        System.out.println("ArrayList: " + colorsList3);
         String color5 = "Голубой";
 
         System.out.println("Индекс элемента " + color5 + ": " + colorsList2.indexOf(color5));
@@ -112,13 +93,13 @@ public class ArrayListMain {
         int index3 = 9;
 
         colorsList3.set(index3, color5);
-        System.out.println("ArrayList: " + toString(colorsList3));
+        System.out.println("ArrayList: " + colorsList3);
         System.out.println("Последний индекс элемента " + color5 + ": " + colorsList3.lastIndexOf(color5));
         System.out.println();
 
         System.out.println("12. Перемещение итератора по ArrayList:");
         Iterator<String> iterator = colorsList2.iterator();
-        System.out.println("ArrayList: " + toString(colorsList2));
+        System.out.println("ArrayList: " + colorsList2);
         System.out.println("Первый элемент: " + iterator.next());
         System.out.println("Второй элемент: " + iterator.next());
         System.out.println("Третий элемент: " + iterator.next());
@@ -193,8 +174,7 @@ public class ArrayListMain {
         printResult(colorsList2, true);
 
         String color13 = "Голубой";
-        System.out.println("22. Удаление двойного элемента " + color13 + " из ArrayIndex по значению элемента с сокращением"
-                + " длинны массива:");
+        System.out.println("22. Удаление двойного элемента " + color13 + " из ArrayIndex по значению элемента:");
         printResult(colorsList2, false);
 
         colorsList2.remove(color13);
@@ -227,7 +207,7 @@ public class ArrayListMain {
         ArrayList<String> colorsList5 = new ArrayList<>();
         colorsList5.add("Желтый");
         colorsList5.add("Серый");
-        System.out.println("Искомая коллекция: " + toString(colorsList5));
+        System.out.println("Искомая коллекция: " + colorsList5);
         System.out.println("Размер ArrayList: " + colorsList5.size() + ". Размер массива под элементы: " + colorsList5.getCapacity());
         System.out.println("Результат: " + colorsList2.containsAll(colorsList5));
         System.out.println();
@@ -238,7 +218,7 @@ public class ArrayListMain {
         ArrayList<String> colorsList6 = new ArrayList<>();
         colorsList6.add("Желтый");
         colorsList6.add("Сливовый");
-        System.out.println("Искомая коллекция: " + toString(colorsList6));
+        System.out.println("Искомая коллекция: " + colorsList6);
         System.out.println("Размер ArrayList: " + colorsList6.size() + ". Размер массива под элементы: " + colorsList6.getCapacity());
         System.out.println("Результат: " + colorsList2.containsAll(colorsList6));
         System.out.println();
@@ -249,18 +229,18 @@ public class ArrayListMain {
         ArrayList<String> colorsList7 = new ArrayList<>();
         colorsList7.add("Золотой");
         colorsList7.add("Сливовый");
-        System.out.println("Искомая коллекция: " + toString(colorsList7));
+        System.out.println("Искомая коллекция: " + colorsList7);
         System.out.println("Размер ArrayList: " + colorsList7.size() + ". Размер массива под элементы: " + colorsList7.getCapacity());
         System.out.println("Результат: " + colorsList2.containsAll(colorsList7));
         System.out.println();
 
-        System.out.println("28. Добавляем коллекцию в начало ArrayList:");
+        System.out.println("28. Добавляем коллекцию в ArrayList:");
         printResult(colorsList2, false);
 
         ArrayList<String> colorsList8 = new ArrayList<>();
         colorsList8.add("Золотой");
         colorsList8.add("Сливовый");
-        System.out.println("Искомая коллекция: " + toString(colorsList8));
+        System.out.println("Искомая коллекция: " + colorsList8);
         System.out.println("Размер ArrayList: " + colorsList8.size() + ". Размер массива под элементы: " + colorsList8.getCapacity());
         colorsList2.addAll(colorsList8);
         printResult(colorsList2, true);
@@ -272,7 +252,7 @@ public class ArrayListMain {
         ArrayList<String> colorsList9 = new ArrayList<>();
         colorsList9.add("Серебряный");
         colorsList9.add("Кирпичный");
-        System.out.println("Искомая коллекция: " + toString(colorsList9));
+        System.out.println("Искомая коллекция: " + colorsList9);
         System.out.println("Размер ArrayList: " + colorsList9.size() + ". Размер массива под элементы: " + colorsList9.getCapacity());
         System.out.println("Индекс начальной позиции: " + index11);
         colorsList2.addAll(index11, colorsList9);
@@ -285,7 +265,7 @@ public class ArrayListMain {
         ArrayList<String> colorsList10 = new ArrayList<>();
         colorsList10.add("Серебряный");
         colorsList10.add("Кирпичный");
-        System.out.println("Искомая коллекция: " + toString(colorsList10));
+        System.out.println("Искомая коллекция: " + colorsList10);
         System.out.println("Размер ArrayList: " + colorsList10.size() + ". Размер массива под элементы: " + colorsList10.getCapacity());
         colorsList2.removeAll(colorsList10);
         printResult(colorsList2, true);
@@ -299,7 +279,7 @@ public class ArrayListMain {
         colorsList11.add("Малиновый");
         colorsList11.add("Сливовый");
         colorsList11.add("Графитовый");
-        System.out.println("Искомая коллекция: " + toString(colorsList11));
+        System.out.println("Искомая коллекция: " + colorsList11);
         System.out.println("Размер ArrayList: " + colorsList11.size() + ". Размер массива под элементы: " + colorsList11.getCapacity());
         System.out.println("Результат операции: " + colorsList2.retainAll(colorsList11));
         printResult(colorsList2, true);
@@ -311,7 +291,7 @@ public class ArrayListMain {
         colorsList12.add("Сизый");
         colorsList12.add("Гранатовый");
 
-        System.out.println("Искомая коллекция: " + toString(colorsList12));
+        System.out.println("Искомая коллекция: " + colorsList12);
         System.out.println("Размер ArrayList: " + colorsList12.size() + ". Размер массива под элементы: " + colorsList12.getCapacity());
         System.out.println("Результат операции: " + colorsList2.retainAll(colorsList12));
         printResult(colorsList2, true);
@@ -322,7 +302,7 @@ public class ArrayListMain {
         colorsList2.add("Желтый");
         colorsList2.add("Оранжевый");
         colorsList2.add("Голубой");
-        System.out.println("Исходный ArrayList: " + toString(colorsList2));
+        System.out.println("Исходный ArrayList: " + colorsList2);
 
         String[] colorsArray1 = new String[3];
         System.out.println("Случай с созданием нового массива: " + Arrays.toString(colorsList2.toArray(colorsArray1)));
@@ -335,7 +315,43 @@ public class ArrayListMain {
         printResult(colorsList13, false);
         colorsList13.add("Сизый");
         printResult(colorsList13, false);
-        colorsList13.trimToSize();
+        colorsList13.add(null);
+        colorsList13.add(null);
         printResult(colorsList13, false);
+        System.out.println(colorsList13.indexOf(null));
+        System.out.println(colorsList13.lastIndexOf(null));
+        colorsList13.clear();
+        printResult(colorsList13, false);
+        colorsList13.trimToSize();
+        colorsList13.add(null);
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        colorsList13.add("Сизый");
+        printResult(colorsList13, false);
+        ArrayList<String> colorsList18 = new ArrayList<>();
+        printResult(colorsList18, false);
+        colorsList18.addAll(colorsList13);
+        printResult(colorsList18, false);
     }
 }
