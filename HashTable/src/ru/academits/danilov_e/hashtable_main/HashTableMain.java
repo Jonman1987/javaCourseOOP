@@ -154,10 +154,10 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         Iterator<String> hashTableIterator = colorsTable3.iterator();
 
-        System.out.println("Первый элемент таблицы: " + hashTableIterator.next());
-        System.out.println("Второй элемент таблицы и первый элемент списка: " + hashTableIterator.next());
-        System.out.println("Второй элемент таблицы и второй элемент списка: " + hashTableIterator.next());
+        System.out.println("Первый элемент таблицы и первый элемент списка: " + hashTableIterator.next());
+        System.out.println("Первый элемент таблицы и второй элемент списка: " + hashTableIterator.next());
         System.out.println("Третий элемент таблицы: " + hashTableIterator.next());
+        System.out.println("Четвертый элемент таблицы: " + hashTableIterator.next());
         System.out.println();
 
         System.out.println("8. Вхождение коллекции:");
@@ -224,7 +224,7 @@ public class HashTableMain {
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println();
 
-        System.out.println("12. Использование метода toArray(T1[] a):");
+        System.out.println("12. Использование метода toArray(T[] a):");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         String[] array1 = new String[10];

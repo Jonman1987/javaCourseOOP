@@ -63,31 +63,12 @@ public class HashTable<E> implements Collection<E> {
     private class HashTableIterator implements Iterator<E> {
         private int currentTableIndex = -1;
         private int currentListIndex = -1;
+        private int currentElement = -1;
         private final int expectedModificationsCount = modificationsCount;
 
         @Override
         public boolean hasNext() {
-            if (currentListIndex != -1) {
-                if (currentListIndex + 1 < lists[currentTableIndex].size()) {
-                    return true;
-                }
-
-                currentListIndex = -1;
-            }
-
-            int index = currentTableIndex + 1;
-
-            if (index < lists.length && lists[index] == null) {
-                while (index < lists.length) {
-                    if (lists[index] != null) {
-                        return true;
-                    }
-
-                    index++;
-                }
-            }
-
-            return false;
+            return currentElement + 1 < size;
         }
 
         @Override
@@ -100,33 +81,32 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            if (currentListIndex != -1) {
-                if (currentListIndex + 1 < lists[currentTableIndex].size()) {
-                    currentListIndex++;
-                    return lists[currentTableIndex].get(currentListIndex);
-                }
-
-                currentListIndex = -1;
-            }
-
-            currentTableIndex++;
-
-            if (lists[currentTableIndex] == null) {
-                while (currentTableIndex < lists.length) {
-                    if (lists[currentTableIndex] != null) {
-                        if (lists[currentTableIndex].size() > 1) {
-                            currentListIndex++;
-                            return lists[currentTableIndex].get(currentListIndex);
-                        }
-
-                        return lists[currentTableIndex].getFirst();
-                    }
-
+            while (lists[currentTableIndex + 1] == null || lists[currentTableIndex + 1].isEmpty()) {
+                if (hasNext()) {
                     currentTableIndex++;
                 }
             }
 
-            return null;
+            if (currentListIndex + 1 < lists[currentTableIndex + 1].size()) {
+                currentListIndex++;
+                currentElement++;
+                return lists[currentTableIndex + 1].get(currentListIndex);
+            } else {
+                currentListIndex = -1;
+                boolean hasRead = true;
+
+                while (lists[currentTableIndex + 1] == null || lists[currentTableIndex + 1].isEmpty() || hasRead) {
+                    if (hasNext()) {
+                        currentTableIndex++;
+                        hasRead = false;
+                    }
+                }
+
+                currentTableIndex++;
+            }
+
+            currentElement++;
+            return lists[currentTableIndex].get(currentListIndex + 1);
         }
     }
 
