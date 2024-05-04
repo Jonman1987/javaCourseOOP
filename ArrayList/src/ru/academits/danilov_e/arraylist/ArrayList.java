@@ -194,7 +194,7 @@ public class ArrayList<E> implements List<E> {
         for (Object object : c) {
             int index = indexOf(object);
 
-            while (index != -1){
+            while (index != -1) {
                 remove(index);
                 isRemoved = true;
                 index = indexOf(object);
