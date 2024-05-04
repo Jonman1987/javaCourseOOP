@@ -1,6 +1,5 @@
 package ru.academits.danilov_e.tree;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -8,7 +7,6 @@ import java.util.function.Consumer;
 public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
-
 
     public BinarySearchTree(E data) {
         root = new TreeNode<>(data);

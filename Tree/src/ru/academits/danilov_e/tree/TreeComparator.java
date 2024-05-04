@@ -1,8 +1,10 @@
 package ru.academits.danilov_e.tree;
 
-public class TreeComparator<T> implements Comparable<T>{
+public class TreeComparator<E> implements Comparable<E>{
     @Override
-    public int compareTo(T o) {
+    public int compareTo(E o) {
+
+
         return 0;
     }
 }
