@@ -1,12 +1,12 @@
-package ru.academits.danilov_e.temperatureview;
+package ru.academits.danilov_e.temperature.view;
 
-import ru.academits.danilov_e.temperaturecontroller.TemperatureController;
+import ru.academits.danilov_e.temperature.controller.ControllerInterface;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TemperatureDesktopView implements TemperatureView {
-    private TemperatureController temperatureController;
+public class DesktopView implements ViewInterface {
+    private ControllerInterface controller;
     private JLabel resultLabel;
 
     @Override
@@ -15,18 +15,18 @@ public class TemperatureDesktopView implements TemperatureView {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignore) {
-
             }
 
             JFrame frame = new JFrame("Конвертер температур");
 
-            frame.setSize(600, 300);
+            frame.setMinimumSize(new Dimension(600, 200));
+
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             JTextField temperatureInputField = new JTextField(10);
 
-            String[] temperaturesType = {"Градусы Цельсия", "Градусы Кельвина", "Градусы Фаренгейта"};
+            String[] temperaturesType = controller.getTemperaturesTypes();
 
             JComboBox<String> comboBox1 = new JComboBox<>(temperaturesType);
             JComboBox<String> comboBox2 = new JComboBox<>(temperaturesType);
@@ -38,12 +38,11 @@ public class TemperatureDesktopView implements TemperatureView {
                     int temperatureTypeFrom = comboBox1.getSelectedIndex();
                     int temperatureTypeTo = comboBox2.getSelectedIndex();
 
-                    temperatureController.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
+                    controller.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка"
-                            , JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-
             });
 
             JLabel celsiusTemperatureLabel = new JLabel("Введите значение температуры");
@@ -51,8 +50,9 @@ public class TemperatureDesktopView implements TemperatureView {
             JLabel outputTemperatureText = new JLabel("Выберите шкалу преобразованной температуры");
 
             JPanel panel = new JPanel();
+            panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-            GridLayout layout = new GridLayout(4,2);
+            GridLayout layout = new GridLayout(4, 2, 10, 10);
 
             panel.setLayout(layout);
 
@@ -73,13 +73,17 @@ public class TemperatureDesktopView implements TemperatureView {
     }
 
     @Override
-    public void setController(TemperatureController temperatureController) {
-        this.temperatureController = temperatureController;
+    public void setController(ControllerInterface controller) {
+        this.controller = controller;
     }
 
     @Override
-    public void showTemperatureResult(double temperature) {
+    public void showResultTemperature(double temperature) {
         resultLabel.setText("Температура: " + temperature);
-        System.out.println();
+    }
+
+    @Override
+    public String[] getTemperaturesTypes(ControllerInterface temperatureController) {
+        return new String[0];
     }
 }

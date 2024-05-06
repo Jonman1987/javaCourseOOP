@@ -1,6 +1,6 @@
-package ru.academits.danilov_e.temperaturemodel;
+package ru.academits.danilov_e.temperature.model;
 
-public interface TemperatureModel {
+public interface ModelInterface {
     double convertCelsiusToKelvin(double celsiusTemperature);
 
     double convertKelvinToCelsius(double kelvinTemperature);
@@ -13,4 +13,7 @@ public interface TemperatureModel {
 
     double convertFahrenheitToKelvin(double fahrenheitTemperature);
 
+    String[] getTemperaturesTypes();
+
+    double convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo);
 }
