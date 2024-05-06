@@ -1,14 +1,11 @@
 package ru.academits.danilov_e.temperature.model;
 
-import ru.academits.danilov_e.temperature.scalestypes.Celsius;
-import ru.academits.danilov_e.temperature.scalestypes.Fahrenheit;
-import ru.academits.danilov_e.temperature.scalestypes.Kelvin;
-import ru.academits.danilov_e.temperature.scalestypes.ScaleInterface;
+import ru.academits.danilov_e.temperature.scalestypes.*;
 
 public class Converter implements ModelInterface {
     @Override
     public String[] getTemperaturesTypes() {
-        return new String[]{"Градусы Цельсия", "Кельвины", "Фаренгейты"};
+        return new String[]{"Градусы Цельсия", "Кельвины", "Фаренгейты", "Градусы Ранкина"};
     } // Я пока не придумал по какому принципу заполнять этот массив автоматически.
 
     @Override
@@ -28,6 +25,9 @@ public class Converter implements ModelInterface {
             case 2:
                 scaleFrom = new Fahrenheit(temperature);
                 break;
+            case 3:
+                scaleFrom = new Rankin(temperature);
+                break;
             default:
                 System.out.println("Ошибка первоначальной шкалы");
         }
@@ -41,6 +41,9 @@ public class Converter implements ModelInterface {
                 break;
             case 2:
                 scaleTo = new Fahrenheit(temperature);
+                break;
+            case 3:
+                scaleTo = new Rankin(temperature);
                 break;
             default:
                 System.out.println("Ошибка конечной шкалы");
