@@ -7,7 +7,6 @@ public class SinglyLinkedList<E> {
     private int count;
 
     public SinglyLinkedList() {
-
     }
 
     public SinglyLinkedList(E[] dataArray) {
@@ -21,9 +20,9 @@ public class SinglyLinkedList<E> {
 
         head = new Node<>(dataArray[0]);
 
-        int i = 1;
+        Node<E> node = head;
 
-        for (Node<E> node = head; i < dataArray.length; i++) {
+        for (int i = 1; i < dataArray.length; i++) {
             node.setNext(new Node<>(dataArray[i]));
             node = node.getNext();
         }
@@ -51,15 +50,15 @@ public class SinglyLinkedList<E> {
     }
 
     private Node<E> getNode(int index) {
-        int i = 0;
+        Node<E> node = head;
 
-        for (Node<E> node = head; index < count; node = node.getNext(), i++) {
+        for (int i = 0; index < count; node = node.getNext(), i++) {
             if (i == index) {
-                return node;
+                break;
             }
         }
 
-        return null;
+        return node;
     }
 
     public E get(int index) {
@@ -116,21 +115,17 @@ public class SinglyLinkedList<E> {
     }
 
     public void add(int index, E data) {
-        if (index < 0 || index > count) {
-            throw new IndexOutOfBoundsException("The index must belong to the range [0; " + count + "]. Index is "
-                    + index + ".");
-        }
-
-        Node<E> previousNode;
+        checkIndex(index, count + 1);
 
         if (index == 0) {
             addFirst(data);
             return;
         }
 
+        Node<E> previousNode;
+
         previousNode = getNode(index - 1);
-        Node<E> currentNode = previousNode.getNext();
-        previousNode.setNext(new Node<>(data, currentNode));
+        previousNode.setNext(new Node<>(data, previousNode.getNext()));
         count++;
     }
 
@@ -139,17 +134,15 @@ public class SinglyLinkedList<E> {
             return false;
         }
 
-        if (head.getData().equals(data)) {
+        if (head.getData() != null && head.getData().equals(data)) {
             deleteFirst();
             return true;
         }
 
-        // Если честно не совсем понял замечание "здесь в цикле лучше иметь ссылки на текущий и предыдущий узлы
-        // и упростить код"
-        for (Node<E> previousNode = head, nextNode = previousNode.getNext().getNext(); previousNode.getNext() != null;
-             previousNode = previousNode.getNext(), nextNode = nextNode.getNext()) {
-            if (previousNode.getNext().getData().equals(data)) {
-                previousNode.setNext(nextNode);
+        for (Node<E> previousNode = head, currentNode = previousNode.getNext(); previousNode.getNext() != null;
+             previousNode = previousNode.getNext(), currentNode = currentNode.getNext()) {
+            if (previousNode.getNext().getData() != null && previousNode.getNext().getData().equals(data)) {
+                previousNode.setNext(currentNode.getNext());
                 count--;
                 return true;
             }
@@ -171,17 +164,17 @@ public class SinglyLinkedList<E> {
     }
 
     public void reverse() {
-        Node<E> newNode = null;
-        Node<E> node = head;
+        Node<E> reversedNode = null;
+        Node<E> currentNode = head;
 
-        while (node != null) {
-            Node<E> nextNode = node.getNext();
-            node.setNext(newNode);
-            newNode = node;
-            node = nextNode;
+        while (currentNode != null) {
+            Node<E> nextNode = currentNode.getNext();
+            currentNode.setNext(reversedNode);
+            reversedNode = currentNode;
+            currentNode = nextNode;
         }
 
-        head = newNode;
+        head = reversedNode;
     }
 
     public SinglyLinkedList<E> copy() {
@@ -198,7 +191,7 @@ public class SinglyLinkedList<E> {
             currentCopyNode.setNext(new Node<>(currentNode.getData()));
         }
 
-        listCopy.count = getCount();
+        listCopy.count = count;
 
         return listCopy;
     }
