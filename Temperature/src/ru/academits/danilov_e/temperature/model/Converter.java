@@ -17,16 +17,16 @@ public class Converter implements ModelInterface {
 
         switch (temperatureTypeFrom) {
             case 0:
-                scaleFrom = new Celsius(temperature);
+                scaleFrom = new Celsius();
                 break;
             case 1:
-                scaleFrom = new Kelvin(temperature);
+                scaleFrom = new Kelvin();
                 break;
             case 2:
-                scaleFrom = new Fahrenheit(temperature);
+                scaleFrom = new Fahrenheit();
                 break;
             case 3:
-                scaleFrom = new Rankin(temperature);
+                scaleFrom = new Rankin();
                 break;
             default:
                 System.out.println("Ошибка первоначальной шкалы");
@@ -34,16 +34,16 @@ public class Converter implements ModelInterface {
 
         switch (temperatureTypeTo) {
             case 0:
-                scaleTo = new Celsius(temperature);
+                scaleTo = new Celsius();
                 break;
             case 1:
-                scaleTo = new Kelvin(temperature);
+                scaleTo = new Kelvin();
                 break;
             case 2:
-                scaleTo = new Fahrenheit(temperature);
+                scaleTo = new Fahrenheit();
                 break;
             case 3:
-                scaleTo = new Rankin(temperature);
+                scaleTo = new Rankin();
                 break;
             default:
                 System.out.println("Ошибка конечной шкалы");
