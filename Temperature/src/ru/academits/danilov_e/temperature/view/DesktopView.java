@@ -81,9 +81,4 @@ public class DesktopView implements ViewInterface {
     public void showResultTemperature(double temperature) {
         resultLabel.setText("Температура: " + Math.ceil(temperature * 100) / 100);
     }
-
-    @Override
-    public String[] getTemperaturesTypes(ControllerInterface temperatureController) {
-        return new String[0];
-    }
 }

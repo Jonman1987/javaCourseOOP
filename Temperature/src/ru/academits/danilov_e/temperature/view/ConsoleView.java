@@ -56,9 +56,4 @@ public class ConsoleView implements ViewInterface {
         System.out.println("Температура: " + temperature);
         System.out.println();
     }
-
-    @Override
-    public String[] getTemperaturesTypes(ControllerInterface temperatureController) {
-        return new String[0];
-    }
 }

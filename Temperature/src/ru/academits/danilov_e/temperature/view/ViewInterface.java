@@ -8,6 +8,4 @@ public interface ViewInterface {
     void setController(ControllerInterface temperatureController);
 
     void showResultTemperature(double temperature);
-
-    String[] getTemperaturesTypes(ControllerInterface temperatureController);
 }
