@@ -53,7 +53,7 @@ public class ConsoleView implements ViewInterface {
 
     @Override
     public void showResultTemperature(double temperature) {
-        System.out.println("Температура: " + temperature);
+        System.out.println("Температура: " + Math.ceil(temperature * 100) / 100);
         System.out.println();
     }
 }

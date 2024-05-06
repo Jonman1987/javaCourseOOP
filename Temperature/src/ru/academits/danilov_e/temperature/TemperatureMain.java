@@ -11,8 +11,8 @@ public class TemperatureMain {
     public static void main(String[] args) {
         ModelInterface model = new Converter();
 
-        ViewInterface view = new DesktopView();
-        // ViewInterface view = new ConsoleView();
+        // ViewInterface view = new DesktopView();
+        ViewInterface view = new ConsoleView();
 
         Controller controller = new Controller(model, view);
         view.run();
