@@ -19,16 +19,22 @@ public class ConsoleView implements ViewInterface {
                 System.out.println();
 
                 System.out.println("Введите шкалу введенного значения:");
-                System.out.println("1 - градусы Цельсия");
-                System.out.println("2 - Кельвины");
-                System.out.println("3 - Фаренгейты");
+
+                String[] temperaturesTypes = controller.getTemperaturesTypes();
+
+                for(int i = 0; i < temperaturesTypes.length; i++){
+                    System.out.println((i + 1) + " - " + temperaturesTypes[i]);
+                }
+
                 System.out.println();
                 int temperatureTypeFrom = scanner.nextInt();
 
                 System.out.println("Введите шкалу в которое переводим значения:");
-                System.out.println("1 - градусы Цельсия");
-                System.out.println("2 - Кельвины");
-                System.out.println("3 - Фаренгейты");
+
+                for(int i = 0; i < temperaturesTypes.length; i++){
+                    System.out.println((i + 1) + " - " + temperaturesTypes[i]);
+                }
+
                 System.out.println();
                 int temperatureTypeTo = scanner.nextInt();
 

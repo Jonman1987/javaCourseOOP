@@ -26,10 +26,10 @@ public class DesktopView implements ViewInterface {
 
             JTextField temperatureInputField = new JTextField(10);
 
-            String[] temperaturesType = controller.getTemperaturesTypes();
+            String[] temperaturesTypes = controller.getTemperaturesTypes();
 
-            JComboBox<String> comboBox1 = new JComboBox<>(temperaturesType);
-            JComboBox<String> comboBox2 = new JComboBox<>(temperaturesType);
+            JComboBox<String> comboBox1 = new JComboBox<>(temperaturesTypes);
+            JComboBox<String> comboBox2 = new JComboBox<>(temperaturesTypes);
 
             JButton convertTemperatureButton = new JButton("Конвертировать");
             convertTemperatureButton.addActionListener(e -> {

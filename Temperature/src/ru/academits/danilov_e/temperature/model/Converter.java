@@ -1,60 +1,52 @@
 package ru.academits.danilov_e.temperature.model;
 
+import ru.academits.danilov_e.temperature.scalestypes.Celsius;
+import ru.academits.danilov_e.temperature.scalestypes.Fahrenheit;
+import ru.academits.danilov_e.temperature.scalestypes.Kelvin;
+import ru.academits.danilov_e.temperature.scalestypes.ScaleInterface;
+
 public class Converter implements ModelInterface {
     @Override
-    public double convertCelsiusToKelvin(double celsiusTemperature) {
-        return celsiusTemperature + 273.15;
-    }
-
-    @Override
-    public double convertKelvinToCelsius(double kelvinTemperature) {
-        return kelvinTemperature - 273.15;
-    }
-
-    @Override
-    public double convertFahrenheitToCelsius(double fahrenheitTemperature) {
-        return (fahrenheitTemperature - 32) / 1.8;
-    }
-
-    @Override
-    public double convertCelsiusToFahrenheit(double celsiusTemperature) {
-        return celsiusTemperature * 1.8 + 32;
-    }
-
-    @Override
-    public double convertKelvinToFahrenheit(double kelvinTemperature) {
-        return kelvinTemperature * 1.8 - 459.7;
-    }
-
-    @Override
-    public double convertFahrenheitToKelvin(double fahrenheitTemperature) {
-        return (fahrenheitTemperature - 32) / 1.8 + 273.15;
-    }
-
-    @Override
     public String[] getTemperaturesTypes() {
-        return new String[] {"Градусы Цельсия", "Кельвины", "Фаренгейты"};
-    }
+        return new String[]{"Градусы Цельсия", "Кельвины", "Фаренгейты"};
+    } // Я пока не придумал по какому принципу заполнять этот массив автоматически.
 
     @Override
     public double convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
-        double temperatureResult = 0;
+        double temperatureResult;
 
-        if (temperatureTypeFrom == 0 && temperatureTypeTo == 1) {
-            temperatureResult = convertCelsiusToKelvin(temperature);
-        } else if (temperatureTypeFrom == 1 && temperatureTypeTo == 0) {
-            temperatureResult = convertKelvinToCelsius(temperature);
-        } else if (temperatureTypeFrom == 0 && temperatureTypeTo == 2) {
-            temperatureResult = convertCelsiusToFahrenheit(temperature);
-        } else if (temperatureTypeFrom == 2 && temperatureTypeTo == 0) {
-            temperatureResult = convertFahrenheitToCelsius(temperature);
-        } else if (temperatureTypeFrom == 2 && temperatureTypeTo == 1) {
-            temperatureResult = convertFahrenheitToKelvin(temperature);
-        } else if (temperatureTypeFrom == 1 && temperatureTypeTo == 2) {
-            temperatureResult = convertKelvinToFahrenheit(temperature);
-        } else if (temperatureTypeFrom == temperatureTypeTo) {
-            temperatureResult = temperature;
+        ScaleInterface scaleFrom = null;
+        ScaleInterface scaleTo = null;
+
+        switch (temperatureTypeFrom) {
+            case 0:
+                scaleFrom = new Celsius(temperature);
+                break;
+            case 1:
+                scaleFrom = new Kelvin(temperature);
+                break;
+            case 2:
+                scaleFrom = new Fahrenheit(temperature);
+                break;
+            default:
+                System.out.println("Ошибка первоначальной шкалы");
         }
+
+        switch (temperatureTypeTo) {
+            case 0:
+                scaleTo = new Celsius(temperature);
+                break;
+            case 1:
+                scaleTo = new Kelvin(temperature);
+                break;
+            case 2:
+                scaleTo = new Fahrenheit(temperature);
+                break;
+            default:
+                System.out.println("Ошибка конечной шкалы");
+        }
+
+        temperatureResult = scaleTo.convertFromCelsius(scaleFrom.convertToCelsius(temperature));
 
         return temperatureResult;
     }

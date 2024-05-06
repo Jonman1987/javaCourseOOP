@@ -3,6 +3,7 @@ package ru.academits.danilov_e.temperature;
 import ru.academits.danilov_e.temperature.controller.Controller;
 import ru.academits.danilov_e.temperature.model.Converter;
 import ru.academits.danilov_e.temperature.model.ModelInterface;
+import ru.academits.danilov_e.temperature.view.ConsoleView;
 import ru.academits.danilov_e.temperature.view.DesktopView;
 import ru.academits.danilov_e.temperature.view.ViewInterface;
 
