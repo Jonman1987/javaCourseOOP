@@ -45,11 +45,9 @@ public class MinesweeperModel {
     }
 
     public void setMineNumber() {
-        for (int i = 0; i < field.length; i++){
-            for(int j = 0; j < field.length; j++){
-                if(i == 0 && j == 0){
-
-                }
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field.length; j++) {
+                field[i][j].setMineCount(calcNear(i, j));
             }
         }
     }
@@ -58,21 +56,47 @@ public class MinesweeperModel {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
                 if (field[i][j].getOpened() == false) {
-                    System.out.print("   f");
+                    System.out.print(" f");
                 } else {
                     System.out.print("t");
                 }
 
                 if (field[i][j].getHasMine() == false) {
-                    System.out.print("f");
+                    System.out.print("-f-");
                 } else {
                     System.out.print("*T*");
                 }
 
-                System.out.print(field[i][j].getMineCount() + "  ");
+                System.out.print(field[i][j].getMineCount() + " ");
             }
 
             System.out.println();
         }
+    }
+
+    boolean outBounds(int x, int y) {
+        return x < 0 || y < 0 || x >= field.length || y >= field.length;
+    }
+
+    int calcNear(int x, int y) {
+        if (outBounds(x, y)) {
+            return 0;
+        }
+
+        int i = 0;
+
+        for (int offsetX = -1; offsetX <= 1; offsetX++) {
+            for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                if (outBounds(offsetX + x, offsetY + y)) {
+                    continue;
+                }
+
+                if (field[offsetX + x][offsetY + y].getHasMine()) {
+                    i++;
+                }
+            }
+        }
+
+        return i;
     }
 }

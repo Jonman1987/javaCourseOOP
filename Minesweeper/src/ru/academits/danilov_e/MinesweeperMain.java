@@ -11,6 +11,9 @@ public class MinesweeperMain {
         model.setMines();
         System.out.println();
         model.showField();
+        model.setMineNumber();
+        System.out.println();
+        model.showField();
         //MinesweeperView view = new MinesweeperView();
         //view.run();
     }
