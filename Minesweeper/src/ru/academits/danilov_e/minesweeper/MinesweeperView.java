@@ -12,24 +12,29 @@ public class MinesweeperView {
             }
 
             JFrame frame = new JFrame("Сапер");
-            frame.setMinimumSize(new Dimension(600, 200));
+            frame.setMinimumSize(new Dimension(600, 400));
 
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            int x = 10;
-            int y = 10;
+            int x = 9;
+            int y = 9;
 
             JPanel panel = new JPanel();
-            panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
             GridLayout layout = new GridLayout(x, y, 0, 0);
             panel.setLayout(layout);
 
-            JButton[] dsfsd = new JButton[10];
+            JButton[] dsfsd = new JButton[100];
 
             for(int i = 0; i < (x*y); i++){
-                dsfsd[i] = new JButton("" + (i + 1));
+                dsfsd[i] = new JButton();
+                dsfsd[i].setRolloverEnabled(false);
+                dsfsd[i].setFocusPainted(false);
+                dsfsd[i].setFocusable(false);
+                dsfsd[i].setEnabled(false);
+
                 dsfsd[i].setPreferredSize(new Dimension(1, 1));
                 panel.add(dsfsd[i]);
             }
