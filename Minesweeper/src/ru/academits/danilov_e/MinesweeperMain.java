@@ -7,14 +7,14 @@ public class MinesweeperMain {
     public static void main(String[] args) {
         MinesweeperModel model = new MinesweeperModel(5, 7);
 
-        model.showField();
+        /*model.showField();
         model.setMines();
         System.out.println();
         model.showField();
         model.setMineNumber();
         System.out.println();
-        model.showField();
-        //MinesweeperView view = new MinesweeperView();
-        //view.run();
+        model.showField();*/
+        MinesweeperView view = new MinesweeperView();
+        view.run();
     }
 }
