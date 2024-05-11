@@ -258,7 +258,7 @@ public class ArrayListMain {
         colorsList2.addAll(index11, colorsList9);
         printResult(colorsList2, true);
 
-        System.out.println("30. Удаление коллекции в ArrayList с индекса при полном совпадении:");
+        System.out.println("30. Удаление коллекции в ArrayList при полном совпадении:");
         colorsList2.add("Серебряный");
         printResult(colorsList2, false);
 

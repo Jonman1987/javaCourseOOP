@@ -169,13 +169,15 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         // TODO: неправильная логика увеличения вместимости.
-        // TODO: Сейчас после увеличения вместимости может не хватить места
+        // Сейчас после увеличения вместимости может не хватить места
         // TODO: не всегда выдает верный boolean
-        // TODO: modificationsCount меняется даже если это не нужно
         checkBounds(index, size);
+
+        boolean hasChanged = false;
 
         if (!isEmpty()) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
+            modificationsCount++;
         }
 
         size += c.size();
@@ -188,31 +190,26 @@ public class ArrayList<E> implements List<E> {
 
         for (E object : c) {
             items[i] = object;
+            modificationsCount++;
             i++;
+            hasChanged = true;
         }
 
-        modificationsCount++;
-
-        return true;
+        return hasChanged;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        // TODO: в текущей версии: здесь не нужно использовать indexOf, лучше использовать удаление по значению
-        // TODO: лучше сделать примерно как retainAll
         if (isEmpty()) {
             return false;
         }
 
         boolean isRemoved = false;
 
-        for (Object object : c) {
-            int index = indexOf(object);
-
-            while (index != -1) {
-                remove(index);
+        for (int i = size - 1; i >= 0; i--) {
+            if (c.contains(items[i])) {
+                remove(i);
                 isRemoved = true;
-                index = indexOf(object);
             }
         }
 
