@@ -114,7 +114,7 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (size == 0) {
-            items = Arrays.copyOf(items, DEFAULT_CAPACITY);
+            items = Arrays.copyOf(items, items.length + DEFAULT_CAPACITY);
             return;
         }
 
@@ -168,30 +168,24 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        // TODO: неправильная логика увеличения вместимости.
-        // Сейчас после увеличения вместимости может не хватить места
-
-        //Не совсем понимаю, почему может не хватить места, так как:
         checkBounds(index, size);
 
         boolean hasChanged = false;
 
-        size += c.size(); // Тут я увеличиваю размер листа на размер коллекции
+        size += c.size();
 
-        if (size >= items.length) { // Тут я проверяю новый будущий размер листа с размером массива под этот лист.
-            // Если будущий размер листа оказался больше или равен размеру массива под этот лист, то я увеличиваю вместимость.
-            increaseCapacity(); // Тут я увеличиваю вместимость на значение в 2 раза больше, чем будущий размер (size) листа
+        while (size >= items.length) {
+            increaseCapacity();
         }
 
-        if (!isEmpty()) { // Я переставил данную проверку ниже кода увеличения вместимости, так как в этой проверке был вариант
-            // выхода за пределы размера вместимости, но опять же, это бы случилось до увеличения вместимости, а не после.
+        if (!isEmpty()) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
             modificationsCount++;
         }
 
         int i = index;
 
-        for (E object : c) { // Тут я добавляю в лист элементы коллекции, но размер коллекции уже был учтен в будущем size
+        for (E object : c) {
             items[i] = object;
             modificationsCount++;
             i++;
@@ -270,7 +264,7 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkBounds(index, size);
 
-        if (size >= items.length) {
+        while (size >= items.length) {
             increaseCapacity();
         }
 
