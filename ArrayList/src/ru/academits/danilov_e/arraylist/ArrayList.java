@@ -100,7 +100,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) { // TODO: занулить нужно только 1 элемент
+    public <T> T[] toArray(T[] a) {
         if (size > a.length) {
             return (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
         }
