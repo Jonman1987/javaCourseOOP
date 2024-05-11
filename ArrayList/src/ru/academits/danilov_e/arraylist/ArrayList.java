@@ -7,10 +7,10 @@ public class ArrayList<E> implements List<E> {
     private int size;
     private int modificationsCount;
 
-    private static final int CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
 
     public ArrayList() {
-        items = (E[]) new Object[CAPACITY];
+        items = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     public ArrayList(Collection<E> collection) {
@@ -90,27 +90,27 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        if (size <= a.length) {
-            System.arraycopy(items, 0, a, 0, size);
+    public <T> T[] toArray(T[] a) { // TODO: занулить нужно только 1 элемент
+        if (size > a.length) {
+           return (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
+        }
 
-            for (int i = size; i < a.length; i++) { // Логика зануления массива
-                a[i] = null;
-            }
-        } else {
-            a = (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
+        System.arraycopy(items, 0, a, 0, size);
+
+        for (int i = size; i < a.length; i++) { // Логика зануления массива
+            a[i] = null;
         }
 
         return a;
     }
 
-    private void increaseCapacity(int currentCapacity) {
-        if (currentCapacity == 0) {
-            items = Arrays.copyOf(items, CAPACITY);
+    private void increaseCapacity() {
+        if (size == 0) {
+            items = Arrays.copyOf(items, DEFAULT_CAPACITY);
             return;
         }
 
-        items = Arrays.copyOf(items, currentCapacity * 2);
+        items = Arrays.copyOf(items, size * 2);
     }
 
     @Override
@@ -121,15 +121,14 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        boolean result = false;
         int index = indexOf(o);
 
         if (index != -1) {
-            result = true;
             remove(index);
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     @Override
@@ -150,16 +149,16 @@ public class ArrayList<E> implements List<E> {
         return addAll(size, c);
     }
 
-    private static void checkingBounds(int index, int maxBound) {
-        if (index < 0 || index > maxBound) {
-            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + (maxBound - 1) + "]. Index is "
+    private static void checkBounds(int index, int maxIndex) {
+        if (index < 0 || index > maxIndex) {
+            throw new IllegalArgumentException("Index must belong to the range [0; " + (maxIndex - 1) + "]. Index is "
                     + index + ".");
         }
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        checkingBounds(index, size);
+        checkBounds(index, size);
 
         if (!isEmpty()) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
@@ -168,7 +167,7 @@ public class ArrayList<E> implements List<E> {
         size = size + c.size();
 
         if (size >= items.length) {
-            increaseCapacity(size);
+            increaseCapacity();
         }
 
         int i = index;
@@ -238,14 +237,14 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        checkingBounds(index, size);
+        checkBounds(index, size - 1);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E item) {
-        checkingBounds(index, size);
+        checkBounds(index, size - 1);
 
         E oldItem = items[index];
         items[index] = item;
@@ -255,10 +254,10 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E item) {
-        checkingBounds(index, size);
+        checkBounds(index, size);
 
-        if (size + 1 >= items.length) {
-            increaseCapacity(size);
+        if (size >= items.length) {
+            increaseCapacity();
         }
 
         if (index != size) {
@@ -272,7 +271,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        checkingBounds(index, size);
+        checkBounds(index, size - 1);
 
         E deletedItem = items[index];
 

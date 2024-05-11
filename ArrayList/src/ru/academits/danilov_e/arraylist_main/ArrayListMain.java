@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class ArrayListMain {
     public static <E> void printResult(ArrayList<E> list, boolean isPrintResult) {
-        System.out.println((isPrintResult ? "Результат: " : "Исходный list: ") + list);
+        System.out.println((isPrintResult ? "Результат: " : "Исходный список: ") + list);
         System.out.println("Размер: " + list.size() + ". Вместимость: " + list.getCapacity());
         System.out.println();
     }
