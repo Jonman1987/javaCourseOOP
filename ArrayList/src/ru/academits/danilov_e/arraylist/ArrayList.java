@@ -198,6 +198,8 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        // TODO: в текущей версии: здесь не нужно использовать indexOf, лучше использовать удаление по значению
+        // TODO: лучше сделать примерно как retainAll
         if (isEmpty()) {
             return false;
         }
