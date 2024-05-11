@@ -20,7 +20,7 @@ public class ArrayList<E> implements List<E> {
 
     public ArrayList(int capacity) {
         if (capacity < 0) {
-            throw new IndexOutOfBoundsException("Capacity must be greater than 0. Capacity is "
+            throw new IllegalArgumentException("Capacity cant be less than 0. Capacity is "
                     + capacity + ".");
         }
 
@@ -28,10 +28,20 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void ensureCapacity(int capacity) {
+        if(size == 0){
+            items = (E[]) new Object[capacity];
+            return;
+        }
+
         items = Arrays.copyOf(items, capacity);
     }
 
     public void trimToSize() {
+        if(size == 0){
+            items = (E[]) new Object[DEFAULT_CAPACITY];
+            return;
+        }
+
         items = Arrays.copyOf(items, size);
     }
 
@@ -92,14 +102,12 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) { // TODO: занулить нужно только 1 элемент
         if (size > a.length) {
-           return (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
+            return (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
         }
 
         System.arraycopy(items, 0, a, 0, size);
 
-        for (int i = size; i < a.length; i++) { // Логика зануления массива
-            a[i] = null;
-        }
+        a[size] = null;
 
         return a;
     }
@@ -133,15 +141,17 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        int matchesCount = 0;
+        if (size < c.size()) {
+            return false;
+        }
 
         for (Object object : c) {
-            if (contains(object)) {
-                matchesCount++;
+            if (!contains(object)) {
+                return false;
             }
         }
 
-        return matchesCount == c.size();
+        return true;
     }
 
     @Override
@@ -158,13 +168,17 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        // TODO: неправильная логика увеличения вместимости.
+        // TODO: Сейчас после увеличения вместимости может не хватить места
+        // TODO: не всегда выдает верный boolean
+        // TODO: modificationsCount меняется даже если это не нужно
         checkBounds(index, size);
 
         if (!isEmpty()) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
         }
 
-        size = size + c.size();
+        size += c.size();
 
         if (size >= items.length) {
             increaseCapacity();
@@ -227,9 +241,7 @@ public class ArrayList<E> implements List<E> {
             return;
         }
 
-        for (int i = 0; i < size; i++) {
-            items[i] = null;
-        }
+        Arrays.fill(items, null);
 
         size = 0;
         modificationsCount++;
@@ -289,9 +301,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < size; i++) {
-            if (items[i] != null && items[i].equals(o)) {
-                return i;
-            } else if (items[i] == null) {
+            if (Objects.equals(items[i], o)) {
                 return i;
             }
         }
@@ -302,9 +312,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public int lastIndexOf(Object o) {
         for (int i = size - 1; i >= 0; i--) {
-            if (items[i] != null && items[i].equals(o)) {
-                return i;
-            } else if (items[i] == null) {
+            if (Objects.equals(items[i], o)) {
                 return i;
             }
         }
