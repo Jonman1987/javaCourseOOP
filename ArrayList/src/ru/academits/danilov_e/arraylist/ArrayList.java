@@ -170,25 +170,28 @@ public class ArrayList<E> implements List<E> {
     public boolean addAll(int index, Collection<? extends E> c) {
         // TODO: неправильная логика увеличения вместимости.
         // Сейчас после увеличения вместимости может не хватить места
-        // TODO: не всегда выдает верный boolean
+
+        //Не совсем понимаю, почему может не хватить места, так как:
         checkBounds(index, size);
 
         boolean hasChanged = false;
 
-        if (!isEmpty()) {
+        size += c.size(); // Тут я увеличиваю размер листа на размер коллекции
+
+        if (size >= items.length) { // Тут я проверяю новый будущий размер листа с размером массива под этот лист.
+            // Если будущий размер листа оказался больше или равен размеру массива под этот лист, то я увеличиваю вместимость.
+            increaseCapacity(); // Тут я увеличиваю вместимость на значение в 2 раза больше, чем будущий размер (size) листа
+        }
+
+        if (!isEmpty()) { // Я переставил данную проверку ниже кода увеличения вместимости, так как в этой проверке был вариант
+            // выхода за пределы размера вместимости, но опять же, это бы случилось до увеличения вместимости, а не после.
             System.arraycopy(items, index, items, index + c.size(), size - index);
             modificationsCount++;
         }
 
-        size += c.size();
-
-        if (size >= items.length) {
-            increaseCapacity();
-        }
-
         int i = index;
 
-        for (E object : c) {
+        for (E object : c) { // Тут я добавляю в лист элементы коллекции, но размер коллекции уже был учтен в будущем size
             items[i] = object;
             modificationsCount++;
             i++;
