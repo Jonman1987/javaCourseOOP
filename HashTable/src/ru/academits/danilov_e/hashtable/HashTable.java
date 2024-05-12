@@ -7,8 +7,10 @@ public class HashTable<E> implements Collection<E> {
     private int size;
     private int modificationsCount;
 
+    private static final int DEFAULT_CAPACITY = 100;
+
     public HashTable() {
-        lists = (LinkedList<E>[]) new LinkedList[100];
+        lists = (LinkedList<E>[]) new LinkedList[DEFAULT_CAPACITY];
     }
 
     public HashTable(int capacity) {
@@ -20,12 +22,12 @@ public class HashTable<E> implements Collection<E> {
         lists = (LinkedList<E>[]) new LinkedList[capacity];
     }
 
-    public int getTableCapacity() { // Метод отладки используется для контроля размера массива. В дальнейшем можно удалить
+    public int getCapacity() { // Метод отладки используется для контроля размера массива. В дальнейшем можно удалить
         return lists.length;
     }
 
-    private int getArrayIndex(Object o, LinkedList<E>[] listsArray) {
-        return Math.abs(o.hashCode() % listsArray.length);
+    private int getIndex(Object o) {
+        return Math.abs(Objects.hashCode(o) % lists.length);
     }
 
     public int getElementIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
@@ -51,7 +53,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean contains(Object o) {
-        int index = getArrayIndex(o, lists);
+        int index = getIndex(o);
 
         if (lists[index] != null && !lists[index].isEmpty()) { // TODO: пересечение с пунктом 2
             return lists[index].contains(o);
@@ -61,7 +63,7 @@ public class HashTable<E> implements Collection<E> {
     }
 
     private class HashTableIterator implements Iterator<E> {
-        private int currentTableIndex = -1;
+        private int currentArrayIndex = -1;
         private int currentListIndex = -1;
         private int currentElement = -1;
         private final int expectedModificationsCount = modificationsCount;
@@ -81,32 +83,32 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            while (lists[currentTableIndex + 1] == null || lists[currentTableIndex + 1].isEmpty()) {
+            while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty()) {
                 if (hasNext()) {
-                    currentTableIndex++;
+                    currentArrayIndex++;
                 }
             }
 
-            if (currentListIndex + 1 < lists[currentTableIndex + 1].size()) {
+            if (currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
                 currentListIndex++;
                 currentElement++;
-                return lists[currentTableIndex + 1].get(currentListIndex);
+                return lists[currentArrayIndex + 1].get(currentListIndex);
             } else {
                 currentListIndex = -1;
                 boolean hasRead = true;
 
-                while (lists[currentTableIndex + 1] == null || lists[currentTableIndex + 1].isEmpty() || hasRead) {
+                while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty() || hasRead) {
                     if (hasNext()) {
-                        currentTableIndex++;
+                        currentArrayIndex++;
                         hasRead = false;
                     }
                 }
 
-                currentTableIndex++;
+                currentArrayIndex++;
             }
 
             currentElement++;
-            return lists[currentTableIndex].get(currentListIndex + 1);
+            return lists[currentArrayIndex].get(currentListIndex + 1);
         }
     }
 
@@ -151,7 +153,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean add(E e) {
-        int index = getArrayIndex(e, lists);
+        int index = getIndex(e);
 
         if (lists[index] == null) {
             LinkedList<E> list = new LinkedList<>(); // Это бывшая переменная element
@@ -169,7 +171,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean remove(Object o) {
-        int index = getArrayIndex(o, lists);
+        int index = getIndex(o);
 
         if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) {
             lists[index].clear();
