@@ -52,14 +52,10 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object o) { // TODO: не понятно, что делать с null данными листа
         int index = getIndex(o);
 
-        if (lists[index] != null && !lists[index].isEmpty()) { // TODO: пересечение с пунктом 2
-            return lists[index].contains(o);
-        }
-
-        return false;
+        return lists[index] != null && lists[index].contains(o);
     }
 
     private class HashTableIterator implements Iterator<E> {
@@ -84,31 +80,27 @@ public class HashTable<E> implements Collection<E> {
             }
 
             while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty()) {
-                if (hasNext()) {
-                    currentArrayIndex++;
-                }
+                currentArrayIndex++;
             }
 
             if (currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
                 currentListIndex++;
                 currentElement++;
                 return lists[currentArrayIndex + 1].get(currentListIndex);
-            } else {
-                currentListIndex = -1;
-                boolean hasRead = true;
-
-                while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty() || hasRead) {
-                    if (hasNext()) {
-                        currentArrayIndex++;
-                        hasRead = false;
-                    }
-                }
-
-                currentArrayIndex++;
             }
 
+            currentListIndex = -1;
+            boolean hasVisited = true;
+
+            while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty() || hasVisited) {
+                currentArrayIndex++;
+                hasVisited = false;
+            }
+
+            currentArrayIndex++;
+
             currentElement++;
-            return lists[currentArrayIndex].get(currentListIndex + 1);
+            return lists[currentArrayIndex].getFirst();
         }
     }
 
@@ -121,17 +113,16 @@ public class HashTable<E> implements Collection<E> {
     public Object[] toArray() {
         Object[] objects = new Object[size];
         int i = 0;
-        int j = 0;
 
-        for (LinkedList<E> list : lists) {
-            if (list != null) {
-                while (i < list.size()) {
-                    objects[j] = list.get(i);
+        for(int j = 0; j < lists.length; j++){
+            if(lists[j] != null) {
+                int k = 0;
+
+                while (k < lists[j].size()){
+                    objects[i] = lists[j].get(k);
+                    k++;
                     i++;
-                    j++;
                 }
-
-                i = 0;
             }
         }
 
@@ -140,13 +131,13 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        T[] array = (T[]) toArray();
-
-        if (a.length <= size) {
-            a = (T[]) Arrays.copyOf(array, size, a.getClass());
-        } else {
-            a = Arrays.copyOf(array, a.length);
+        if (size > a.length) {
+            return (T[]) Arrays.copyOf((T[]) toArray(), size, a.getClass());
         }
+
+        System.arraycopy(toArray(), 0, a, 0, size);
+
+        a[size] = null;
 
         return a;
     }
@@ -156,13 +147,10 @@ public class HashTable<E> implements Collection<E> {
         int index = getIndex(e);
 
         if (lists[index] == null) {
-            LinkedList<E> list = new LinkedList<>(); // Это бывшая переменная element
-            list.add(e);
-            lists[index] = list;
-        } else {
-            lists[index].add(e);
+            lists[index] = new LinkedList<>();
         }
 
+        lists[index].add(e);
         size++;
         modificationsCount++;
 
@@ -209,26 +197,26 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        boolean hasChanged = false;
-
-        for (E t : c) {
-            add(t);
-            hasChanged = true;
+        for (E element : c) {
+            if(!add(element)){
+                return false;
+            }
         }
 
-        return hasChanged;
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        boolean hasChanged = false;
-
         for (Object object : c) {
-            remove(object);
-            hasChanged = true;
+            while (contains(object)){
+                if(!remove(object)){
+                    return false;
+                }
+            }
         }
 
-        return hasChanged;
+        return true;
     }
 
     @Override
