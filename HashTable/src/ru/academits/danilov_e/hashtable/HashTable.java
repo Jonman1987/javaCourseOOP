@@ -30,17 +30,6 @@ public class HashTable<E> implements Collection<E> {
         return Math.abs(Objects.hashCode(o) % lists.length);
     }
 
-    public int getElementIndex(E element) { // Метод отладки используется для контроля изменения индекса при изменении
-        // размера таблицы. В дальнейшем можно удалить
-        for (int i = 0; i < lists.length; i++) {
-            if (lists[i] != null && lists[i].contains(element)) {
-                return i;
-            }
-        }
-
-        return -1;
-    } //
-
     @Override
     public int size() {
         return size;
@@ -114,11 +103,11 @@ public class HashTable<E> implements Collection<E> {
         Object[] objects = new Object[size];
         int i = 0;
 
-        for(int j = 0; j < lists.length; j++){
-            if(lists[j] != null) {
+        for (int j = 0; j < lists.length; j++) {
+            if (lists[j] != null) {
                 int k = 0;
 
-                while (k < lists[j].size()){
+                while (k < lists[j].size()) {
                     objects[i] = lists[j].get(k);
                     k++;
                     i++;
@@ -170,11 +159,9 @@ public class HashTable<E> implements Collection<E> {
         }
 
         if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) {
-            while (getElementIndex((E) o) != -1) {
-                lists[index].remove(o);
-                size--;
-                modificationsCount++;
-            }
+            lists[index].remove(o);
+            size--;
+            modificationsCount++;
 
             return true;
         }
@@ -198,7 +185,7 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean addAll(Collection<? extends E> c) {
         for (E element : c) {
-            if(!add(element)){
+            if (!add(element)) {
                 return false;
             }
         }
@@ -209,8 +196,8 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean removeAll(Collection<?> c) {
         for (Object object : c) {
-            while (contains(object)){
-                if(!remove(object)){
+            while (contains(object)) {
+                if (!remove(object)) {
                     return false;
                 }
             }
@@ -260,5 +247,10 @@ public class HashTable<E> implements Collection<E> {
 
         size = 0;
         modificationsCount++;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }

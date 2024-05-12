@@ -17,7 +17,6 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable1.toArray()));
         System.out.println("Размер таблицы: " + colorsTable1.getCapacity());
         System.out.println("Хэш элемента \"Красный\" с учетом размера таблицы: " + color1.hashCode() % colorsTable1.getCapacity());
-        System.out.println("Позиция элемента \"Красный\" в таблице: " + colorsTable1.getElementIndex(color1));
         System.out.println();
 
         int capacity1 = 50;
@@ -30,7 +29,6 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable2.toArray()));
         System.out.println("Размер таблицы: " + colorsTable2.getCapacity());
         System.out.println("Хэш элемента \"Белый\" с учетом размера таблицы: " + color2.hashCode() % colorsTable2.getCapacity());
-        System.out.println("Позиция элемента \"Белый\" в таблице: " + colorsTable2.getElementIndex(color2));
         System.out.println();
 
         System.out.println("3. Добавление элементов в таблицу:");
@@ -58,7 +56,6 @@ public class HashTableMain {
         colorsTable3.add(color7);
         System.out.println("Хэш элемента " + color7 + " с учетом размера таблицы: " + Math.abs(color7.hashCode()
                 % colorsTable3.getCapacity()));
-        System.out.println("Позиция элемента " + color7 + " в таблице: " + colorsTable3.getElementIndex(color7));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
@@ -68,10 +65,8 @@ public class HashTableMain {
         System.out.println("Добавление элемента \"Золотой\":");
         String color8 = "Золотой";
         colorsTable3.add(color8);
-        System.out.println("Позиция элемента " + color7 + " в таблице: " + colorsTable3.getElementIndex(color7));
         System.out.println("Хэш элемента " + color8 + " с учетом размера таблицы: " + Math.abs(color8.hashCode()
                 % colorsTable3.getCapacity()));
-        System.out.println("Позиция элемента " + color8 + " в таблице: " + colorsTable3.getElementIndex(color8));
         System.out.println("Количество элементов в таблице: " + colorsTable3.size());
         System.out.println("Содержимое таблицы:");
         System.out.println(Arrays.toString(colorsTable3.toArray()));
