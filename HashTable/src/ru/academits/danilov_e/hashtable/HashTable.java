@@ -150,36 +150,25 @@ public class HashTable<E> implements Collection<E> {
     public boolean remove(Object o) {
         int index = getIndex(o);
 
-        if (lists[index] != null && lists[index].size() == 1 && lists[index].getFirst().equals(o)) {
-            lists[index].clear();
-            size--;
-            modificationsCount++;
-
-            return true;
+        if (!lists[index].remove(o)) {
+            return false;
         }
 
-        if (lists[index] != null && lists[index].size() > 1 && lists[index].contains((E) o)) {
-            lists[index].remove(o);
-            size--;
-            modificationsCount++;
+        size--;
+        modificationsCount++;
 
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        int matchesCount = 0;
-
         for (Object object : c) {
-            if (contains(object)) {
-                matchesCount++;
+            if (!contains(object)) {
+                return false;
             }
         }
 
-        return matchesCount == c.size();
+        return true;
     }
 
     @Override

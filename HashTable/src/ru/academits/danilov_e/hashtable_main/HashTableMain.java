@@ -5,6 +5,7 @@ import ru.academits.danilov_e.hashtable.HashTable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class HashTableMain {
     public static void main(String[] args) {
@@ -229,5 +230,15 @@ public class HashTableMain {
         System.out.println(Arrays.toString(colorsTable3.toArray(array1)));
         String[] array2 = new String[1];
         System.out.println(Arrays.toString(colorsTable3.toArray(array2)));
+        System.out.println("fg");
+        System.out.println(Objects.hashCode(null));
+
+        HashTable<String> colorsTable4 = new HashTable<>();
+        colorsTable4.add(null);
+        colorsTable4.add("4");
+
+        colorsTable4.remove("4");
+        System.out.println(Arrays.toString(colorsTable4.toArray()));
+        System.out.println(colorsTable4.contains(null));
     }
 }
