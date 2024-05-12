@@ -39,7 +39,7 @@ public class HashTable<E> implements Collection<E> {
         }
 
         return -1;
-    }
+    } //
 
     @Override
     public int size() {
