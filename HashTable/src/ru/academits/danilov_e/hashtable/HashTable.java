@@ -50,16 +50,16 @@ public class HashTable<E> implements Collection<E> {
     private class HashTableIterator implements Iterator<E> {
         private int currentArrayIndex = -1;
         private int currentListIndex = -1;
-        private int currentElement = -1;
+        private int visitedElementsCount = -1;
         private final int expectedModificationsCount = modificationsCount;
 
         @Override
         public boolean hasNext() {
-            return currentElement + 1 < size;
+            return visitedElementsCount + 1 < size;
         }
 
         @Override
-        public E next() {
+        public E next() { // TODO: пункты 7 и 9
             if (expectedModificationsCount != modificationsCount) {
                 throw new ConcurrentModificationException("HashTable has been changed");
             }
@@ -74,7 +74,7 @@ public class HashTable<E> implements Collection<E> {
 
             if (currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
                 currentListIndex++;
-                currentElement++;
+                visitedElementsCount++;
                 return lists[currentArrayIndex + 1].get(currentListIndex);
             }
 
@@ -88,7 +88,7 @@ public class HashTable<E> implements Collection<E> {
 
             currentArrayIndex++;
 
-            currentElement++;
+            visitedElementsCount++;
             return lists[currentArrayIndex].getFirst();
         }
     }
