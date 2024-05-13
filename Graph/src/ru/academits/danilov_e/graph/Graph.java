@@ -3,29 +3,30 @@ package ru.academits.danilov_e.graph;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class Graph {
     private final int[][] connectivityMatrix;
 
     public Graph(int[][] connectivityMatrix) {
-        if (connectivityMatrix.length != connectivityMatrix[0].length) {
-            throw new IllegalArgumentException("Connectivity matrix must have same count of rows and columns");
+        for (int[] row : connectivityMatrix) {
+            if (connectivityMatrix.length != row.length) {
+                throw new IllegalArgumentException("Connectivity matrix must have same count of rows and columns");
+            }
         }
 
         this.connectivityMatrix = connectivityMatrix;
     }
 
-    public void widthVisit(int startVertex, Consumer<Integer> consumer) {
+    public void startWidthVisit(int startVertex, IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Queue<Integer> queue = new LinkedList<>();
 
         queue.add(startVertex);
-        Integer vertex;
 
         while (!queue.isEmpty()) {
-            vertex = queue.remove();
+            Integer vertex = queue.remove();
             visited[vertex] = true;
 
             consumer.accept(vertex);
@@ -38,16 +39,15 @@ public class Graph {
         }
     }
 
-    public void depthVisit(int startVertex, Consumer<Integer> consumer) {
+    public void startDepthVisit(int startVertex, IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Stack<Integer> list = new Stack<>();
 
         list.addFirst(startVertex);
-        Integer vertex;
 
         while (!list.isEmpty()) {
-            vertex = list.removeFirst();
+            Integer vertex = list.removeFirst();
             visited[vertex] = true;
 
             consumer.accept(vertex);
@@ -60,14 +60,14 @@ public class Graph {
         }
     }
 
-    public <T> void recursivelyDepthVisit(int startVertex, Consumer<Integer> consumer) {
+    public void startRecursivelyDepthVisit(int startVertex, IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
         Stack<Integer> list = new Stack<>();
         list.add(startVertex);
-        depthVisit(list, visited, consumer);
+        startRecursivelyDepthVisit(list, visited, consumer);
     }
 
-    private void depthVisit(Stack<Integer> list, boolean[] array, Consumer<Integer> consumer) {
+    private void startRecursivelyDepthVisit(Stack<Integer> list, boolean[] array, IntConsumer consumer) {
         while (!list.isEmpty()) {
             int vertex = list.removeFirst();
             consumer.accept(vertex);
@@ -79,31 +79,7 @@ public class Graph {
                 }
             }
 
-            depthVisit(list, array, consumer);
-        }
-    }
-
-    public void recursivelyWidthVisit(int startVertex, Consumer<Integer> consumer) {
-        boolean[] visited = new boolean[connectivityMatrix.length];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(startVertex);
-        widthVisit(queue, visited, consumer);
-    }
-
-    private void widthVisit(Queue<Integer> queue, boolean[] array, Consumer<Integer> consumer) {
-        while (!queue.isEmpty()) {
-            int vertex = queue.remove();
-            array[vertex] = true;
-
-            consumer.accept(vertex);
-
-            for (int i = 0; i < connectivityMatrix.length; i++) {
-                if (connectivityMatrix[vertex][i] != 0 && !array[i]) {
-                    queue.add(i);
-                }
-            }
-
-            widthVisit(queue, array, consumer);
+            startRecursivelyDepthVisit(list, array, consumer);
         }
     }
 }
