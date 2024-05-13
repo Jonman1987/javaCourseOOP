@@ -64,10 +64,9 @@ public class BinarySearchTree<E> {
         Queue<TreeNode<E>> treeList = new LinkedList<>(); // Правильно ли я использовал интерфейс очереди?
 
         treeList.add(root);
-        TreeNode<E> node;
 
         while (!treeList.isEmpty()) {
-            node = treeList.remove();
+            TreeNode<E> node = treeList.remove();
 
             consumer.accept(node.getData());
 
@@ -89,10 +88,9 @@ public class BinarySearchTree<E> {
         LinkedList<TreeNode<E>> list = new LinkedList<>();
 
         list.addFirst(root);
-        TreeNode<E> node;
 
         while (!list.isEmpty()) {
-            node = list.removeFirst(); // Возвращает и удаляет
+            TreeNode<E> node = list.removeFirst(); // Возвращает и удаляет
             consumer.accept(node.getData());
 
             if (node.getRight() != null) {
