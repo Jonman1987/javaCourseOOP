@@ -7,13 +7,24 @@ import java.util.function.IntConsumer;
 public class GraphMain {
     public static void main(String[] args) {
         int[][] connectivityMatrix = {
-                {0, 1, 0, 0, 0, 0, 0},
-                {1, 0, 1, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1},
-                {0, 0, 0, 0, 0, 1, 0}
+                {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}
         };
 
         Graph graph = new Graph(connectivityMatrix);
@@ -25,10 +36,10 @@ public class GraphMain {
         graph.startDepthVisit(0, printer);
         System.out.println();
         System.out.println("Вторая компонента:");
-        graph.startDepthVisit(4, printer);
+        graph.startDepthVisit(7, printer);
         System.out.println();
         System.out.println("Третья компонента:");
-        graph.startDepthVisit(5, printer);
+        graph.startDepthVisit(13, printer);
         System.out.println();
         System.out.println();
 
@@ -37,10 +48,10 @@ public class GraphMain {
         graph.startRecursivelyDepthVisit(0, printer);
         System.out.println();
         System.out.println("Вторая компонента:");
-        graph.startRecursivelyDepthVisit(4, printer);
+        graph.startRecursivelyDepthVisit(7, printer);
         System.out.println();
         System.out.println("Третья компонента:");
-        graph.startRecursivelyDepthVisit(5, printer);
+        graph.startRecursivelyDepthVisit(13, printer);
         System.out.println();
         System.out.println();
 
@@ -49,10 +60,10 @@ public class GraphMain {
         graph.startWidthVisit(0, printer);
         System.out.println();
         System.out.println("Вторая компонента:");
-        graph.startWidthVisit(4, printer);
+        graph.startWidthVisit(7, printer);
         System.out.println();
         System.out.println("Третья компонента:");
-        graph.startWidthVisit(5, printer);
+        graph.startWidthVisit(13, printer);
         System.out.println();
         System.out.println();
     }
