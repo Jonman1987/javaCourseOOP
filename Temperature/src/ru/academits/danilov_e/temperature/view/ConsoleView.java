@@ -1,12 +1,12 @@
 package ru.academits.danilov_e.temperature.view;
 
-import ru.academits.danilov_e.temperature.controller.ControllerInterface;
+import ru.academits.danilov_e.temperature.controller.Controller;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ConsoleView implements ViewInterface {
-    private ControllerInterface controller;
+public class ConsoleView implements View {
+    private Controller controller;
 
     @Override
     public void run() {
@@ -47,7 +47,7 @@ public class ConsoleView implements ViewInterface {
     }
 
     @Override
-    public void setController(ControllerInterface controller) {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 

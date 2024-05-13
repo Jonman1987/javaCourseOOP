@@ -1,6 +1,6 @@
-package ru.academits.danilov_e.temperature.scalestypes;
+package ru.academits.danilov_e.temperature.model.scales;
 
-public interface ScaleInterface {
+public interface Scale {
     double convertToCelsius(double thisScaleTemperature);
 
     double convertFromCelsius(double celsiusTemperature);

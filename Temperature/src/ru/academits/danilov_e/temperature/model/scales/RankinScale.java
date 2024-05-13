@@ -1,6 +1,6 @@
-package ru.academits.danilov_e.temperature.scalestypes;
+package ru.academits.danilov_e.temperature.model.scales;
 
-public class Rankin implements ScaleInterface{
+public class RankinScale implements Scale {
     @Override
     public double convertToCelsius(double temperature) {
         return (temperature - 491.67) * 5 / 9;

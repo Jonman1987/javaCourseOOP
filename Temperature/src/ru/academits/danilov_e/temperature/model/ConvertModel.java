@@ -1,8 +1,8 @@
 package ru.academits.danilov_e.temperature.model;
 
-import ru.academits.danilov_e.temperature.scalestypes.*;
+import ru.academits.danilov_e.temperature.model.scales.*;
 
-public class Converter implements ModelInterface {
+public class ConvertModel implements Model {
     @Override
     public String[] getTemperaturesTypes() {
         return new String[]{"Градусы Цельсия", "Кельвины", "Фаренгейты", "Градусы Ранкина"};
@@ -12,21 +12,21 @@ public class Converter implements ModelInterface {
     public double convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
         double temperatureResult;
 
-        ScaleInterface scaleFrom = null;
-        ScaleInterface scaleTo = null;
+        Scale scaleFrom = null;
+        Scale scaleTo = null;
 
         switch (temperatureTypeFrom) {
             case 0:
-                scaleFrom = new Celsius();
+                scaleFrom = new CelsiusScale();
                 break;
             case 1:
-                scaleFrom = new Kelvin();
+                scaleFrom = new KelvinScale();
                 break;
             case 2:
-                scaleFrom = new Fahrenheit();
+                scaleFrom = new FahrenheitScale();
                 break;
             case 3:
-                scaleFrom = new Rankin();
+                scaleFrom = new RankinScale();
                 break;
             default:
                 System.out.println("Ошибка первоначальной шкалы");
@@ -34,16 +34,16 @@ public class Converter implements ModelInterface {
 
         switch (temperatureTypeTo) {
             case 0:
-                scaleTo = new Celsius();
+                scaleTo = new CelsiusScale();
                 break;
             case 1:
-                scaleTo = new Kelvin();
+                scaleTo = new KelvinScale();
                 break;
             case 2:
-                scaleTo = new Fahrenheit();
+                scaleTo = new FahrenheitScale();
                 break;
             case 3:
-                scaleTo = new Rankin();
+                scaleTo = new RankinScale();
                 break;
             default:
                 System.out.println("Ошибка конечной шкалы");

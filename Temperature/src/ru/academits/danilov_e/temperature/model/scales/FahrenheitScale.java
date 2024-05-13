@@ -1,6 +1,6 @@
-package ru.academits.danilov_e.temperature.scalestypes;
+package ru.academits.danilov_e.temperature.model.scales;
 
-public class Fahrenheit implements ScaleInterface {
+public class FahrenheitScale implements Scale {
     @Override
     public double convertToCelsius(double temperature) {
         return (temperature - 32) / 1.8;

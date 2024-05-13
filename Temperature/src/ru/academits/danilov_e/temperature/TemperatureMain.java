@@ -1,20 +1,19 @@
 package ru.academits.danilov_e.temperature;
 
-import ru.academits.danilov_e.temperature.controller.Controller;
-import ru.academits.danilov_e.temperature.model.Converter;
-import ru.academits.danilov_e.temperature.model.ModelInterface;
-import ru.academits.danilov_e.temperature.view.ConsoleView;
+import ru.academits.danilov_e.temperature.controller.BaseController;
+import ru.academits.danilov_e.temperature.model.ConvertModel;
+import ru.academits.danilov_e.temperature.model.Model;
 import ru.academits.danilov_e.temperature.view.DesktopView;
-import ru.academits.danilov_e.temperature.view.ViewInterface;
+import ru.academits.danilov_e.temperature.view.View;
 
 public class TemperatureMain {
     public static void main(String[] args) {
-        ModelInterface model = new Converter();
+        Model model = new ConvertModel();
 
-        ViewInterface view = new DesktopView();
+        View view = new DesktopView();
         // ViewInterface view = new ConsoleView();
 
-        Controller controller = new Controller(model, view);
+        new BaseController(model, view);
         view.run();
     }
 }

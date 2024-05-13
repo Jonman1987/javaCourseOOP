@@ -1,12 +1,12 @@
 package ru.academits.danilov_e.temperature.view;
 
-import ru.academits.danilov_e.temperature.controller.ControllerInterface;
+import ru.academits.danilov_e.temperature.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DesktopView implements ViewInterface {
-    private ControllerInterface controller;
+public class DesktopView implements View {
+    private Controller controller;
     private JLabel resultLabel;
 
     @Override
@@ -73,7 +73,7 @@ public class DesktopView implements ViewInterface {
     }
 
     @Override
-    public void setController(ControllerInterface controller) {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 

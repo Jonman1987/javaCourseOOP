@@ -1,6 +1,6 @@
-package ru.academits.danilov_e.temperature.scalestypes;
+package ru.academits.danilov_e.temperature.model.scales;
 
-public class Kelvin implements ScaleInterface {
+public class KelvinScale implements Scale {
     @Override
     public double convertToCelsius(double temperature) {
         return temperature - 273.15;
