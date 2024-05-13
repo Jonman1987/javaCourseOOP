@@ -1,6 +1,7 @@
 package ru.academits.danilov_e.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<E> {
     private Node<E> head;
@@ -52,10 +53,8 @@ public class SinglyLinkedList<E> {
     private Node<E> getNode(int index) {
         Node<E> node = head;
 
-        for (int i = 0; index < count; node = node.getNext(), i++) {
-            if (i == index) {
-                break;
-            }
+        for (int i = 0; i < index; i++) {
+            node = node.getNext();
         }
 
         return node;
@@ -122,9 +121,7 @@ public class SinglyLinkedList<E> {
             return;
         }
 
-        Node<E> previousNode;
-
-        previousNode = getNode(index - 1);
+        Node<E> previousNode = getNode(index - 1);
         previousNode.setNext(new Node<>(data, previousNode.getNext()));
         count++;
     }
@@ -134,14 +131,14 @@ public class SinglyLinkedList<E> {
             return false;
         }
 
-        if (head.getData() != null && head.getData().equals(data)) {
+        if (Objects.equals(head.getData(), data)) {
             deleteFirst();
             return true;
         }
 
-        for (Node<E> previousNode = head, currentNode = previousNode.getNext(); previousNode.getNext() != null;
-             previousNode = previousNode.getNext(), currentNode = currentNode.getNext()) {
-            if (previousNode.getNext().getData() != null && previousNode.getNext().getData().equals(data)) {
+        for (Node<E> previousNode = head, currentNode = previousNode.getNext(); currentNode != null;
+             previousNode = currentNode, currentNode = currentNode.getNext()) {
+            if (Objects.equals(currentNode.getData(), data)) {
                 previousNode.setNext(currentNode.getNext());
                 count--;
                 return true;
