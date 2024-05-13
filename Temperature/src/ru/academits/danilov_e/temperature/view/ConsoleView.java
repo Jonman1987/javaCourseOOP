@@ -22,7 +22,7 @@ public class ConsoleView implements View {
 
                 String[] temperaturesTypes = controller.getTemperaturesTypes();
 
-                for(int i = 0; i < temperaturesTypes.length; i++){
+                for (int i = 0; i < temperaturesTypes.length; i++) {
                     System.out.println((i + 1) + " - " + temperaturesTypes[i]);
                 }
 
@@ -31,7 +31,7 @@ public class ConsoleView implements View {
 
                 System.out.println("Введите шкалу в которое переводим значения:");
 
-                for(int i = 0; i < temperaturesTypes.length; i++){
+                for (int i = 0; i < temperaturesTypes.length; i++) {
                     System.out.println((i + 1) + " - " + temperaturesTypes[i]);
                 }
 
