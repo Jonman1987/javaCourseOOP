@@ -18,51 +18,112 @@ public class Graph {
         this.connectivityMatrix = connectivityMatrix;
     }
 
-    public void startWidthVisit(int startVertex, IntConsumer consumer) {
+    public void startWidthVisit(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Queue<Integer> queue = new LinkedList<>();
 
-        queue.add(startVertex);
+        int startVertex = 0;
 
-        while (!queue.isEmpty()) {
-            Integer vertex = queue.remove();
-            visited[vertex] = true;
+        while (true) {
+            boolean hasStop = false;
 
-            consumer.accept(vertex);
+            for (int i = 0; i < visited.length; i++) {
+                if (!visited[i]) {
+                    startVertex = i;
+                    hasStop = false;
+                    break;
+                }
 
-            for (int i = 0; i < connectivityMatrix.length; i++) {
-                if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
-                    queue.add(i);
+                hasStop = true;
+            }
+
+            if (hasStop) {
+                break;
+            }
+
+            queue.add(startVertex);
+
+            while (!queue.isEmpty()) {
+                Integer vertex = queue.remove();
+                visited[vertex] = true;
+
+                consumer.accept(vertex);
+
+                for (int i = 0; i < connectivityMatrix.length; i++) {
+                    if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
+                        queue.add(i);
+                    }
                 }
             }
         }
     }
 
-    public void startDepthVisit(int startVertex, IntConsumer consumer) {
+    public void startDepthVisit(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Deque<Integer> deque = new LinkedList<>();
 
-        deque.add(startVertex);
+        int startVertex = 0;
 
-        while (!deque.isEmpty()) {
-            Integer vertex = deque.removeFirst();
-            visited[vertex] = true;
+        while (true) {
+            boolean hasStop = false;
 
-            consumer.accept(vertex);
+            for (int i = 0; i < visited.length; i++) {
+                if (!visited[i]) {
+                    startVertex = i;
+                    hasStop = false;
+                    break;
+                }
 
-            for (int i = connectivityMatrix.length - 1; i >= 0; i--) {
-                if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
-                    deque.addFirst(i);
+                hasStop = true;
+            }
+
+            if (hasStop) {
+                break;
+            }
+
+            deque.add(startVertex);
+
+            while (!deque.isEmpty()) {
+                Integer vertex = deque.removeFirst();
+                visited[vertex] = true;
+
+                consumer.accept(vertex);
+
+                for (int i = connectivityMatrix.length - 1; i >= 0; i--) {
+                    if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
+                        deque.addFirst(i);
+                    }
                 }
             }
         }
     }
 
-    public void startRecursivelyDepthVisit(int startVertex, IntConsumer consumer) {
+    public void startRecursivelyDepthVisit(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
-        startRecursivelyDepthVisit(startVertex, visited, consumer);
+
+        int startVertex = 0;
+
+        while (true) {
+            boolean hasStop = false;
+
+            for (int i = 0; i < visited.length; i++) {
+                if (!visited[i]) {
+                    startVertex = i;
+                    hasStop = false;
+                    break;
+                }
+
+                hasStop = true;
+            }
+
+            if (hasStop) {
+                break;
+            }
+
+            startRecursivelyDepthVisit(startVertex, visited, consumer);
+        }
     }
 
     private void startRecursivelyDepthVisit(int vertex, boolean[] array, IntConsumer consumer) {
