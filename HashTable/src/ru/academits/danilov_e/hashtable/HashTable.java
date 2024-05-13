@@ -103,12 +103,12 @@ public class HashTable<E> implements Collection<E> {
         Object[] objects = new Object[size];
         int i = 0;
 
-        for (int j = 0; j < lists.length; j++) {
-            if (lists[j] != null) {
+        for (LinkedList<E> list : lists) {
+            if (list != null) {
                 int k = 0;
 
-                while (k < lists[j].size()) {
-                    objects[i] = lists[j].get(k);
+                while (k < list.size()) {
+                    objects[i] = list.get(k);
                     k++;
                     i++;
                 }
@@ -199,23 +199,17 @@ public class HashTable<E> implements Collection<E> {
     public boolean retainAll(Collection<?> c) {
         boolean hasChanged = false;
 
-        for (int i = 0, j = 0; i < lists.length; i++) {
-            if (lists[i] != null) {
-                while (lists[i] != null && j < lists[i].size()) {
-                    if (!c.contains(lists[i].get(j))) {
-                        remove(lists[i].get(j));
+        for (LinkedList<E> list : lists) {
+            if (list != null) {
+                int listSize = list.size();
 
-                        if (lists[i] != null && lists[i].size() > 1) {
-                            j--;
-                        }
-
-                        hasChanged = true;
-                    }
-
-                    j++;
+                if (list.retainAll(c)) {
+                    size -= (listSize - list.size());
+                    hasChanged = true;
+                    modificationsCount++;
                 }
-
-                j = 0;
+            } else if (c.contains(null)) {
+                remove(null);
             }
         }
 
@@ -240,6 +234,18 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public String toString() {
-        return "";
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        for (LinkedList<E> list : lists) {
+            if (list != null) {
+                stringBuilder.append(list).append(", ");
+            }
+        }
+
+        return stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append(']').toString();
     }
 }
