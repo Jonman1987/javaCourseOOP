@@ -1,8 +1,8 @@
 package ru.academits.danilov_e.graph;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.function.IntConsumer;
 
 public class Graph {
@@ -42,19 +42,19 @@ public class Graph {
     public void startDepthVisit(int startVertex, IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
-        Stack<Integer> list = new Stack<>();
+        Deque<Integer> deque = new LinkedList<>();
 
-        list.addFirst(startVertex);
+        deque.add(startVertex);
 
-        while (!list.isEmpty()) {
-            Integer vertex = list.removeFirst();
+        while (!deque.isEmpty()) {
+            Integer vertex = deque.removeFirst();
             visited[vertex] = true;
 
             consumer.accept(vertex);
 
-            for (int i = 0; i < connectivityMatrix.length; i++) {
+            for (int i = connectivityMatrix.length - 1; i >= 0; i--) {
                 if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
-                    list.add(i);
+                    deque.addFirst(i);
                 }
             }
         }
@@ -62,24 +62,17 @@ public class Graph {
 
     public void startRecursivelyDepthVisit(int startVertex, IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
-        Stack<Integer> list = new Stack<>();
-        list.add(startVertex);
-        startRecursivelyDepthVisit(list, visited, consumer);
+        startRecursivelyDepthVisit(startVertex, visited, consumer);
     }
 
-    private void startRecursivelyDepthVisit(Stack<Integer> list, boolean[] array, IntConsumer consumer) {
-        while (!list.isEmpty()) {
-            int vertex = list.removeFirst();
-            consumer.accept(vertex);
-            array[vertex] = true;
+    private void startRecursivelyDepthVisit(int vertex, boolean[] array, IntConsumer consumer) {
+        consumer.accept(vertex);
+        array[vertex] = true;
 
-            for (int i = 0; i < connectivityMatrix.length; i++) {
-                if (connectivityMatrix[vertex][i] != 0 && !array[i]) {
-                    list.add(i);
-                }
+        for (int i = 0; i < connectivityMatrix.length; i++) {
+            if (connectivityMatrix[vertex][i] != 0 && !array[i]) {
+                startRecursivelyDepthVisit(i, array, consumer);
             }
-
-            startRecursivelyDepthVisit(list, array, consumer);
         }
     }
 }
