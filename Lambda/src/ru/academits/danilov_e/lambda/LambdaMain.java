@@ -43,12 +43,12 @@ public class LambdaMain {
 
         minorPersonsList.forEach(System.out::println);
 
-        OptionalDouble minorAverageAge = minorPersonsList.stream()
+        OptionalDouble minorPersonAverageAge = minorPersonsList.stream()
                 .mapToInt(Person::getAge)
                 .average();
 
-        if (minorAverageAge.isPresent()) {
-            System.out.println("Их средний возраст: " + minorAverageAge.getAsDouble() + ".");
+        if (minorPersonAverageAge.isPresent()) {
+            System.out.println("Их средний возраст: " + minorPersonAverageAge.getAsDouble() + ".");
         } else {
             System.out.println("Невозможно вычислить средний возраст, так как в списке отсутствуют несовершеннолетние персоны.");
         }
@@ -56,10 +56,10 @@ public class LambdaMain {
         System.out.println();
 
         System.out.println("4. При помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст:");
-        Map<String, Double> personsAverageAgesList = personsList.stream()
+        Map<String, Double> personsNamesByAverageAges = personsList.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingInt(Person::getAge)));
 
-        System.out.println(personsAverageAgesList);
+        System.out.println(personsNamesByAverageAges);
         System.out.println();
 
         System.out.println("5. Получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста:");
