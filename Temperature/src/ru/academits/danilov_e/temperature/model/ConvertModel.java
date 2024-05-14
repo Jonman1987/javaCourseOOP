@@ -2,30 +2,27 @@ package ru.academits.danilov_e.temperature.model;
 
 import ru.academits.danilov_e.temperature.model.scales.*;
 
+import java.util.Arrays;
+
 public class ConvertModel implements Model {
+    Scale[] scales;
+
+    public ConvertModel(Scale[] scales){
+        this.scales = Arrays.copyOf(scales, scales.length);
+    }
     @Override
     public String[] getTemperaturesTypes() {
-        return new String[]{"Градусы Цельсия", "Кельвины", "Фаренгейты", "Градусы Ранкина"};
-    } // Я пока не придумал по какому принципу заполнять этот массив автоматически.
+        String[] scalesName = new String[scales.length];
+
+        for(int i = 0; i < scales.length; i++){
+            scalesName[i] = scales[i].toString();
+        }
+
+        return scalesName;
+    }
 
     @Override
     public double convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
-        Scale scaleFrom = switch (temperatureTypeFrom) {
-            case 0 -> new CelsiusScale();
-            case 1 -> new KelvinScale();
-            case 2 -> new FahrenheitScale();
-            case 3 -> new RankinScale();
-            default -> throw new IllegalArgumentException(""); // TODO: добавить текст сообщения
-        };
-
-        Scale scaleTo = switch (temperatureTypeTo) {
-            case 0 -> new CelsiusScale();
-            case 1 -> new KelvinScale();
-            case 2 -> new FahrenheitScale();
-            case 3 -> new RankinScale();
-            default -> throw new IllegalArgumentException(""); // TODO: добавить текст сообщения
-        };
-
-        return scaleTo.convertFromCelsius(scaleFrom.convertToCelsius(temperature));
+        return scales[temperatureTypeTo].convertFromCelsius(scales[temperatureTypeFrom].convertToCelsius(temperature));
     }
 }

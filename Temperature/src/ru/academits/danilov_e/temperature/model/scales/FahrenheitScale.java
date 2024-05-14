@@ -10,4 +10,9 @@ public class FahrenheitScale implements Scale {
     public double convertFromCelsius(double temperature) {
         return temperature * 1.8 + 32;
     }
+
+    @Override
+    public String toString(){
+        return "Фаренгейты";
+    }
 }

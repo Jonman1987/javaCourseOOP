@@ -1,5 +1,4 @@
 package ru.academits.danilov_e.temperature.controller;
-
 import ru.academits.danilov_e.temperature.model.Model;
 import ru.academits.danilov_e.temperature.view.View;
 
@@ -13,8 +12,8 @@ public class BaseController implements Controller {
         view.setController(this);
     }
 
-    public void convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
-        view.showResultTemperature(model.convertTemperature(temperature, temperatureTypeFrom, temperatureTypeTo));
+    public void convertTemperature(double temperature, int scaleFrom, int scaleTo) {
+        view.showResultTemperature(model.convertTemperature(temperature, scaleFrom, scaleTo));
     }
 
     @Override

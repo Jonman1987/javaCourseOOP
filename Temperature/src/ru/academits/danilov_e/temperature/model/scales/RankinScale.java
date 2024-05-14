@@ -10,4 +10,9 @@ public class RankinScale implements Scale {
     public double convertFromCelsius(double temperature) {
         return (temperature + 273.15) * 9 / 5;
     }
+
+    @Override
+    public String toString(){
+        return "Градусы Ранкина";
+    }
 }

@@ -10,4 +10,9 @@ public class CelsiusScale implements Scale {
     public double convertFromCelsius(double temperature) {
         return temperature;
     }
+
+    @Override
+    public String toString(){
+        return "Градусы Цельсия";
+    }
 }
