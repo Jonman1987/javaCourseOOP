@@ -43,12 +43,12 @@ public class LambdaMain {
 
         minorPersonsList.forEach(System.out::println);
 
-        OptionalDouble minorPersonAverageAge = minorPersonsList.stream()
+        OptionalDouble minorPersonsAverageAge = minorPersonsList.stream()
                 .mapToInt(Person::getAge)
                 .average();
 
-        if (minorPersonAverageAge.isPresent()) {
-            System.out.println("Их средний возраст: " + minorPersonAverageAge.getAsDouble() + ".");
+        if (minorPersonsAverageAge.isPresent()) {
+            System.out.println("Их средний возраст: " + minorPersonsAverageAge.getAsDouble() + ".");
         } else {
             System.out.println("Невозможно вычислить средний возраст, так как в списке отсутствуют несовершеннолетние персоны.");
         }
