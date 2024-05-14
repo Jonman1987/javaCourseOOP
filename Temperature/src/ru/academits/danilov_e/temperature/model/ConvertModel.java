@@ -22,7 +22,7 @@ public class ConvertModel implements Model {
     }
 
     @Override
-    public double convertTemperature(double temperature, int temperatureTypeFrom, int temperatureTypeTo) {
-        return scales[temperatureTypeTo].convertFromCelsius(scales[temperatureTypeFrom].convertToCelsius(temperature));
+    public double convertTemperature(double temperature, int indexFrom, int indexTo) {
+        return scales[indexTo].convertFromCelsius(scales[indexFrom].convertToCelsius(temperature));
     }
 }

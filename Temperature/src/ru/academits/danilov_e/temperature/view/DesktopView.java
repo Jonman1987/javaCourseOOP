@@ -35,10 +35,10 @@ public class DesktopView implements View {
             convertTemperatureButton.addActionListener(e -> {
                 try {
                     double inputTemperature = Double.parseDouble(temperatureInputField.getText());
-                    int temperatureTypeFrom = comboBox1.getSelectedIndex();
-                    int temperatureTypeTo = comboBox2.getSelectedIndex();
+                    int indexFrom = comboBox1.getSelectedIndex();
+                    int indexTo = comboBox2.getSelectedIndex();
 
-                    controller.convertTemperature(inputTemperature, temperatureTypeFrom, temperatureTypeTo);
+                    controller.convertTemperature(inputTemperature, indexFrom, indexTo);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка",
                             JOptionPane.ERROR_MESSAGE);

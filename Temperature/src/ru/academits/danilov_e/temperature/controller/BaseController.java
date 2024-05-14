@@ -12,8 +12,8 @@ public class BaseController implements Controller {
         view.setController(this);
     }
 
-    public void convertTemperature(double temperature, int scaleFrom, int scaleTo) {
-        view.showResultTemperature(model.convertTemperature(temperature, scaleFrom, scaleTo));
+    public void convertTemperature(double temperature, int indexFrom, int indexTo) {
+        view.showResultTemperature(model.convertTemperature(temperature, indexFrom, indexTo));
     }
 
     @Override
