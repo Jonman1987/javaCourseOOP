@@ -41,7 +41,7 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
-    public boolean contains(Object o) { // TODO: не понятно, что делать с null данными листа
+    public boolean contains(Object o) {
         int index = getIndex(o);
 
         return lists[index] != null && lists[index].contains(o);
@@ -59,7 +59,8 @@ public class HashTable<E> implements Collection<E> {
         }
 
         @Override
-        public E next() { // TODO: пункты 7 и 9
+        public E next() { // Возможно я не правильно переделал логику с учетом visitedElementsCount, так как я
+            // не сильно понял как мне использовать количество посещенных элементов
             if (expectedModificationsCount != modificationsCount) {
                 throw new ConcurrentModificationException("HashTable has been changed");
             }
@@ -68,14 +69,11 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty()) {
-                currentArrayIndex++;
-            }
+            if ((lists[currentArrayIndex + 1] != null || lists[currentArrayIndex + 1].isEmpty())
+                    && currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
 
-            if (currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
-                currentListIndex++;
                 visitedElementsCount++;
-                return lists[currentArrayIndex + 1].get(currentListIndex);
+                return lists[currentArrayIndex + 1].get(++currentListIndex);
             }
 
             currentListIndex = -1;
@@ -86,10 +84,9 @@ public class HashTable<E> implements Collection<E> {
                 hasVisited = false;
             }
 
-            currentArrayIndex++;
-
             visitedElementsCount++;
-            return lists[currentArrayIndex].getFirst();
+
+            return lists[currentArrayIndex + 1].get(++currentListIndex);
         }
     }
 
