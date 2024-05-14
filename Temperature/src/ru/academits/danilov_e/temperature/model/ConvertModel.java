@@ -10,6 +10,10 @@ public class ConvertModel implements Model {
     public ConvertModel(Scale[] scales){
         this.scales = Arrays.copyOf(scales, scales.length);
     }
+
+    public Scale getScale(int index){
+        return scales[index];
+    }
     @Override
     public String[] getScalesNames() {
         String[] scalesName = new String[scales.length];
@@ -22,7 +26,7 @@ public class ConvertModel implements Model {
     }
 
     @Override
-    public double convertTemperature(double temperature, int indexFrom, int indexTo) {
-        return scales[indexTo].convertFromCelsius(scales[indexFrom].convertToCelsius(temperature));
+    public double convertTemperature(double temperature, Scale scaleFrom, Scale scaleTo) {
+        return scaleTo.convertFromCelsius(scaleFrom.convertToCelsius(temperature));
     }
 }
