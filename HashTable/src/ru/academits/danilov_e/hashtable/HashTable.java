@@ -238,7 +238,7 @@ public class HashTable<E> implements Collection<E> {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         for (LinkedList<E> list : lists) {
-            if (list != null) {
+            if (list != null && !list.isEmpty()) {
                 stringBuilder.append(list).append(", ");
             }
         }
