@@ -34,20 +34,20 @@ public class DesktopView implements View {
             JButton convertTemperatureButton = new JButton("Конвертировать");
             convertTemperatureButton.addActionListener(e -> {
                 try {
-                    double inputTemperature = Double.parseDouble(temperatureInputField.getText());
+                    double temperature = Double.parseDouble(temperatureInputField.getText());
                     int indexFrom = comboBox1.getSelectedIndex();
                     int indexTo = comboBox2.getSelectedIndex();
 
-                    controller.convertTemperature(inputTemperature, indexFrom, indexTo);
+                    controller.convertTemperature(temperature, indexFrom, indexTo);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Температура должна быть числом", "Ошибка",
                             JOptionPane.ERROR_MESSAGE);
                 }
             });
 
-            JLabel celsiusTemperatureLabel = new JLabel("Введите значение температуры");
-            JLabel inputTemperatureText = new JLabel("Выберите шкалу начальной температуры");
-            JLabel outputTemperatureText = new JLabel("Выберите шкалу преобразованной температуры");
+            JLabel temperatureLabel = new JLabel("Введите значение температуры");
+            JLabel scaleFromText = new JLabel("Выберите шкалу начальной температуры");
+            JLabel scaleToText = new JLabel("Выберите шкалу преобразованной температуры");
 
             JPanel panel = new JPanel();
             panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -56,11 +56,11 @@ public class DesktopView implements View {
 
             panel.setLayout(layout);
 
-            panel.add(celsiusTemperatureLabel);
+            panel.add(temperatureLabel);
             panel.add(temperatureInputField);
-            panel.add(inputTemperatureText);
+            panel.add(scaleFromText);
             panel.add(comboBox1);
-            panel.add(outputTemperatureText);
+            panel.add(scaleToText);
             panel.add(comboBox2);
             panel.add(convertTemperatureButton);
             resultLabel = new JLabel();

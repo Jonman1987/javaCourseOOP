@@ -6,5 +6,6 @@ public interface Model {
     String[] getScalesNames();
 
     double convertTemperature(double temperature, Scale scaleFrom, Scale scaleTo);
+
     Scale getScale(int index);
 }

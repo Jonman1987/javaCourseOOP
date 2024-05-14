@@ -1,4 +1,5 @@
 package ru.academits.danilov_e.temperature.controller;
+
 import ru.academits.danilov_e.temperature.model.Model;
 import ru.academits.danilov_e.temperature.view.View;
 
