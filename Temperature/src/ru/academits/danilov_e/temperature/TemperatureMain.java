@@ -4,6 +4,7 @@ import ru.academits.danilov_e.temperature.controller.BaseController;
 import ru.academits.danilov_e.temperature.model.ConvertModel;
 import ru.academits.danilov_e.temperature.model.Model;
 import ru.academits.danilov_e.temperature.model.scales.*;
+import ru.academits.danilov_e.temperature.view.ConsoleView;
 import ru.academits.danilov_e.temperature.view.DesktopView;
 import ru.academits.danilov_e.temperature.view.View;
 
@@ -14,7 +15,7 @@ public class TemperatureMain {
         Model model = new ConvertModel(scales);
 
         View view = new DesktopView();
-        // ViewInterface view = new ConsoleView();
+        // View view = new ConsoleView();
 
         new BaseController(model, view);
         view.run();
