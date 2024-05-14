@@ -11,7 +11,7 @@ public class ConvertModel implements Model {
         this.scales = Arrays.copyOf(scales, scales.length);
     }
     @Override
-    public String[] getTemperaturesTypes() {
+    public String[] getScalesNames() {
         String[] scalesName = new String[scales.length];
 
         for(int i = 0; i < scales.length; i++){

@@ -17,7 +17,7 @@ public class BaseController implements Controller {
     }
 
     @Override
-    public String[] getTemperaturesTypes() {
-        return model.getTemperaturesTypes();
+    public String[] getScalesNames() {
+        return model.getScalesNames();
     }
 }

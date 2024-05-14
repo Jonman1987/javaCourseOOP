@@ -20,7 +20,7 @@ public class ConsoleView implements View {
 
                 System.out.println("Введите шкалу введенного значения:");
 
-                String[] temperaturesTypes = controller.getTemperaturesTypes();
+                String[] temperaturesTypes = controller.getScalesNames();
 
                 for (int i = 0; i < temperaturesTypes.length; i++) {
                     System.out.println((i + 1) + " - " + temperaturesTypes[i]);
