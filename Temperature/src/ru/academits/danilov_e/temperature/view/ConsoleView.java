@@ -15,30 +15,30 @@ public class ConsoleView implements View {
         while (true) {
             try {
                 System.out.println("Введите температуру:");
-                double celsiusTemperature = scanner.nextDouble();
+                double temperature = scanner.nextDouble();
                 System.out.println();
 
                 System.out.println("Введите шкалу введенного значения:");
 
-                String[] temperaturesTypes = controller.getScalesNames();
+                String[] scalesNames = controller.getScalesNames();
 
-                for (int i = 0; i < temperaturesTypes.length; i++) {
-                    System.out.println((i + 1) + " - " + temperaturesTypes[i]);
+                for (int i = 0; i < scalesNames.length; i++) {
+                    System.out.println((i + 1) + " - " + scalesNames[i]);
                 }
 
                 System.out.println();
-                int temperatureTypeFrom = scanner.nextInt();
+                int indexFrom = scanner.nextInt();
 
                 System.out.println("Введите шкалу в которое переводим значения:");
 
-                for (int i = 0; i < temperaturesTypes.length; i++) {
-                    System.out.println((i + 1) + " - " + temperaturesTypes[i]);
+                for (int i = 0; i < scalesNames.length; i++) {
+                    System.out.println((i + 1) + " - " + scalesNames[i]);
                 }
 
                 System.out.println();
-                int temperatureTypeTo = scanner.nextInt();
+                int indexTo = scanner.nextInt();
 
-                controller.convertTemperature(celsiusTemperature, temperatureTypeFrom - 1, temperatureTypeTo - 1);
+                controller.convertTemperature(temperature, indexFrom - 1, indexTo - 1);
             } catch (InputMismatchException e) {
                 System.out.println("Температура должна быть числом");
                 break;
