@@ -23,7 +23,7 @@ public class BinarySearchTree<E> {
     }
 
     public void add(E data) {
-        if(root == null){
+        if (root == null) {
             root = new TreeNode<>(data);
             size++;
             return;
@@ -57,7 +57,7 @@ public class BinarySearchTree<E> {
             return;
         }
 
-        Queue<TreeNode<E>> queue = new LinkedList<>(); // Правильно ли я использовал интерфейс очереди?
+        Queue<TreeNode<E>> queue = new LinkedList<>();
 
         queue.add(root);
 
@@ -110,11 +110,11 @@ public class BinarySearchTree<E> {
     private void startRecursivelyDepthVisit(TreeNode<E> node, Consumer<E> consumer) {
         consumer.accept(node.getData());
 
-        if(node.getLeft() != null){
+        if (node.getLeft() != null) {
             startRecursivelyDepthVisit(node.getLeft(), consumer);
         }
 
-        if(node.getRight() != null){
+        if (node.getRight() != null) {
             startRecursivelyDepthVisit(node.getRight(), consumer);
         }
     }
@@ -205,7 +205,7 @@ public class BinarySearchTree<E> {
     }
 
     private TreeNode<E> getParent(E data, TreeNode<E> currentNode) {
-        if (compare (data, currentNode.getData()) == 0) {
+        if (compare(data, currentNode.getData()) == 0) {
             return null;
         }
 
@@ -224,7 +224,7 @@ public class BinarySearchTree<E> {
         TreeNode<E> currentNode = root;
 
         while (true) {
-            if (compare (data, currentNode.getData()) == 0) {
+            if (compare(data, currentNode.getData()) == 0) {
                 return currentNode;
             }
 
@@ -254,22 +254,22 @@ public class BinarySearchTree<E> {
         return size;
     }
 
-    public int compare(E data1, E data2){
-        if(comparator != null){
+    public int compare(E data1, E data2) {
+        if (comparator != null) {
             return comparator.compare(data1, data2);
         }
 
         Comparable<E> comparableData1 = (Comparable<E>) data1;
 
-        if(data1 == null && data2 == null){
+        if (data1 == null && data2 == null) {
             return 0;
         }
 
-        if(data1 == null){
+        if (data1 == null) {
             return -1;
         }
 
-        if(data2 == null){
+        if (data2 == null) {
             return 1;
         }
 

@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class TreeMain {
     public static void main(String[] args) {
-        Consumer<Integer> printer = x-> System.out.printf("%d ", x);
+        Consumer<Integer> printer = x -> System.out.printf("%d ", x);
 
         int number1 = 14;
         System.out.println("1. Создаем бинарное дерево, состоящее из корня " + number1 + ":");
@@ -75,20 +75,5 @@ public class TreeMain {
         tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
-
-        /*TreeSet<Integer> df = new TreeSet<>();
-        df.add(34);
-        df.add(22);
-        System.out.println(df.getFirst().compareTo(11));
-
-        BinarySearchTree<Integer> tree2 = new BinarySearchTree<>(6);
-        tree2.add(34);
-        tree2.add(32);*/
-
-        /*BinarySearchTree<Integer> tree1 = new BinarySearchTree<>();
-        tree1.add(1);
-        tree1.add(5);
-        tree1.add(2);
-        System.out.println(tree1);*/
     }
 }
