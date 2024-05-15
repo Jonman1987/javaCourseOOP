@@ -1,6 +1,7 @@
 package ru.academits.danilov_e.tree;
 
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -14,25 +15,20 @@ public class BinarySearchTree<E> {
     private int size;
     private Comparator<E> comparator;
 
-   /* public BinarySearchTree() {
+    public BinarySearchTree() {
     }
 
-    public <T> BinarySearchTree(Comparable<T> comparator) {
-        this.comparator = (Comparable<E>) comparator;
-    }*/
-
-    public BinarySearchTree(E data) {
-        root = new TreeNode<>(data);
-        size = 1;
-    }
-
-    public <T> BinarySearchTree(E data, Comparable<T> comparator) {
-        root = new TreeNode<>(data);
-        size = 1;
+    public <T> BinarySearchTree(Comparator<T> comparator) {
         this.comparator = (Comparator<E>) comparator;
     }
 
     public void add(E data) {
+        if(root == null){
+            root = new TreeNode<>(data);
+            size++;
+            return;
+        }
+
         TreeNode<E> currentNode = root;
 
         while (true) {
@@ -56,70 +52,70 @@ public class BinarySearchTree<E> {
         size++;
     }
 
-    public void widthVisit(Consumer<E> consumer) {
+    public void startWidthVisit(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
 
-        Queue<TreeNode<E>> treeList = new LinkedList<>(); // Правильно ли я использовал интерфейс очереди?
+        Queue<TreeNode<E>> queue = new LinkedList<>(); // Правильно ли я использовал интерфейс очереди?
 
-        treeList.add(root);
+        queue.add(root);
 
-        while (!treeList.isEmpty()) {
-            TreeNode<E> node = treeList.remove();
+        while (!queue.isEmpty()) {
+            TreeNode<E> node = queue.remove();
 
             consumer.accept(node.getData());
 
             if (node.getLeft() != null) {
-                treeList.add(node.getLeft());
+                queue.add(node.getLeft());
             }
 
             if (node.getRight() != null) {
-                treeList.add(node.getRight());
+                queue.add(node.getRight());
             }
         }
     }
 
-    public void depthVisit(Consumer<E> consumer) {
+    public void startDepthVisit(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
 
-        LinkedList<TreeNode<E>> list = new LinkedList<>();
+        Deque<TreeNode<E>> deque = new LinkedList<>();
 
-        list.addFirst(root);
+        deque.addFirst(root);
 
-        while (!list.isEmpty()) {
-            TreeNode<E> node = list.removeFirst(); // Возвращает и удаляет
+        while (!deque.isEmpty()) {
+            TreeNode<E> node = deque.removeFirst(); // Возвращает и удаляет
             consumer.accept(node.getData());
 
             if (node.getRight() != null) {
-                list.addFirst(node.getRight());
+                deque.addFirst(node.getRight());
             }
 
             if (node.getLeft() != null) {
-                list.addFirst(node.getLeft());
+                deque.addFirst(node.getLeft());
             }
         }
     }
 
-    public void recursivelyDepthVisit(Consumer<E> consumer) {
+    public void startRecursivelyDepthVisit(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
 
-        depthVisit(root, consumer);
+        startRecursivelyDepthVisit(root, consumer);
     }
 
-    private void depthVisit(TreeNode<E> node, Consumer<E> consumer) {
+    private void startRecursivelyDepthVisit(TreeNode<E> node, Consumer<E> consumer) {
         consumer.accept(node.getData());
 
         if(node.getLeft() != null){
-            depthVisit(node.getLeft(), consumer);
+            startRecursivelyDepthVisit(node.getLeft(), consumer);
         }
 
         if(node.getRight() != null){
-            depthVisit(node.getRight(), consumer);
+            startRecursivelyDepthVisit(node.getRight(), consumer);
         }
     }
 

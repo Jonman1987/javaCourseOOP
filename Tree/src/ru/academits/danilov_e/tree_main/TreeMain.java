@@ -10,9 +10,10 @@ public class TreeMain {
 
         int number1 = 14;
         System.out.println("1. Создаем бинарное дерево, состоящее из корня " + number1 + ":");
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>(number1);
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        tree.add(number1);
         System.out.println("Результат:");
-        tree.depthVisit(printer);
+        tree.startDepthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
@@ -27,15 +28,15 @@ public class TreeMain {
         tree.add(12);
 
         System.out.println("Результат обход в глубину:");
-        tree.depthVisit(printer);
+        tree.startDepthVisit(printer);
         System.out.println();
         System.out.println("Результат рекурсивный обход в глубину:");
-        tree.recursivelyDepthVisit(printer);
+        tree.startRecursivelyDepthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("Результат обход в ширину:");
-        tree.widthVisit(printer);
+        tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
@@ -47,31 +48,31 @@ public class TreeMain {
 
         System.out.println("4. Удаление отсутствующего узла:");
         System.out.println("Результат: " + tree.remove(6));
-        tree.depthVisit(printer);
+        tree.startDepthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("5. Удаление узла с двумя потомками:");
         System.out.println("Результат: " + tree.remove(10));
-        tree.widthVisit(printer);
+        tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("6. Удаление корневого узла:");
         System.out.println("Результат: " + tree.remove(14));
-        tree.widthVisit(printer);
+        tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("7. Удаление узла с одним потомком:");
         System.out.println("Результат: " + tree.remove(13));
-        tree.widthVisit(printer);
+        tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
         System.out.println("8. Удаление узла без потомка:");
         System.out.println("Результат: " + tree.remove(22));
-        tree.widthVisit(printer);
+        tree.startWidthVisit(printer);
         System.out.println("Число узлов: " + tree.size());
         System.out.println();
 
