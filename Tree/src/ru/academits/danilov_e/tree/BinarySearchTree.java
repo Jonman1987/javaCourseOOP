@@ -1,5 +1,6 @@
 package ru.academits.danilov_e.tree;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -11,7 +12,14 @@ import java.util.function.Consumer;
 public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
-    private Comparable<E> comparator;
+    private Comparator<E> comparator;
+
+   /* public BinarySearchTree() {
+    }
+
+    public <T> BinarySearchTree(Comparable<T> comparator) {
+        this.comparator = (Comparable<E>) comparator;
+    }*/
 
     public BinarySearchTree(E data) {
         root = new TreeNode<>(data);
@@ -21,29 +29,21 @@ public class BinarySearchTree<E> {
     public <T> BinarySearchTree(E data, Comparable<T> comparator) {
         root = new TreeNode<>(data);
         size = 1;
-        this.comparator = (Comparable<E>) comparator;
-    }
-
-    public <T> Comparable<T> getComparator(){
-        return (Comparable<T>) comparator;
-    }
-
-    public <T> void setComparator(Comparable<T> comparator){
-        this.comparator = (Comparable<E>) comparator;
+        this.comparator = (Comparator<E>) comparator;
     }
 
     public void add(E data) {
         TreeNode<E> currentNode = root;
 
         while (true) {
-            if (Math.abs(data.hashCode()) < Math.abs(currentNode.getData().hashCode())) { // TODO: Тут я заменю hashCode на compare()
+            if (compare(data, currentNode.getData()) == -1) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
                     currentNode.setLeft(new TreeNode<>(data));
                     break;
                 }
-            } else if (Math.abs(data.hashCode()) > Math.abs(currentNode.getData().hashCode())) { // TODO: Тут я заменю hashCode на compare()
+            } else if (compare(data, currentNode.getData()) == 1) {
                 if (currentNode.getRight() != null) {
                     currentNode = currentNode.getRight();
                 } else {
@@ -164,19 +164,19 @@ public class BinarySearchTree<E> {
                     root = lastLeftChild;
                 }
             } else if (current.getLeft() == null && current.getRight() == null) {
-                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                if (compare(parent.getData(), data) == 1) {
                     parent.setLeft(null);
-                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                } else if (compare(parent.getData(), data) == -1) {
                     parent.setRight(null);
                 }
             } else if (current.getLeft() == null || current.getRight() == null) {
-                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                if (compare(parent.getData(), data) == 1) {
                     if (current.getLeft() == null) {
                         parent.setLeft(current.getRight());
                     } else {
                         parent.setLeft(current.getLeft());
                     }
-                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                } else if (compare(parent.getData(), data) == -1) {
                     if (current.getLeft() == null) {
                         parent.setRight(current.getRight());
                     } else {
@@ -194,9 +194,9 @@ public class BinarySearchTree<E> {
                 lastLeftChild.setRight(current.getRight());
                 lastLeftChild.setLeft(current.getLeft());
 
-                if (Math.abs(parent.getData().hashCode()) > Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                if (compare(parent.getData(), data) == 1) {
                     parent.setLeft(lastLeftChild);
-                } else if (Math.abs(parent.getData().hashCode()) < Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+                } else if (compare(parent.getData(), data) == -1) {
                     parent.setRight(lastLeftChild);
                 }
             }
@@ -209,16 +209,15 @@ public class BinarySearchTree<E> {
     }
 
     private TreeNode<E> getParent(E data, TreeNode<E> currentNode) {
-        if (Math.abs(data.hashCode()) == Math.abs(currentNode.getData().hashCode())) { // TODO: Тут я заменю hashCode на compare()
+        if (compare (data, currentNode.getData()) == 0) {
             return null;
         }
 
-        if (Math.abs(currentNode.getLeft().getData().hashCode()) == Math.abs(data.hashCode()) // TODO: Тут я заменю hashCode на compare()
-                || Math.abs(currentNode.getRight().getData().hashCode()) == Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+        if (compare(currentNode.getLeft().getData(), data) == 0 || compare(currentNode.getRight().getData(), data) == 0) {
             return currentNode;
         }
 
-        if (Math.abs(currentNode.getData().hashCode()) > Math.abs(data.hashCode())) { // TODO: Тут я заменю hashCode на compare()
+        if (compare(currentNode.getData(), data) == 1) {
             return getParent(data, currentNode.getLeft());
         }
 
@@ -229,11 +228,11 @@ public class BinarySearchTree<E> {
         TreeNode<E> currentNode = root;
 
         while (true) {
-            if (Math.abs(data.hashCode()) == Math.abs(currentNode.getData().hashCode())) { // TODO: Тут я заменю hashCode на compare()
+            if (compare (data, currentNode.getData()) == 0) {
                 return currentNode;
             }
 
-            if (Math.abs(data.hashCode()) < Math.abs(currentNode.getData().hashCode())) { // TODO: Тут я заменю hashCode на compare()
+            if (compare(data, currentNode.getData()) == -1) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -259,18 +258,25 @@ public class BinarySearchTree<E> {
         return size;
     }
 
-    public int compare(E data, Comparable<E> comparable){
-        // В данном месте я вообще не могу понять, что и с чем я сравниваю. По идее мне нужно сравнить элементы E data узлов
-        // Видимо этот метод нужен, только для того чтобы передать компаратор принятый конструктором на уровень ниже в TreeNode<E>.
-        // Иначе мне не понятно, зачем этот метод вызывать от самого дерева. В дереве много элементов. Если я вызываю от дерева,
-        // то какой элемент дерева будет сравниваться если их много. Или метод нужно делать в виде
-        // public int compare(E data1, E data2, Comparable<E> comparable). Тогда мне в целом понятно, что я просто
-        // сравниваю данные 2х произвольных узлов и значит этот метод можно сделать статическим?
-        // Опять же я не понимаю что мне сделать с компоратором, я его просто таскаю из метода в метод и не понимаю к чему его прицепить.
-        // Какой ментод в итоге у меня заберет метод @compareTo моего компоратора Comparable<E> comporable
-        return 0;
-    }
+    public int compare(E data1, E data2){
+        if(comparator != null){
+            return comparator.compare(data1, data2);
+        }
 
-    // И видимо тут мне нужно сделать имплементацию метода compareTo из интерфейса Comparable<T>. Для чего он будет использоваться?
-    // Для сортировки дерева?
+        Comparable<E> comparableData1 = (Comparable<E>) data1;
+
+        if(data1 == null && data2 == null){
+            return 0;
+        }
+
+        if(data1 == null){
+            return -1;
+        }
+
+        if(data2 == null){
+            return 1;
+        }
+
+        return comparableData1.compareTo(data2);
+    }
 }
