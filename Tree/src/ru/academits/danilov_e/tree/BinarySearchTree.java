@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-// TODO: 8. Неэффективно отдельно искать узел, а потом заново искать его родителя. Лучше искать узел и его родителя одновременно.
-//  Т.е. делать методы, которые сразу выполняют какую-то работу с помощью узла и его родителя.
-//  Либо можно сначала искать родителя нужного узла, а потом, зная родителя, быстро находить его ребенка
-
 public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
@@ -130,9 +126,6 @@ public class BinarySearchTree<E> {
     }
 
     public boolean remove(E data) {
-        //TODO: сейчас код сильно дублируется для удаления из корня и не из корня.
-        //TODO: Лучше сделать без дублирования.
-        //TODO: Лучше сначала найти узел на замену удаляемому узлу, а потом присвоить его в корень или не в корень
         TreeNode<E> current = getNode(data);
 
         if (current != null) {
