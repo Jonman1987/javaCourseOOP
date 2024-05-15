@@ -129,7 +129,7 @@ public class BinarySearchTree<E> {
         return foundNode;
     }
 
-    public boolean remove(E data) { //TODO: в if-else лучше короткую ветку ставить первой, это читается лучше
+    public boolean remove(E data) {
         //TODO: сейчас код сильно дублируется для удаления из корня и не из корня.
         //TODO: Лучше сделать без дублирования.
         //TODO: Лучше сначала найти узел на замену удаляемому узлу, а потом присвоить его в корень или не в корень
@@ -148,10 +148,10 @@ public class BinarySearchTree<E> {
                 } else {
                     TreeNode<E> lastLeftChild = getMostLeftNode(root);
 
-                    if (lastLeftChild.getRight() != null) {
-                        root.getRight().setLeft(lastLeftChild.getRight());
-                    } else {
+                    if (lastLeftChild.getRight() == null) {
                         root.getRight().setLeft(null);
+                    } else {
+                        root.getRight().setLeft(lastLeftChild.getRight());
                     }
 
                     lastLeftChild.setRight(root.getRight());
