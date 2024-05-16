@@ -56,10 +56,10 @@ public class LambdaMain {
         System.out.println();
 
         System.out.println("4. При помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст:");
-        Map<String, Double> personsNamesByAverageAges = personsList.stream()
+        Map<String, Double> averageAgeByPersonsNames = personsList.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingInt(Person::getAge)));
 
-        System.out.println(personsNamesByAverageAges);
+        System.out.println(averageAgeByPersonsNames);
         System.out.println();
 
         System.out.println("5. Получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста:");
