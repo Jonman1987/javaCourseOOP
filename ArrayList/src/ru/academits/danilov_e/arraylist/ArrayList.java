@@ -281,7 +281,7 @@ public class ArrayList<E> implements List<E> {
     public E remove(int index) {
         checkBounds(index, size - 1);
 
-        E deletedItem = items[index];
+        E removedItem = items[index];
 
         if (index != size - 1) {
             System.arraycopy(items, index + 1, items, index, size - 1 - index);
@@ -291,7 +291,7 @@ public class ArrayList<E> implements List<E> {
         size--;
         modificationsCount++;
 
-        return deletedItem;
+        return removedItem;
     }
 
     @Override
