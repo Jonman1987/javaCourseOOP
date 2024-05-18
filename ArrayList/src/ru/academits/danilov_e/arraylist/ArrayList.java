@@ -20,7 +20,7 @@ public class ArrayList<E> implements List<E> {
 
     public ArrayList(int capacity) {
         if (capacity < 0) {
-            throw new IllegalArgumentException("Capacity cant be less than 0. Capacity is "
+            throw new IllegalArgumentException("Capacity can't be less than 0. Capacity is "
                     + capacity + ".");
         }
 
