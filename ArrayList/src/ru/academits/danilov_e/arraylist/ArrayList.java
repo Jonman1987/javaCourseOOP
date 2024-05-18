@@ -10,10 +10,12 @@ public class ArrayList<E> implements List<E> {
     private static final int DEFAULT_CAPACITY = 10;
 
     public ArrayList() {
+        //noinspection unchecked
         items = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     public ArrayList(Collection<E> collection) {
+        //noinspection unchecked
         items = (E[]) collection.toArray();
         size = collection.size();
     }
@@ -24,11 +26,13 @@ public class ArrayList<E> implements List<E> {
                     + capacity + ".");
         }
 
+        //noinspection unchecked
         items = (E[]) new Object[capacity];
     }
 
     public void ensureCapacity(int capacity) {
         if (size == 0) {
+            //noinspection unchecked
             items = (E[]) new Object[capacity];
             return;
         }
@@ -38,6 +42,7 @@ public class ArrayList<E> implements List<E> {
 
     public void trimToSize() {
         if (size == 0) {
+            //noinspection unchecked
             items = (E[]) new Object[DEFAULT_CAPACITY];
             return;
         }
@@ -103,6 +108,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) {
         if (size > a.length) {
+            //noinspection unchecked
             return (T[]) Arrays.copyOf((T[]) items, size, a.getClass());
         }
 
