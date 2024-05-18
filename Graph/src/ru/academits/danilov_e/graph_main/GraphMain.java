@@ -4,7 +4,7 @@ import ru.academits.danilov_e.graph.Graph;
 
 import java.util.function.IntConsumer;
 
-public class GraphMain {
+public class GraphMain { // TODO: 2, 3
     public static void main(String[] args) {
         int[][] connectivityMatrix = {
                 {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -32,14 +32,14 @@ public class GraphMain {
         IntConsumer printer = x -> System.out.printf("%d ", x);
 
         System.out.println("Обход по графу в глубину:");
-        graph.startDepthVisit(printer);
+        graph.visitInDepth(printer);
         System.out.println();
 
         System.out.println("Рекурсивный обход по графу в глубину:");
-        graph.startRecursivelyDepthVisit(printer);
+        graph.visitInDepthRecursively(printer);
         System.out.println();
 
         System.out.println("Обход по графу в ширину:");
-        graph.startWidthVisit(printer);
+        graph.visitInWidth(printer);
     }
 }

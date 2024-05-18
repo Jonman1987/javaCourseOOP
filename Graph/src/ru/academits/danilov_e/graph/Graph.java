@@ -18,7 +18,7 @@ public class Graph {
         this.connectivityMatrix = connectivityMatrix;
     }
 
-    public void startWidthVisit(IntConsumer consumer) {
+    public void visitInWidth(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Queue<Integer> queue = new LinkedList<>();
@@ -39,7 +39,7 @@ public class Graph {
             }
 
             if (hasStop) {
-                break;
+                return;
             }
 
             queue.add(startVertex);
@@ -59,7 +59,7 @@ public class Graph {
         }
     }
 
-    public void startDepthVisit(IntConsumer consumer) {
+    public void visitInDepth(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         Deque<Integer> deque = new LinkedList<>();
@@ -80,7 +80,7 @@ public class Graph {
             }
 
             if (hasStop) {
-                break;
+                return;
             }
 
             deque.add(startVertex);
@@ -100,7 +100,7 @@ public class Graph {
         }
     }
 
-    public void startRecursivelyDepthVisit(IntConsumer consumer) {
+    public void visitInDepthRecursively(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
         int startVertex = 0;
@@ -119,20 +119,20 @@ public class Graph {
             }
 
             if (hasStop) {
-                break;
+                return;
             }
 
-            startRecursivelyDepthVisit(startVertex, visited, consumer);
+            visitInDepthRecursively(startVertex, visited, consumer);
         }
     }
 
-    private void startRecursivelyDepthVisit(int vertex, boolean[] array, IntConsumer consumer) {
+    private void visitInDepthRecursively(int vertex, boolean[] visitedVertexesArray, IntConsumer consumer) {
         consumer.accept(vertex);
-        array[vertex] = true;
+        visitedVertexesArray[vertex] = true;
 
         for (int i = 0; i < connectivityMatrix.length; i++) {
-            if (connectivityMatrix[vertex][i] != 0 && !array[i]) {
-                startRecursivelyDepthVisit(i, array, consumer);
+            if (connectivityMatrix[vertex][i] != 0 && !visitedVertexesArray[i]) {
+                visitInDepthRecursively(i, visitedVertexesArray, consumer);
             }
         }
     }
