@@ -45,8 +45,9 @@ public class ArrayList<E> implements List<E> {
         items = Arrays.copyOf(items, size);
     }
 
-    public int getCapacity() { // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
-        // размер массива. В дальнейшем его можно удалить.
+    // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
+    // размер массива. В дальнейшем его можно удалить.
+    public int getCapacity() {
         return items.length;
     }
 
@@ -338,18 +339,21 @@ public class ArrayList<E> implements List<E> {
                 .toString();
     }
 
+    // Указано, что данный метод реализовывать не нужно
     @Override
-    public ListIterator<E> listIterator() { // Указано, что данный метод реализовывать не нужно
+    public ListIterator<E> listIterator() {
         return null;
     }
 
+    // Указано, что данный метод реализовывать не нужно
     @Override
-    public ListIterator<E> listIterator(int index) { // Указано, что данный метод реализовывать не нужно
+    public ListIterator<E> listIterator(int index) {
         return null;
     }
 
+    // Указано, что данный метод реализовывать не нужно
     @Override
-    public List<E> subList(int fromIndex, int toIndex) { // Указано, что данный метод реализовывать не нужно
+    public List<E> subList(int fromIndex, int toIndex) {
         return null;
     }
 }
