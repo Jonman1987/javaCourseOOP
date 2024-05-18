@@ -201,6 +201,10 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
+        if(c.isEmpty()){
+            return false; // указано, что true мы возвращаем только если коллекция была изменена
+        }
+
         boolean isRemoved = false;
 
         for (int i = size - 1; i >= 0; i--) {
