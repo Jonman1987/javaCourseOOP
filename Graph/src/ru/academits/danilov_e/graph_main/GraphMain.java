@@ -4,7 +4,7 @@ import ru.academits.danilov_e.graph.Graph;
 
 import java.util.function.IntConsumer;
 
-public class GraphMain { // TODO: 2, 3
+public class GraphMain {
     public static void main(String[] args) {
         int[][] connectivityMatrix = {
                 {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

@@ -23,36 +23,20 @@ public class Graph {
 
         Queue<Integer> queue = new LinkedList<>();
 
-        int startVertex = 0;
+        for (int i = 0; i < visited.length; i++) {
+            if (!visited[i]) {
+                queue.add(i);
 
-        while (true) {
-            boolean hasStop = false;
+                while (!queue.isEmpty()) {
+                    Integer vertex = queue.remove();
+                    visited[vertex] = true;
 
-            for (int i = 0; i < visited.length; i++) {
-                if (!visited[i]) {
-                    startVertex = i;
-                    hasStop = false;
-                    break;
-                }
+                    consumer.accept(vertex);
 
-                hasStop = true;
-            }
-
-            if (hasStop) {
-                return;
-            }
-
-            queue.add(startVertex);
-
-            while (!queue.isEmpty()) {
-                Integer vertex = queue.remove();
-                visited[vertex] = true;
-
-                consumer.accept(vertex);
-
-                for (int i = 0; i < connectivityMatrix.length; i++) {
-                    if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
-                        queue.add(i);
+                    for (int j = 0; j < connectivityMatrix.length; j++) {
+                        if (connectivityMatrix[vertex][j] != 0 && !visited[j]) {
+                            queue.add(j);
+                        }
                     }
                 }
             }
@@ -64,36 +48,20 @@ public class Graph {
 
         Deque<Integer> deque = new LinkedList<>();
 
-        int startVertex = 0;
+        for (int i = 0; i < visited.length; i++) {
+            if (!visited[i]) {
+                deque.add(i);
 
-        while (true) {
-            boolean hasStop = false;
+                while (!deque.isEmpty()) {
+                    Integer vertex = deque.removeFirst();
+                    visited[vertex] = true;
 
-            for (int i = 0; i < visited.length; i++) {
-                if (!visited[i]) {
-                    startVertex = i;
-                    hasStop = false;
-                    break;
-                }
+                    consumer.accept(vertex);
 
-                hasStop = true;
-            }
-
-            if (hasStop) {
-                return;
-            }
-
-            deque.add(startVertex);
-
-            while (!deque.isEmpty()) {
-                Integer vertex = deque.removeFirst();
-                visited[vertex] = true;
-
-                consumer.accept(vertex);
-
-                for (int i = connectivityMatrix.length - 1; i >= 0; i--) {
-                    if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
-                        deque.addFirst(i);
+                    for (int j = connectivityMatrix.length - 1; j >= 0; j--) {
+                        if (connectivityMatrix[vertex][j] != 0 && !visited[j]) {
+                            deque.addFirst(j);
+                        }
                     }
                 }
             }
@@ -103,26 +71,10 @@ public class Graph {
     public void visitInDepthRecursively(IntConsumer consumer) {
         boolean[] visited = new boolean[connectivityMatrix.length];
 
-        int startVertex = 0;
-
-        while (true) {
-            boolean hasStop = false;
-
-            for (int i = 0; i < visited.length; i++) {
-                if (!visited[i]) {
-                    startVertex = i;
-                    hasStop = false;
-                    break;
-                }
-
-                hasStop = true;
+        for (int i = 0; i < visited.length; i++) {
+            if (!visited[i]) {
+                visitInDepthRecursively(i, visited, consumer);
             }
-
-            if (hasStop) {
-                return;
-            }
-
-            visitInDepthRecursively(startVertex, visited, consumer);
         }
     }
 
