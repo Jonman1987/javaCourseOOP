@@ -5,7 +5,7 @@ import ru.academits.danilov_e.arraylist.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class ArrayListMain {
+public class ArrayListMain { // TODO: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
     public static <E> void printResult(ArrayList<E> list, boolean isPrintResult) {
         System.out.println((isPrintResult ? "Результат: " : "Исходный список: ") + list);
         System.out.println("Размер: " + list.size() + ". Вместимость: " + list.getCapacity());
