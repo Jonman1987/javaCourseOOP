@@ -328,7 +328,10 @@ public class ArrayList<E> implements List<E> {
             stringBuilder.append(items[i]).append(", ");
         }
 
-        return stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append(']').toString();
+        return stringBuilder
+                .delete(stringBuilder.length() - 2, stringBuilder.length())
+                .append(']')
+                .toString();
     }
 
     @Override
