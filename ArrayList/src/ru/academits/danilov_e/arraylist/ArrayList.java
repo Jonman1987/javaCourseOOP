@@ -28,7 +28,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void ensureCapacity(int capacity) {
-        if(size == 0){
+        if (size == 0) {
             items = (E[]) new Object[capacity];
             return;
         }
@@ -37,7 +37,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void trimToSize() {
-        if(size == 0){
+        if (size == 0) {
             items = (E[]) new Object[DEFAULT_CAPACITY];
             return;
         }
@@ -201,7 +201,7 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        if(c.isEmpty()){
+        if (c.isEmpty()) {
             return false; // указано, что true мы возвращаем только если коллекция была изменена
         }
 
