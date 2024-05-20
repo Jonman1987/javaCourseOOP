@@ -276,9 +276,7 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkIndex(index, size);
 
-        while (size >= items.length) {
-            increaseCapacity();
-        }
+        increaseCapacity();
 
         if (index != size) {
             System.arraycopy(items, index, items, index + 1, size - index);
