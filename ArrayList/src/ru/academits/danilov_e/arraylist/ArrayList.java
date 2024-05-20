@@ -149,7 +149,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        if (size < c.size()) {
+        if (c.isEmpty()) {
             return false;
         }
 
