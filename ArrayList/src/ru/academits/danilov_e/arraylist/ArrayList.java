@@ -41,13 +41,9 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void trimToSize() {
-        if (size == 0) {
-            //noinspection unchecked
-            items = (E[]) new Object[DEFAULT_CAPACITY];
-            return;
+        if (items.length > size) {
+            items = Arrays.copyOf(items, size);
         }
-
-        items = Arrays.copyOf(items, size);
     }
 
     // Данный метод использовал для отладки, чтобы смотреть, как динамически изменяется
