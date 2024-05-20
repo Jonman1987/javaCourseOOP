@@ -178,29 +178,27 @@ public class ArrayList<E> implements List<E> {
     public boolean addAll(int index, Collection<? extends E> c) {
         checkIndex(index, size);
 
-        boolean hasChanged = false;
-
-        size += c.size();
-
-        while (size >= items.length) {
-            increaseCapacity();
+        if (c.isEmpty()) {
+            return false;
         }
 
-        if (!isEmpty()) {
+        increaseCapacity(); // TODO: неэффективно удваивать вместимость в цикле, здесь нужно использовать ensureCapacity
+
+        if (!isEmpty()) { // TODO: в этом месте должно быть другое условие
             System.arraycopy(items, index, items, index + c.size(), size - index);
-            modificationsCount++;
         }
 
         int i = index;
 
-        for (E object : c) {
-            items[i] = object;
-            modificationsCount++;
+        for (E element : c) {
+            items[i] = element;
             i++;
-            hasChanged = true;
         }
 
-        return hasChanged;
+        size += c.size();
+        modificationsCount++;
+
+        return true;
     }
 
     @Override
@@ -228,6 +226,10 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         if (isEmpty()) {
+            return false;
+        }
+
+        if (c.isEmpty()) {
             return false;
         }
 
