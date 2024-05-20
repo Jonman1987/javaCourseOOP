@@ -186,7 +186,7 @@ public class ArrayList<E> implements List<E> {
             ensureCapacity((size + c.size()) * 2);
         }
 
-        if (!isEmpty()) { // TODO: в этом месте должно быть другое условие
+        if (size != 0) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
         }
 
