@@ -5,7 +5,7 @@ import ru.academits.danilov_e.arraylist.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-// TODO: 1, 4, 5, 8, 11
+// TODO: 1, 4, 5, 11
 public class ArrayListMain {
     public static <E> void printResult(ArrayList<E> list, boolean isPrintResult) {
         System.out.println((isPrintResult ? "Результат: " : "Исходный список: ") + list);

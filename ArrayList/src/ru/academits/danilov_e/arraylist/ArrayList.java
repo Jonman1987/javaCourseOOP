@@ -122,11 +122,11 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (size == 0) {
-            items = Arrays.copyOf(items, items.length + DEFAULT_CAPACITY);
+            items = Arrays.copyOf(items, DEFAULT_CAPACITY);
             return;
         }
 
-        items = Arrays.copyOf(items, size * 2);
+        items = Arrays.copyOf(items, items.length * 2);
     }
 
     @Override
@@ -182,7 +182,9 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        increaseCapacity(); // TODO: неэффективно удваивать вместимость в цикле, здесь нужно использовать ensureCapacity
+        if(size + c.size() > items.length){
+            ensureCapacity((size + c.size()) * 2);
+        }
 
         if (!isEmpty()) { // TODO: в этом месте должно быть другое условие
             System.arraycopy(items, index, items, index + c.size(), size - index);
@@ -278,7 +280,9 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkIndex(index, size);
 
-        increaseCapacity();
+        if(size + 1 > items.length){
+            increaseCapacity();
+        }
 
         if (index != size) {
             System.arraycopy(items, index, items, index + 1, size - index);
