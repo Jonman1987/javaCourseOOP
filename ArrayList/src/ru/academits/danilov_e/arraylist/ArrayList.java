@@ -249,7 +249,7 @@ public class ArrayList<E> implements List<E> {
             return;
         }
 
-        Arrays.fill(items, null);
+        Arrays.fill(items, 0, size - 1, null);
 
         size = 0;
         modificationsCount++;
