@@ -167,16 +167,16 @@ public class ArrayList<E> implements List<E> {
         return addAll(size, c);
     }
 
-    private static void checkBounds(int index, int maxIndex) {
+    private static void checkIndex(int index, int maxIndex) {
         if (index < 0 || index > maxIndex) {
-            throw new IllegalArgumentException("Index must belong to the range [0; " + (maxIndex - 1) + "]. Index is "
+            throw new IndexOutOfBoundsException("Index must belong to the range [0; " + maxIndex + "]. Index is "
                     + index + ".");
         }
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        checkBounds(index, size);
+        checkIndex(index, size);
 
         boolean hasChanged = false;
 
@@ -257,14 +257,14 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        checkBounds(index, size - 1);
+        checkIndex(index, size - 1);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E item) {
-        checkBounds(index, size - 1);
+        checkIndex(index, size - 1);
 
         E oldItem = items[index];
         items[index] = item;
@@ -274,7 +274,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E item) {
-        checkBounds(index, size);
+        checkIndex(index, size);
 
         while (size >= items.length) {
             increaseCapacity();
@@ -291,7 +291,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        checkBounds(index, size - 1);
+        checkIndex(index, size - 1);
 
         E removedItem = items[index];
 
