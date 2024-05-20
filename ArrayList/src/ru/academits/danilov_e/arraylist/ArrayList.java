@@ -31,13 +31,9 @@ public class ArrayList<E> implements List<E> {
     }
 
     public void ensureCapacity(int capacity) {
-        if (size == 0) {
-            //noinspection unchecked
-            items = (E[]) new Object[capacity];
-            return;
+        if (capacity > items.length) {
+            items = Arrays.copyOf(items, capacity);
         }
-
-        items = Arrays.copyOf(items, capacity);
     }
 
     public void trimToSize() {
@@ -178,7 +174,7 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        if(size + c.size() > items.length){
+        if (size + c.size() > items.length) {
             ensureCapacity((size + c.size()) * 2);
         }
 
@@ -276,7 +272,7 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkIndex(index, size);
 
-        if(size + 1 > items.length){
+        if (size + 1 > items.length) {
             increaseCapacity();
         }
 
