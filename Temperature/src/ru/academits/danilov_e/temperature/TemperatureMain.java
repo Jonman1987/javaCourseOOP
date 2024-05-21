@@ -14,8 +14,8 @@ public class TemperatureMain {
 
         Model model = new ConverterModel(scales);
 
-        // View view = new DesktopView();
-         View view = new ConsoleView();
+        View view = new DesktopView();
+        // View view = new ConsoleView();
 
         new BaseController(model, view);
         view.run();
