@@ -4,6 +4,4 @@ public interface Scale {
     double convertToCelsius(double thisScaleTemperature);
 
     double convertFromCelsius(double celsiusTemperature);
-    @Override
-    String toString();
 }
