@@ -12,6 +12,8 @@ public class ConsoleView implements View {
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
+        String[] scalesNames;
+
         while (true) {
             try {
                 System.out.println("Введите температуру:");
@@ -20,7 +22,7 @@ public class ConsoleView implements View {
 
                 System.out.println("Введите шкалу введенного значения:");
 
-                String[] scalesNames = controller.getScalesNames();
+                scalesNames = controller.getScalesNames();
 
                 for (int i = 0; i < scalesNames.length; i++) {
                     System.out.println((i + 1) + " - " + scalesNames[i]);
@@ -40,8 +42,8 @@ public class ConsoleView implements View {
 
                 controller.convertTemperature(temperature, indexFrom - 1, indexTo - 1);
             } catch (InputMismatchException e) {
-                System.out.println("Температура должна быть числом");
-                break;
+                System.out.println("Ошибка ввода температуры. Программа будет завершена.");
+                return;
             }
         }
     }
