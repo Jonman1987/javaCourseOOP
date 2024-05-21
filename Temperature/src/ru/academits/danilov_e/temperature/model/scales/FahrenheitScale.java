@@ -12,7 +12,7 @@ public class FahrenheitScale implements Scale {
     }
 
     @Override
-    public String toString(){
-        return "Фаренгейты";
+    public String toString() {
+        return "Градусы Фаренгейта";
     }
 }
