@@ -4,10 +4,10 @@ import ru.academits.danilov_e.temperature.model.scales.*;
 
 import java.util.Arrays;
 
-public class ConvertModel implements Model {
-    Scale[] scales;
+public class ConverterModel implements Model {
+    private final Scale[] scales;
 
-    public ConvertModel(Scale[] scales) {
+    public ConverterModel(Scale[] scales) {
         this.scales = Arrays.copyOf(scales, scales.length);
     }
 
@@ -17,13 +17,13 @@ public class ConvertModel implements Model {
 
     @Override
     public String[] getScalesNames() {
-        String[] scalesName = new String[scales.length];
+        String[] scalesNames = new String[scales.length];
 
         for (int i = 0; i < scales.length; i++) {
-            scalesName[i] = scales[i].toString();
+            scalesNames[i] = scales[i].toString();
         }
 
-        return scalesName;
+        return scalesNames;
     }
 
     @Override
