@@ -24,19 +24,21 @@ public class Graph {
         Queue<Integer> queue = new LinkedList<>();
 
         for (int i = 0; i < visited.length; i++) {
-            if (!visited[i]) {
-                queue.add(i);
+            if (visited[i]) {
+                continue;
+            }
 
-                while (!queue.isEmpty()) {
-                    Integer vertex = queue.remove();
-                    visited[vertex] = true;
+            queue.add(i);
 
-                    consumer.accept(vertex);
+            while (!queue.isEmpty()) {
+                Integer vertex = queue.remove();
+                visited[vertex] = true;
 
-                    for (int j = 0; j < connectivityMatrix.length; j++) {
-                        if (connectivityMatrix[vertex][j] != 0 && !visited[j]) {
-                            queue.add(j);
-                        }
+                consumer.accept(vertex);
+
+                for (int j = 0; j < connectivityMatrix.length; j++) {
+                    if (connectivityMatrix[vertex][j] != 0 && !queue.contains(j) && !visited[j]) {
+                        queue.add(j);
                     }
                 }
             }
@@ -49,19 +51,21 @@ public class Graph {
         Deque<Integer> deque = new LinkedList<>();
 
         for (int i = 0; i < visited.length; i++) {
-            if (!visited[i]) {
-                deque.add(i);
+            if (visited[i]) {
+                continue;
+            }
 
-                while (!deque.isEmpty()) {
-                    Integer vertex = deque.removeFirst();
-                    visited[vertex] = true;
+            deque.add(i);
 
-                    consumer.accept(vertex);
+            while (!deque.isEmpty()) {
+                Integer vertex = deque.removeFirst();
+                visited[vertex] = true;
 
-                    for (int j = connectivityMatrix.length - 1; j >= 0; j--) {
-                        if (connectivityMatrix[vertex][j] != 0 && !visited[j]) {
-                            deque.addFirst(j);
-                        }
+                consumer.accept(vertex);
+
+                for (int j = connectivityMatrix.length - 1; j >= 0; j--) {
+                    if (connectivityMatrix[vertex][j] != 0 && !deque.contains(j) && !visited[j]) {
+                        deque.addFirst(j);
                     }
                 }
             }
@@ -78,13 +82,13 @@ public class Graph {
         }
     }
 
-    private void visitInDepthRecursively(int vertex, boolean[] visitedVertexesArray, IntConsumer consumer) {
+    private void visitInDepthRecursively(int vertex, boolean[] visited, IntConsumer consumer) {
         consumer.accept(vertex);
-        visitedVertexesArray[vertex] = true;
+        visited[vertex] = true;
 
         for (int i = 0; i < connectivityMatrix.length; i++) {
-            if (connectivityMatrix[vertex][i] != 0 && !visitedVertexesArray[i]) {
-                visitInDepthRecursively(i, visitedVertexesArray, consumer);
+            if (connectivityMatrix[vertex][i] != 0 && !visited[i]) {
+                visitInDepthRecursively(i, visited, consumer);
             }
         }
     }
