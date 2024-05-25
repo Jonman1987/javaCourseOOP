@@ -5,7 +5,6 @@ import ru.academits.danilov_e.hashtable.HashTable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class HashTableMain {
     public static void main(String[] args) {
@@ -218,7 +217,6 @@ public class HashTableMain {
         stringsLinkedList4.add("Синий");
         stringsLinkedList4.add("Оранжевый");
         stringsLinkedList4.add(null);
-        colorsTable3.add(null);
         System.out.println(stringsLinkedList4);
         System.out.println("Результат: " + colorsTable3.retainAll(stringsLinkedList4));
         System.out.println("Содержимое таблицы:");
