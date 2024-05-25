@@ -220,29 +220,33 @@ public class BinarySearchTree<E> {
     }
 
     private TreeNode<E> getNode(E data) {
+        if(size == 0){
+            return null;
+        }
+
         TreeNode<E> currentNode = root;
 
         while (true) {
-            if (compare(data, currentNode.getData()) == 0) {
+            int compareResult = compare(data, currentNode.getData());
+
+            if (compareResult == 0) {
                 return currentNode;
             }
 
-            if (compare(data, currentNode.getData()) < 0) {
+            if (compareResult < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
-                    break;
+                    return null;
                 }
             } else {
                 if (currentNode.getRight() != null) {
                     currentNode = currentNode.getRight();
                 } else {
-                    break;
+                    return null;
                 }
             }
         }
-
-        return null;
     }
 
     public boolean contains(E data) {
