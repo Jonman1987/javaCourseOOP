@@ -2,7 +2,7 @@ package ru.academits.danilov_e.hashtable;
 
 import java.util.*;
 
-public class HashTable<E> implements Collection<E> { // TODO: 2
+public class HashTable<E> implements Collection<E> {
     private final LinkedList<E>[] lists;
     private int size;
     private int modificationsCount;
@@ -50,19 +50,18 @@ public class HashTable<E> implements Collection<E> { // TODO: 2
     }
 
     private class HashTableIterator implements Iterator<E> {
-        private int currentArrayIndex = -1;
-        private int currentListIndex = -1;
-        private int visitedElementsCount = -1;
+        private int arrayIndex = -1;
+        private int listIndex = -1;
+        private int visitedElementsCount = 0;
         private final int expectedModificationsCount = modificationsCount;
 
         @Override
         public boolean hasNext() {
-            return visitedElementsCount + 1 < size;
+            return visitedElementsCount < size;
         }
 
         @Override
-        public E next() { // Возможно я не правильно переделал логику с учетом visitedElementsCount, так как я
-            // не сильно понял как мне использовать количество посещенных элементов
+        public E next() {
             if (expectedModificationsCount != modificationsCount) {
                 throw new ConcurrentModificationException("HashTable has been changed");
             }
@@ -71,24 +70,19 @@ public class HashTable<E> implements Collection<E> { // TODO: 2
                 throw new NoSuchElementException("HashTable has not next element");
             }
 
-            if ((lists[currentArrayIndex + 1] != null || lists[currentArrayIndex + 1].isEmpty())
-                    && currentListIndex + 1 < lists[currentArrayIndex + 1].size()) {
+            if ((lists[arrayIndex + 1] == null || !lists[arrayIndex + 1].isEmpty())
+                    && listIndex + 1 >= lists[arrayIndex + 1].size()) {
+                listIndex = -1;
 
-                visitedElementsCount++;
-                return lists[currentArrayIndex + 1].get(++currentListIndex);
-            }
-
-            currentListIndex = -1;
-            boolean hasVisited = true;
-
-            while (lists[currentArrayIndex + 1] == null || lists[currentArrayIndex + 1].isEmpty() || hasVisited) {
-                currentArrayIndex++;
-                hasVisited = false;
+                do {
+                    arrayIndex++;
+                } while (lists[arrayIndex + 1] == null || lists[arrayIndex + 1].isEmpty());
             }
 
             visitedElementsCount++;
+            listIndex++;
 
-            return lists[currentArrayIndex + 1].get(++currentListIndex);
+            return lists[arrayIndex + 1].get(listIndex);
         }
     }
 
