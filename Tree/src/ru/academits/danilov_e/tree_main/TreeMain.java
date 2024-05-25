@@ -4,7 +4,7 @@ import ru.academits.danilov_e.tree.BinarySearchTree;
 
 import java.util.function.Consumer;
 
-public class TreeMain { // TODO: 8, 9, 10, 11, 12
+public class TreeMain { // TODO: 8, 9, 10, 11
     public static void main(String[] args) {
         Consumer<Integer> printer = x -> System.out.printf("%d ", x);
 
