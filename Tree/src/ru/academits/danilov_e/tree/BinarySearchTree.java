@@ -131,6 +131,7 @@ public class BinarySearchTree<E> {
         return currentNode;
     }
 
+    // TODO: не нужно дублировать код для удаления корня и не корня.
     public boolean remove(E data) {
         TreeNode<E> deletedNode = getNode(data);
 
