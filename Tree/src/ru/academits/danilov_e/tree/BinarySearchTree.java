@@ -9,13 +9,15 @@ import java.util.function.Consumer;
 public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
-    private Comparator<E> comparator;
+
+    private final Comparator<E> COMPARATOR;
 
     public BinarySearchTree() {
+        this.COMPARATOR = null; // IDEA запросила указать компаратор
     }
 
-    public <T> BinarySearchTree(Comparator<T> comparator) {
-        this.comparator = (Comparator<E>) comparator;
+    public <T> BinarySearchTree(Comparator<E> comparator) {
+        this.COMPARATOR = comparator;
     }
 
     public void add(E data) {
@@ -248,11 +250,9 @@ public class BinarySearchTree<E> {
     }
 
     public int compare(E data1, E data2) {
-        if (comparator != null) {
-            return comparator.compare(data1, data2);
+        if (COMPARATOR != null) {
+            return COMPARATOR.compare(data1, data2);
         }
-
-        Comparable<E> comparableData1 = (Comparable<E>) data1;
 
         if (data1 == null && data2 == null) {
             return 0;
@@ -265,6 +265,9 @@ public class BinarySearchTree<E> {
         if (data2 == null) {
             return 1;
         }
+
+        //noinspection unchecked
+        Comparable<E> comparableData1 = (Comparable<E>) data1;
 
         return comparableData1.compareTo(data2);
     }
