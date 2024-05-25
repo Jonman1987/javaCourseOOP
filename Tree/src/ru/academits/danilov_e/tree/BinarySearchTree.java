@@ -30,27 +30,31 @@ public class BinarySearchTree<E> {
         TreeNode<E> currentNode = root;
 
         while (true) {
-            if (compare(data, currentNode.getData()) == -1) {
+            int compareResult = compare(data, currentNode.getData());
+
+            if (compareResult < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
                     currentNode.setLeft(new TreeNode<>(data));
                     break;
                 }
-            } else if (compare(data, currentNode.getData()) == 1) {
+            } else if (compareResult > 0) {
                 if (currentNode.getRight() != null) {
                     currentNode = currentNode.getRight();
                 } else {
                     currentNode.setRight(new TreeNode<>(data));
                     break;
                 }
+            }else{
+                return;
             }
         }
 
         size++;
     }
 
-    public void startWidthVisit(Consumer<E> consumer) {
+    public void visitInWidth(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
@@ -74,7 +78,7 @@ public class BinarySearchTree<E> {
         }
     }
 
-    public void startDepthVisit(Consumer<E> consumer) {
+    public void visitInDepth(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
@@ -97,23 +101,23 @@ public class BinarySearchTree<E> {
         }
     }
 
-    public void startRecursivelyDepthVisit(Consumer<E> consumer) {
+    public void visitInDepthRecursively(Consumer<E> consumer) {
         if (size == 0) {
             return;
         }
 
-        startRecursivelyDepthVisit(root, consumer);
+        visitInDepthRecursively(root, consumer);
     }
 
-    private void startRecursivelyDepthVisit(TreeNode<E> node, Consumer<E> consumer) {
+    private void visitInDepthRecursively(TreeNode<E> node, Consumer<E> consumer) {
         consumer.accept(node.getData());
 
         if (node.getLeft() != null) {
-            startRecursivelyDepthVisit(node.getLeft(), consumer);
+            visitInDepthRecursively(node.getLeft(), consumer);
         }
 
         if (node.getRight() != null) {
-            startRecursivelyDepthVisit(node.getRight(), consumer);
+            visitInDepthRecursively(node.getRight(), consumer);
         }
     }
 
@@ -155,19 +159,19 @@ public class BinarySearchTree<E> {
                     root = lastLeftChild;
                 }
             } else if (current.getLeft() == null && current.getRight() == null) {
-                if (compare(parent.getData(), data) == 1) {
+                if (compare(parent.getData(), data) > 0) {
                     parent.setLeft(null);
-                } else if (compare(parent.getData(), data) == -1) {
+                } else if (compare(parent.getData(), data) < 0) {
                     parent.setRight(null);
                 }
             } else if (current.getLeft() == null || current.getRight() == null) {
-                if (compare(parent.getData(), data) == 1) {
+                if (compare(parent.getData(), data) > 0) {
                     if (current.getLeft() == null) {
                         parent.setLeft(current.getRight());
                     } else {
                         parent.setLeft(current.getLeft());
                     }
-                } else if (compare(parent.getData(), data) == -1) {
+                } else if (compare(parent.getData(), data) < 0) {
                     if (current.getLeft() == null) {
                         parent.setRight(current.getRight());
                     } else {
@@ -185,9 +189,9 @@ public class BinarySearchTree<E> {
                 lastLeftChild.setRight(current.getRight());
                 lastLeftChild.setLeft(current.getLeft());
 
-                if (compare(parent.getData(), data) == 1) {
+                if (compare(parent.getData(), data) > 0) {
                     parent.setLeft(lastLeftChild);
-                } else if (compare(parent.getData(), data) == -1) {
+                } else if (compare(parent.getData(), data) < 0) {
                     parent.setRight(lastLeftChild);
                 }
             }
@@ -208,7 +212,7 @@ public class BinarySearchTree<E> {
             return currentNode;
         }
 
-        if (compare(currentNode.getData(), data) == 1) {
+        if (compare(currentNode.getData(), data) > 0) {
             return getParent(data, currentNode.getLeft());
         }
 
@@ -223,7 +227,7 @@ public class BinarySearchTree<E> {
                 return currentNode;
             }
 
-            if (compare(data, currentNode.getData()) == -1) {
+            if (compare(data, currentNode.getData()) < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
