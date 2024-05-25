@@ -99,7 +99,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        if (size >= a.length) {
+        if (size > a.length) {
             //noinspection unchecked
             return (T[]) Arrays.copyOf(items, size, a.getClass());
         }
@@ -107,13 +107,15 @@ public class ArrayList<E> implements List<E> {
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, a, 0, size);
 
-        a[size] = null;
+        if (a.length > size) {
+            a[size] = null;
+        }
 
         return a;
     }
 
     private void increaseCapacity() {
-        if (size == 0) {
+        if (items.length == 0) {
             items = Arrays.copyOf(items, DEFAULT_CAPACITY);
             return;
         }
@@ -142,7 +144,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean containsAll(Collection<?> c) {
         if (c.isEmpty()) {
-            return false;
+            return true;
         }
 
         for (Object object : c) {
@@ -174,11 +176,9 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        if (size + c.size() > items.length) {
-            ensureCapacity((size + c.size()) * 2);
-        }
+        ensureCapacity((size + c.size()));
 
-        if (size != 0) {
+        if (index != size) {
             System.arraycopy(items, index, items, index + c.size(), size - index);
         }
 
@@ -197,12 +197,8 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        if (isEmpty()) {
+        if (isEmpty() || c.isEmpty()) {
             return false;
-        }
-
-        if (c.isEmpty()) {
-            return false; // указано, что true мы возвращаем только если коллекция была изменена
         }
 
         boolean isRemoved = false;
@@ -224,7 +220,8 @@ public class ArrayList<E> implements List<E> {
         }
 
         if (c.isEmpty()) {
-            return false;
+            clear();
+            return true;
         }
 
         boolean isRemoved = false;
@@ -245,7 +242,7 @@ public class ArrayList<E> implements List<E> {
             return;
         }
 
-        Arrays.fill(items, 0, size - 1, null);
+        Arrays.fill(items, 0, size, null);
 
         size = 0;
         modificationsCount++;
@@ -272,7 +269,7 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkIndex(index, size);
 
-        if (size + 1 > items.length) {
+        if (size == items.length) {
             increaseCapacity();
         }
 
@@ -340,6 +337,46 @@ public class ArrayList<E> implements List<E> {
                 .delete(stringBuilder.length() - 2, stringBuilder.length())
                 .append(']')
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+
+        //noinspection unchecked
+        ArrayList<E> arrayList = (ArrayList<E>) object;
+
+        if (size != arrayList.size) {
+            return false;
+        }
+
+        boolean hasEqual = true;
+
+        for (int i = 0; i < size; i++) {
+            if (!items[i].equals(arrayList.get(i))) {
+                return false;
+            }
+        }
+
+        return hasEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+
+        for (E item : items) {
+            hash += prime * hash + Double.hashCode((Double) item);
+        }
+
+        return hash;
     }
 
     // Указано, что данный метод реализовывать не нужно

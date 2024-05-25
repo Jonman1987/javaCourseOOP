@@ -304,7 +304,7 @@ public class ArrayListMain {
         colorsList2.add("Голубой");
         System.out.println("Исходный ArrayList: " + colorsList2);
 
-        String[] colorsArray1 = new String[4];
+        String[] colorsArray1 = new String[5];
         System.out.println("Случай с созданием нового массива: " + Arrays.toString(colorsList2.toArray(colorsArray1)));
         String[] colorsArray2 = new String[10];
         System.out.println("Случай с использованием старого массива: " + Arrays.toString(colorsList2.toArray(colorsArray2)));
